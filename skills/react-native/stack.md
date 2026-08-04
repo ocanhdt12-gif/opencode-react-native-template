@@ -1,0 +1,89 @@
+# React Native + Expo — Tech Stack
+
+## Core
+
+| Category | Technology | Version |
+|----------|-----------|---------|
+| Language | TypeScript | 5.x |
+| Framework | React Native (via Expo) | SDK 51+ |
+| Runtime | Expo Go / Dev Client | Latest |
+| Bundler | Metro | Built-in |
+| Navigation | React Navigation | v6/v7 |
+
+## Expo Core Packages
+
+| Package | Use When |
+|---------|----------|
+| `expo-router` | File-based routing (recommended for new apps) |
+| `@react-navigation/native` | Classic navigation (stack, tabs, drawer) |
+| `expo-notifications` | Push notifications |
+| `expo-secure-store` | Secure storage (tokens, sensitive data) |
+| `expo-sqlite` | Local SQL database |
+| `expo-location` | Geolocation |
+| `expo-camera` | Camera access |
+| `expo-image-picker` | Pick images from library |
+| `expo-file-system` | File read/write |
+| `expo-constants` | App config constants |
+| `expo-device` | Device info |
+
+## State Management
+
+| Category | Library | Notes |
+|----------|---------|-------|
+| Global State | Zustand | Simple, no boilerplate |
+| Server State | TanStack Query | Cache, refetch, mutations |
+| Forms | React Hook Form + Zod | Validation |
+| Local Storage | AsyncStorage / MMKV | Simple key-value |
+| Complex Storage | SQLite (expo-sqlite) | Relational, offline |
+
+## UI & Styling
+
+| Category | Library | Notes |
+|----------|---------|-------|
+| Styling | StyleSheet / NativeWind | Native or Tailwind |
+| NativeWind | Tailwind for RN | Utility-first |
+| UI Components | Tamagui / gluestack | Cross-platform component libs |
+| Icons | @expo/vector-icons | Built-in icon set |
+| Animations | react-native-reanimated | High-perf animations |
+| Gestures | react-native-gesture-handler | Gesture handling |
+
+## Networking
+
+| Category | Library | Notes |
+|----------|---------|-------|
+| HTTP Client | axios / ky | Interceptors, error handling |
+| Real-time | Socket.IO / react-native-sse | WebSocket / SSE |
+| GraphQL | Apollo Client | If using GraphQL |
+| Local Mock | MSW (mock service worker) | Dev/testing |
+
+## Testing
+
+| Category | Tool |
+|----------|------|
+| Unit Test | Jest + React Native Testing Library |
+| Component | @testing-library/react-native |
+| E2E | Detox / Maestro |
+| Coverage | jest coverage |
+
+## Dev & Build
+
+| Category | Tool |
+|----------|------|
+| Package Manager | npm / pnpm / yarn |
+| Linting | ESLint (expo lint) |
+| Formatting | Prettier |
+| Type Check | tsc --noEmit |
+| Build | EAS Build (expo.dev) |
+| Submit | EAS Submit |
+
+## Version Pinning
+
+Always pin exact versions in `package.json`:
+```json
+"dependencies": {
+  "react": "18.3.1",
+  "react-native": "0.76.0"
+}
+```
+
+⚠️ **Dùng `npx expo install` cho native modules** — tự chọn đúng version tương thích SDK. Không tự cài version bừa.
