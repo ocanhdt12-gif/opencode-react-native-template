@@ -18,6 +18,8 @@ Execute từng task theo ReAct cycle: Read → Plan → Act → Observe → Repe
 │  • skills/react-native/patterns.md   │
 │  • 🔒 skills/security/* (nếu task    │
 │      auth/storage/input/API)         │
+│  • 📊 skills/monitoring/* (nếu task  │
+│      API/network/performance/logging)│
 └──────────────┬──────────────────────┘
                ▼
 ┌─────────────────────────────────────┐

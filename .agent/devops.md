@@ -164,4 +164,11 @@ npx tsc --noEmit
 
 # Tests
 npx jest
+
+# 📊 Monitoring verify — OTel SDK init + env keys
+# Kiểm tra OTel init ở app entry:
+grep -rE "TracerProvider|OTLPTraceExporter|otel" app src --include='*.ts' --include='*.tsx' -l 2>/dev/null | head -1 || echo "⚠️ No OTel init found — add monitoring setup"
+# Kiểm tra env keys monitor có trong .env.local (đã setup Phase 0.5):
+source .env.local
+grep -q "^OTEL_EXPORTER_OTLP_ENDPOINT=" .env.local && echo "✅ OTLP endpoint set" || echo "⚠️ OTEL_EXPORTER_OTLP_ENDPOINT missing — add in Phase 0.5"
 ```

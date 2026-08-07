@@ -99,6 +99,41 @@ Hỏi/cấu hình 3 models:
 - `REVIEWER_MODEL` — model review (nên khác hãng)
 - `SPEC_VALIDATOR_MODEL` — model validate spec
 
+### 3.5 Monitor setup (OpenTelemetry + crash reporting)
+
+> Setup keys/token cho monitoring (OTel + crash/uptime). Lưu tất cả vào `.env.local` giống git.
+
+Hỏi **từng câu một**:
+
+1. **Có setup monitoring không?** `otel` / `skip`
+
+Nếu `otel`:
+
+2. **OTLP endpoint?** (nơi nhận telemetry — tự host hoặc provider, vd: `https://otlp.example.com/v1/traces`)
+
+3. **OTLP token/headers?** (auth cho exporter, nếu có)
+
+4. **Service name?** (tên service trong telemetry, vd: `my-mobile-app`)
+
+5. **Environment?** (vd: `production`, `staging`)
+
+6. **Crash reporting service?** (vd: `sentry`, `skip`) — nếu có, hỏi `SENTRY_DSN` (hoặc token tạo project)
+
+Ghi tất cả vào `.env.local`:
+
+```bash
+# ─── Monitoring (OpenTelemetry + crash) ───
+MONITOR_ENABLED=true
+OTEL_EXPORTER_OTLP_ENDPOINT=<otlp_endpoint>
+OTEL_EXPORTER_OTLP_TOKEN=<otlp_token>
+OTEL_SERVICE_NAME=<service_name>
+OTEL_ENV=<environment>
+CRASH_REPORTING=<sentry|skip>
+SENTRY_DSN=<sentry_dsn>
+```
+
+> ⚠️ Không bắt buộc — nếu `skip` thì bỏ qua. Nếu chưa có endpoint, dùng placeholder và bổ sung sau.
+
 ### 4. Lưu `.env.local`
 
 ```bash
@@ -115,6 +150,15 @@ SPEC_VALIDATOR_MODEL=deepseek-v4-pro
 # EAS
 EXPO_APP_ID=
 EXPO_PROJECT_ID=
+
+# ─── Monitoring (điền ở bước 3.5) ───
+MONITOR_ENABLED=
+OTEL_EXPORTER_OTLP_ENDPOINT=
+OTEL_EXPORTER_OTLP_TOKEN=
+OTEL_SERVICE_NAME=
+OTEL_ENV=
+CRASH_REPORTING=
+SENTRY_DSN=
 ```
 
 > 👀 **User setup xong xuôi một lần → mới bắt đầu Phase 1.**

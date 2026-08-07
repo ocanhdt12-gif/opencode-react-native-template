@@ -63,6 +63,14 @@ Sử dụng `REVIEWER_MODEL` từ `.env.local` (recommended: khác hãng với C
 - [ ] Input validation trên user input, sanitize nội dung render trong WebView/Text
 - [ ] Secure defaults: không fallback secret, không debug leak — `skills/security/sharp-edges.md`
 
+**Monitoring/Observability checklist (`skills/monitoring/*`):**
+- [ ] OTel SDK init ở app entry, API requests traced — `otel-instrumentation.md`
+- [ ] Crash reporting bật trên release build + non-fatal JS errors — `mobile-crash-performance.md`
+- [ ] Không log token/PII/password/request body trong telemetry — `mobile-crash-performance.md`
+- [ ] Offline batching/retry (sống sót network drop) — `otel-instrumentation.md`
+- [ ] Span/attribute naming đúng chuẩn, device/OS attributes — `otel-semantic-conventions.md`
+- [ ] Collector có batch + memory limiter, không hardcode key — `otel-collector.md`
+
 ### 6. Code Quality
 - [ ] Clean code principles
 - [ ] Functions ≤ 50 lines, files ≤ 300 lines

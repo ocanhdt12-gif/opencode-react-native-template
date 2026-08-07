@@ -85,12 +85,18 @@ project-template/
 │   │   ├── stack.md              ← Libraries, tools, versions
 │   │   ├── patterns.md           ← Navigation, state, API, testing patterns
 │   │   └── common-errors.md     ← Known issues + fixes
-│   └── security/                 ← 🔒 Security skills (bắt buộc áp dụng)
-│       ├── semgrep-scan.md          ← Static analysis security scan
-│       ├── api-owasp.md             ← OWASP API Top 10 checklist
-│       ├── mobile-auth.md           ← Token storage & mobile auth hardening
-│       ├── sharp-edges.md           ← Secure defaults & footgun config
-│       └── supply-chain-audit.md    ← npm audit + dependency risk
+│   ├── security/                 ← 🔒 Security skills (bắt buộc áp dụng)
+│   │   ├── semgrep-scan.md          ← Static analysis security scan
+│   │   ├── api-owasp.md             ← OWASP API Top 10 checklist
+│   │   ├── mobile-auth.md           ← Token storage & mobile auth hardening
+│   │   ├── sharp-edges.md           ← Secure defaults & footgun config
+│   │   └── supply-chain-audit.md    ← npm audit + dependency risk
+│   └── monitoring/               ← 📊 Monitoring skills (bắt buộc áp dụng)
+│       ├── otel-instrumentation.md  ← OTel traces/metrics/logs (RN)
+│       ├── mobile-crash-performance.md ← Crash reporting + performance
+│       ├── otel-collector.md        ← Collector config (receivers/exporters)
+│       ├── otel-semantic-conventions.md ← OTel naming compliance
+│       └── production-monitoring.md ← Release health, alerting, secure logs
 │
 ├── tasks/
 │   ├── layer-0/                  ← Foundation tasks
@@ -135,6 +141,36 @@ Template tích hợp sẵn các quy tắc bảo mật (nhiều agent đọc & á
 3. **Khi push** (`devops.md`/CI) → `npm audit --audit-level=high` + semgrep scan trong CI
 
 > 🔴 ERROR-severity security finding hoặc high/critical CVE → **KHÔNG PASS / không merge**.
+
+---
+
+## 📊 Monitoring Integration
+
+Template tích hợp sẵn giám sát production (release health + runtime observability) dựa trên **OpenTelemetry** — vendor-neutral, kèm crash/performance tracking cho mobile.
+
+### Skills (`skills/monitoring/`)
+
+| Skill | Tác dụng |
+|-------|----------|
+| `otel-instrumentation.md` | OTel traces/metrics/logs cho React Native (network, screens) |
+| `mobile-crash-performance.md` | Crash reporting + JS/native errors + performance |
+| `otel-collector.md` | Collector config (receivers/processors/exporters) |
+| `otel-semantic-conventions.md` | OTel naming compliance (span/attribute) |
+| `production-monitoring.md` | Release health, alerting, secure logs, offline batch |
+
+### Keys setup ở Phase 0.5
+
+Monitor keys/token (OTLP endpoint, service name, Sentry DSN) được hỏi & lưu vào `.env.local` ở **Phase 0.5** — xem `.agent/brainstorm.md` → `3.5 Monitor setup`.
+
+### 3 Chốt chặn bắt buộc
+
+1. **Khi code** (`loop.md`) → phải đọc monitoring skill trước khi viết file API/network/performance/logging
+2. **Khi review** (`reviewer.md`) → check crash capture, no PII in telemetry, OTel naming trước khi PASS
+3. **Khi push** (`devops.md`) → verify OTel init + env keys trong Health Check
+
+---
+
+## How It Works
 
 ---
 
