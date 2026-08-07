@@ -197,7 +197,9 @@ SPEC_VALIDATOR_MODEL=deepseek-v4-pro  # Validates specs (yet another provider!)
 ├── SPECIFICATIONS.md     ← Generated spec (after brainstorm)
 ├── .env.local            ← Git/model/deploy config (git-ignored)
 ├── .agent/               ← Agent workflows
-├── skills/react-native/  ← Stack conventions & patterns
+├── skills/               ← Stack conventions & patterns
+│   ├── react-native/     ← React Native/Expo stack skills
+│   └── security/         ← 🔒 Security skills (bắt buộc áp dụng)
 ├── tasks/                ← Generated task files
 ├── .devops/              ← EAS build/submit templates
 └── .context/             ← Shared state (progress, decisions, errors)

@@ -46,10 +46,22 @@ Sử dụng `REVIEWER_MODEL` từ `.env.local` (recommended: khác hãng với C
 - [ ] No unnecessary re-renders
 
 ### 5. Security
-- [ ] Secrets không hardcode
+> 🔒 **BẮT BUỘC:** Chạy security scan + checklist này TRƯỚC khi duyệt PASS. Đọc `skills/security/*` nếu cần.
+
+**Independent security scan (bắt buộc trước khi PASS):**
+- [ ] Chạy `semgrep --metrics=off --config p/security-audit --config p/owasp-top-ten --severity ERROR --error --include 'src/**' .` — hướng dẫn tại `skills/security/semgrep-scan.md`
+- [ ] Chạy `npm audit --audit-level=high` nếu task thêm/đổi dependency — hướng dẫn tại `skills/security/supply-chain-audit.md`
+- [ ] **ERROR-severity security finding / high+cve → KHÔNG PASS**
+
+**Mobile security checklist (theo `skills/security/mobile-auth.md` + `api-owasp.md`):**
+- [ ] Secrets không hardcode (không API key trong client bundle)
+- [ ] Token storage an toàn — `expo-secure-store` NOT AsyncStorage — `skills/security/mobile-auth.md`
 - [ ] API keys không nằm trong client (dùng env / backend proxy)
-- [ ] Token storage an toàn (SecureStore cho sensitive data)
-- [ ] Input validation trên user input
+- [ ] TLS enforced (không cleartext trong prod)
+- [ ] Logout xóa toàn bộ token + cached state
+- [ ] 401 handling → refresh hoặc re-login
+- [ ] Input validation trên user input, sanitize nội dung render trong WebView/Text
+- [ ] Secure defaults: không fallback secret, không debug leak — `skills/security/sharp-edges.md`
 
 ### 6. Code Quality
 - [ ] Clean code principles

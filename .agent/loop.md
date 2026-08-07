@@ -16,6 +16,8 @@ Execute từng task theo ReAct cycle: Read → Plan → Act → Observe → Repe
 │  • .context/error-memory.md          │
 │  • Related existing code             │
 │  • skills/react-native/patterns.md   │
+│  • 🔒 skills/security/* (nếu task    │
+│      auth/storage/input/API)         │
 └──────────────┬──────────────────────┘
                ▼
 ┌─────────────────────────────────────┐

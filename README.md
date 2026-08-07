@@ -80,11 +80,17 @@ project-template/
 │   └── change-request.md        ← Modify features after project is done
 │
 ├── skills/
-│   └── react-native/
-│       ├── conventions.md        ← Coding style, folder structure
-│       ├── stack.md              ← Libraries, tools, versions
-│       ├── patterns.md           ← Navigation, state, API, testing patterns
-│       └── common-errors.md     ← Known issues + fixes
+│   ├── react-native/
+│   │   ├── conventions.md        ← Coding style, folder structure
+│   │   ├── stack.md              ← Libraries, tools, versions
+│   │   ├── patterns.md           ← Navigation, state, API, testing patterns
+│   │   └── common-errors.md     ← Known issues + fixes
+│   └── security/                 ← 🔒 Security skills (bắt buộc áp dụng)
+│       ├── semgrep-scan.md          ← Static analysis security scan
+│       ├── api-owasp.md             ← OWASP API Top 10 checklist
+│       ├── mobile-auth.md           ← Token storage & mobile auth hardening
+│       ├── sharp-edges.md           ← Secure defaults & footgun config
+│       └── supply-chain-audit.md    ← npm audit + dependency risk
 │
 ├── tasks/
 │   ├── layer-0/                  ← Foundation tasks
@@ -105,6 +111,30 @@ project-template/
     │   └── generic.md            ← Generic build/deploy notes
     └── environments.md
 ```
+
+---
+
+## 🔒 Security Integration
+
+Template tích hợp sẵn các quy tắc bảo mật (nhiều agent đọc & áp dụng bắt buộc), đảm bảo code sinh ra chuẩn security.
+
+### Skills (`skills/security/`)
+
+| Skill | Tác dụng |
+|-------|----------|
+| `semgrep-scan.md` | Static analysis scan lỗi bảo mật trước commit |
+| `api-owasp.md` | OWASP API Top 10 checklist cho mọi endpoint |
+| `mobile-auth.md` | Token storage (`expo-secure-store`) + mobile auth hardening |
+| `sharp-edges.md` | Secure defaults & footgun config/secret/storage |
+| `supply-chain-audit.md` | `npm audit` + dependency takeover risk |
+
+### 3 Chốt chặn bắt buộc
+
+1. **Khi code** (`loop.md`) → phải đọc security skill trước khi viết file xử lý auth/storage/input/API
+2. **Khi review** (`reviewer.md`) → chạy semgrep + `npm audit` + mobile security checklist trước khi PASS
+3. **Khi push** (`devops.md`/CI) → `npm audit --audit-level=high` + semgrep scan trong CI
+
+> 🔴 ERROR-severity security finding hoặc high/critical CVE → **KHÔNG PASS / không merge**.
 
 ---
 
