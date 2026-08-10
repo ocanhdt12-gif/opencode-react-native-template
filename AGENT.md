@@ -21,9 +21,9 @@ The system uses 4 patterns working together:
 | Spec Validator | `.agent/spec-validator.md` | Validate SPECIFICATIONS.md against requirements |
 | Design | `.agent/design.md` | Generate design tokens + screen specs |
 | Graph | `.agent/graph.md` | Decompose spec into layered tasks |
-| Loop | `.agent/loop.md` | Execute tasks (ReAct pattern) |
+| Loop | `.agent/loop.md` | Execute tasks (ReAct pattern; TDD test-first + ponytail ladder) |
 | Reviewer | `.agent/reviewer.md` | Per-task code review (`REVIEWER_MODEL`) + per-layer spec cross-check (`SPEC_VALIDATOR_MODEL`) |
-| Error Analyzer | `.agent/error-analyzer.md` | Root cause analysis + pattern learning |
+| Error Analyzer | `.agent/error-analyzer.md` | Root cause analysis (Iron Law) + pattern learning |
 | Context Manager | `.agent/context-manager.md` | Context compression when window fills |
 | Rollback | `.agent/rollback.md` | Git checkpoint + revert strategy |
 | DevOps | `.agent/devops.md` | Git init, EAS Build, auto-push after each layer, store deploy |
@@ -114,9 +114,10 @@ Submit → Done ✅
 
 ### Phase 4: Execution Loop (`.agent/loop.md`) — per layer
 - Check dependencies: chỉ chạy task khi tất cả deps đã PASS
-- Implement with TDD where appropriate
+- Implement with TDD where appropriate (theo `skills/superpowers/test-driven-development.md`: test-first, xem fail, code tối thiểu pass)
+- Áp dụng ponytail ladder (`skills/ponytail/SKILL.md`) — dừng ở giải pháp tối giản nhất work, chống over-engineering
 - Update `.context/progress.json` after each task
-- Handle errors via `.agent/error-analyzer.md`
+- Handle errors via `.agent/error-analyzer.md` (theo Iron Law `skills/superpowers/systematic-debugging.md`: NO FIX WITHOUT ROOT CAUSE)
 - **Max 3 retries per task** → BLOCKED → notify human
 
 ### Phase 5: Review (`.agent/reviewer.md`) — per layer
@@ -200,7 +201,9 @@ SPEC_VALIDATOR_MODEL=deepseek-v4-pro  # Validates specs (yet another provider!)
 ├── skills/               ← Stack conventions & patterns
 │   ├── react-native/     ← React Native/Expo stack skills
 │   ├── security/         ← 🔒 Security skills (bắt buộc áp dụng)
-│   └── monitoring/       ← 📊 Monitoring skills (bắt buộc áp dụng)
+│   ├── monitoring/       ← 📊 Monitoring skills (bắt buộc áp dụng)
+│   ├── superpowers/      ← 🧠 Debug Iron Law + TDD test-first (curate from obra/superpowers)
+│   └── ponytail/         → 🪶 Lazy senior dev ladder, chống over-engineering
 ├── tasks/                ← Generated task files
 ├── .devops/              ← EAS build/submit templates
 └── .context/             ← Shared state (progress, decisions, errors)

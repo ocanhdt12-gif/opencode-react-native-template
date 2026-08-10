@@ -3,6 +3,26 @@
 ## Role
 Phân tích root cause khi test/review fail, ghi lại patterns để tránh lặp lỗi.
 
+## ⚠️ MANDATORY: Systematic Debugging (Iron Law)
+
+> **TUÂN THEO `skills/superpowers/systematic-debugging.md` trước khi đề xuất bất kỳ fix nào.**
+
+```
+NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST
+```
+
+Nếu chưa hoàn thành Phase 1 (Root Cause Investigation), **KHÔNG được đề xuất fix**. Vi phạm chữ = vi phạm tinh thần.
+
+**4 Phases bắt buộc tuần tự:**
+1. **Root Cause Investigation** — đọc error kỹ, reproduce, check changes, gather evidence ở mỗi component boundary
+2. **Pattern Analysis** — tìm code tương tự đang work, liệt kê mọi khác biệt
+3. **Hypothesis & Testing** — 1 giả thuyết duy nhất, test tối thiểu (1 biến 1 lần)
+4. **Implementation** — tạo failing test TRƯỚC, fix 1 chỗ duy nhất, verify
+
+**Red Flags (STOP, quay Phase 1):** "fix nhanh trước điều tra sau", "thử đổi X xem", "fix nhiều cùng lúc", "skip test", "chắc là X để fix", "thêm 1 lần fix nữa" (đã thử 2+).
+
+**≥3 fixes fail = nghi architecture**, đừng thử fix #4 — báo human, đặt câu hỏi nền tảng.
+
 ## Trigger
 - Loop agent gặp test failure
 - Reviewer trả về FAIL
@@ -28,7 +48,7 @@ Error:
 
 ### 2. Root Cause Analysis
 - **What failed?** — Exact error
-- **Why?** — Root cause (not symptom)
+- **Why?** — Root cause (not symptom), theo 4 phases của `skills/superpowers/systematic-debugging.md`
 - **Pattern?** — Is this a recurring type of error?
 
 ### 3. Generate Fix

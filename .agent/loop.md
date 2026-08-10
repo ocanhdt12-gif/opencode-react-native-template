@@ -57,6 +57,22 @@ Execute từng task theo ReAct cycle: Read → Plan → Act → Observe → Repe
 
 ## Task Execution Rules
 
+0. **Mọi task code (implement/bugfix/refactor):**
+   - Đọc `skills/superpowers/SKILL.md` — Iron Law debug + TDD gate
+   - Trước khi fix bug → đọc `skills/superpowers/systematic-debugging.md` (4 phases)
+   - Trước khi thêm tính năng → đọc `skills/superpowers/test-driven-development.md` (test-first)
+   - Đọc `skills/ponytail/SKILL.md` — lazy senior dev ladder, chống over-engineering
+
+0b. **MANDATORY TDD (theo `skills/superpowers/test-driven-development.md`):**
+```
+Write the test first. Watch it fail. Write minimal code to pass.
+```
+- **Critical paths (auth, payment, data mutation, secure storage): viết test TRƯỚC khi viết code** (RED → GREEN)
+- Các task khác: viết code và test cùng lượt
+- Không viết code implement trước khi có failing test (trừ exception đã hỏi human)
+- Nghĩ "skip test lần này" → DỪNG, đó là rationalization
+- **Ponytail ladder:** 1) cần tồn tại không (YAGNI) → 2) đã có trong codebase? → 3) stdlib? → 4) native platform? → 5) dependency đã cài? → 6) 1 dòng được? → 7) mới code tối thiểu
+
 1. **Read task file hoàn toàn** trước khi code
 2. **Check dependencies** — chỉ chạy khi tất cả deps đã PASS
 3. **Dependency check:**

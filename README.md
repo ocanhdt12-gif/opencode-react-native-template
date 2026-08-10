@@ -12,6 +12,9 @@
 - [Overview](#overview)
 - [Architecture](#architecture)
 - [Project Structure](#project-structure)
+- [🔒 Security Integration](#-security-integration)
+- [📊 Monitoring Integration](#-monitoring-integration)
+- [⚙️ Workflow Skills Integration](#️-workflow-skills-integration)
 - [How It Works](#how-it-works)
 - [Agent Roles](#agent-roles)
 - [Change Requests](#change-requests)
@@ -97,6 +100,8 @@ project-template/
 │       ├── otel-collector.md        ← Collector config (receivers/exporters)
 │       ├── otel-semantic-conventions.md ← OTel naming compliance
 │       └── production-monitoring.md ← Release health, alerting, secure logs
+│   ├── superpowers/             ← 🧠 Debug Iron Law + TDD (obra/superpowers)
+│   └── ponytail/                ← 🪶 Lazy senior dev ladder (DietrichGebert)
 │
 ├── tasks/
 │   ├── layer-0/                  ← Foundation tasks
@@ -167,6 +172,27 @@ Monitor keys/token (OTLP endpoint, service name, Sentry DSN) được hỏi & l�
 1. **Khi code** (`loop.md`) → phải đọc monitoring skill trước khi viết file API/network/performance/logging
 2. **Khi review** (`reviewer.md`) → check crash capture, no PII in telemetry, OTel naming trước khi PASS
 3. **Khi push** (`devops.md`) → verify OTel init + env keys trong Health Check
+
+---
+
+## ⚙️ Workflow Skills Integration
+
+Template tích hợp 2 skill workflow (curate từ các repo open-source nổi tiếng — chọn tinh túy, không copy nguyên xi) để nâng chất lượng code xuyên suốt pipeline. Đây là methodology chung (không phụ thuộc stack), áp dụng cho cả React Native.
+
+### Skills (`skills/`)
+
+| Skill | Nguồn | Dùng khi / Tác dụng |
+|-------|-------|---------------------|
+| `superpowers/` | obra/superpowers (270k⭐) | Mọi task code — **Iron Law debug** (no fix without root cause) + **TDD test-first** |
+| `ponytail/` | DietrichGebert/ponytail (100k⭐) | Loop khi implement — **lazy senior dev ladder**, dừng ở giải pháp tối giản nhất, chống over-engineering |
+
+### 3 Chốt chặn bắt buộc
+
+1. **Khi debug** (`error-analyzer.md`) → Iron Law: **NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST**. Đọc `superpowers/systematic-debugging.md` trước khi đề xuất fix. ≥3 fixes fail = nghi architecture, không thử fix #4
+2. **Khi implement** (`loop.md`) → TDD test-first (`superpowers/test-driven-development.md`) + ponytail ladder; test fail → code tối thiểu pass
+3. **Khi review** (`reviewer.md`) → xác nhận test-first được tuân thủ, không có over-engineering (YAGNI/DRY)
+
+> 💡 Các skill design web (`ui-ux-pro-max`, `impeccable`) **không áp dụng** cho React Native — thiết kế mobile dùng design tokens từ Phase 2.5 Design Agent.
 
 ---
 
