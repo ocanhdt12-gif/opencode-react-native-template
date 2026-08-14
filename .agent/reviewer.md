@@ -16,6 +16,28 @@ Sử dụng `REVIEWER_MODEL` từ `.env.local` (recommended: khác hãng với C
 
 ---
 
+## ⚠️ Surgical Diff Check + Assumption Check (karpathy-guidelines)
+
+> Khi review bất kỳ **code change** → **ĐỌC `skills/karpathy-guidelines/SKILL.md`** và chạy Surgical Diff Check + Assumption Check TRƯỚC khi duyệt PASS.
+
+**Surgical Diff Check (mỗi dòng phải trace về yêu cầu user):**
+- [ ] MỌI dòng thay đổi trace được về task/acceptance criteria
+- [ ] KHÔNG "improve" code liền kề, comment, formatting ngoài scope
+- [ ] KHÔNG drive-by refactor / đổi tên / reformat code không liên quan
+- [ ] KHÔNG xóa dead code không liên quan (chỉ mention)
+- [ ] Orphan do task tạo ra (import/var/function thừa) đã xóa
+- [ ] Match style codebase có sẵn
+
+**Assumption Check (Think Before Coding):**
+- [ ] Giả định lớn được nêu RÕ (không tự chọn thầm cách hiểu mơ hồ)
+- [ ] Không silent over-engineer (đã có ponytail) — abstraction/feature/config ngoài scope
+
+> ❌ **Refuse (FAIL nếu thấy):** drive-by refactor | "improve" code ngoài task | xóa dead code không liên quan | giả định lớn tự chọn thầm | silent over-engineer
+
+---
+
+---
+
 ## Review Checklist
 
 ### 1. Requirements Coverage

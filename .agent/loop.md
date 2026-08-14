@@ -74,6 +74,9 @@ Write the test first. Watch it fail. Write minimal code to pass.
 - **Ponytail ladder:** 1) cần tồn tại không (YAGNI) → 2) đã có trong codebase? → 3) stdlib? → 4) native platform? → 5) dependency đã cài? → 6) 1 dòng được? → 7) mới code tối thiểu
 
 1. **Read task file hoàn toàn** trước khi code
+
+   > ⚙️ **Nếu task EDIT code có sẵn (nâng cấp/refactor/sửa bug)** → ĐỌC `skills/karpathy-guidelines/references/surgical-changes.md` — chỉ chạm đúng phần cần, không drive-by refactor, match style có sẵn, chỉ dọn orphan do mình tạo.
+   > Nếu task mơ hồ (nhiều cách hiểu / giả định lớn) → đọc `skills/karpathy-guidelines/references/think-before-coding.md` — nêu giả định rõ, present interpretations, dừng hỏi khi không rõ, push back khi có cách đơn giản hơn.
 2. **Check dependencies** — chỉ chạy khi tất cả deps đã PASS
 3. **Dependency check:**
    ```bash

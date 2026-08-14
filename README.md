@@ -101,7 +101,9 @@ project-template/
 │       ├── otel-semantic-conventions.md ← OTel naming compliance
 │       └── production-monitoring.md ← Release health, alerting, secure logs
 │   ├── superpowers/             ← 🧠 Debug Iron Law + TDD (obra/superpowers)
-│   └── ponytail/                ← 🪶 Lazy senior dev ladder (DietrichGebert)
+│   ├── ponytail/                ← 🪶 Lazy senior dev ladder (DietrichGebert)
+│   ├── scalability-architecture/ ← 📦 OPTIONAL scalability tiers (Standard/High-Traffic/Enterprise) — chỉ khi user bật option
+│   └── karpathy-guidelines/      ← ✂️ Surgical changes + think before coding (andrej-karpathy-skills)
 │
 ├── tasks/
 │   ├── layer-0/                  ← Foundation tasks

@@ -20,6 +20,9 @@
 ## Database Schema
 <!-- Auto-generated -->
 
+## Scalability Profile
+<!-- Chỉ điền khi user bật Scalability Option trong brainstorm (Phase 1.8). Nếu off/không có → để trống. -->
+
 ## Authentication
 <!-- Auto-generated -->
 

@@ -196,6 +196,37 @@ SENTRY_DSN=
 - Có design reference (Figma) không?
 - Style: minimal, colorful, dark mode?
 
+### 1.8 Scalability Option (OPTIONAL — chỉ kích hoạt khi user chọn bật)
+- `off` (mặc định) — Không cần hạ tầng scale phức tạp. Đi theo mô hình đơn giản phù hợp quy mô.
+- `on` — Cần thiết kế backend/database cho nhiều user/CCU cao. Chọn Tier + khai Scalability Profile.
+
+> 📦 Nếu user chọn `on` → **ĐỌC `skills/scalability-architecture/SKILL.md`** + `references/capacity-planning.md` trước khi hỏi tiếp. Chỉ hỏi profile khi user bật option — KHÔNG tự áp dụng cho mọi dự án.
+
+### Scalability Profile (chỉ khi user bật Scalability Option)
+
+Hỏi **từng câu một** (số liệu giúp chọn Tier + ghi vào SPECIFICATIONS.md):
+
+1. **CCU dự kiến?** — "Khoảng bao nhiêu user online đồng thời vào giờ cao điểm?"
+2. **Peak RPS ước tính?** — "Ước tính đỉnh tải bao nhiêu request/giây? (nếu chưa biết, cho số user + tần suất thao tác)"
+3. **Tỉ lệ đọc/ghi?** — "Chủ yếu đọc hay ghi? (vd xem tin nhiều vs chat/nhập liệu nhiều)"
+4. **Peak chênh lệch?** — "Tải cao điểm gấp mấy lần tải bình thường? (vd 10x khi event/khuyến mãi)"
+5. **Tăng trưởng 6–12 tháng?** — "Kỳ vọng user tăng gấp mấy lần trong năm tới?"
+6. **Availability (SLA)?** — "Uptime yêu cầu? 99% / 99.9% / 99.99%?"
+7. **Recovery (RTO/RPO)?** — "Nếu sập: chấp nhận downtime tối đa bao lâu? Mất dữ liệu tối đa bao lâu?"
+
+Sau khi có số liệu → chọn Tier theo `references/capacity-planning.md`:
+
+```text
+RPS <100 / CCU <1k                  → Standard
+RPS 100–1k / CCU 1k–10k             → Standard / High Traffic
+RPS 1k–10k / CCU 10k–100k           → High Traffic
+RPS >10k / CCU >100k                → Enterprise
+```
+
+Confirm Tier với user → ghi vào SPECIFICATIONS.md mục **Scalability Profile**. Nếu user không có số liệu → mặc định **Standard** và ghi rõ horizontal-scaling-ready.
+
+> 💡 Lưu ý mobile: nếu dùng BaaS (Firebase/Supabase) với lượng user lớn → backend/database do provider scale; focus vào connection, auth scale, offline sync, và cost tier. Nếu backend riêng (REST/GraphQL) → áp dụng đầy đủ các Tier như web template.
+
 ## Phase 2: Output
 
 Tạo `SPECIFICATIONS.md` — feature list + acceptance criteria.

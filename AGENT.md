@@ -203,7 +203,9 @@ SPEC_VALIDATOR_MODEL=deepseek-v4-pro  # Validates specs (yet another provider!)
 │   ├── security/         ← 🔒 Security skills (bắt buộc áp dụng)
 │   ├── monitoring/       ← 📊 Monitoring skills (bắt buộc áp dụng)
 │   ├── superpowers/      ← 🧠 Debug Iron Law + TDD test-first (curate from obra/superpowers)
-│   └── ponytail/         → 🪶 Lazy senior dev ladder, chống over-engineering
+│   ├── ponytail/         ← 🪶 Lazy senior dev ladder, chống over-engineering
+│   ├── scalability-architecture/  ← 📦 OPTIONAL scalability tiers (chỉ khi user bật option)
+│   └── karpathy-guidelines/  ← ✂️ Surgical changes + think before coding (andrej-karpathy-skills)
 ├── tasks/                ← Generated task files
 ├── .devops/              ← EAS build/submit templates
 └── .context/             ← Shared state (progress, decisions, errors)

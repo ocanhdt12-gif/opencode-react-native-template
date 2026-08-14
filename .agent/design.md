@@ -18,6 +18,34 @@ Tạo design spec đầy đủ cho mobile app trước khi bắt đầu code. Đ
 
 ---
 
+## ⚠️ Scalability Architecture (OPTIONAL — chỉ khi user bật option)
+
+> Nếu `SPECIFICATIONS.md` có mục **Scalability Profile** (user đã bật Scalability Option trong brainstorm) → **ĐỌC `skills/scalability-architecture/SKILL.md`** + `references/scalability-tiers.md` TRƯỚC khi viết design-spec.
+
+Thêm mục **"Architecture & Infrastructure"** vào `.context/design-spec.md` tương ứng Tier:
+
+### Tier Standard
+- Backend stateless + modular monolith (REST/GraphQL) HOẶC BaaS (Firebase/Supabase)
+- DB primary
+- Health check + connection pool + backup
+- Horizontal-scaling-ready
+
+### Tier High Traffic
+- Backend stateless → nhiều instance (auto-scale)
+- Redis: session/cache/rate limit
+- Queue + workers (email/notify/report/webhook)
+- DB Primary + Read Replica (route read/write)
+- Circuit breaker + timeout + idempotency
+- Observability: metrics/logs/tracing
+
+### Tier Enterprise
+- Multi-AZ/Region + DR (RTO/RPO ghi rõ)
+- Sharding hoặc distributed SQL (khi cần)
+- Event-driven (Kafka/event bus) nếu cần
+- Data warehouse + read model/CQRS
+
+> Tham chiếu `templates/` tương ứng Tier để lấy config/pattern chuẩn. KHÔNG tự ý nâng Tier — chỉ theo Tier user đã chọn. Nếu dùng BaaS (Firebase/Supabase) → focus vào connection/auth scale, offline sync, cost tier thay vì tự hạ tầng DB.
+
 ## Phase 1: Design Reference
 
 Hỏi user: "Anh có design reference không (Figma link / ảnh screenshot / wireframe)?"
