@@ -88,13 +88,13 @@ project-template/
 │   │   ├── stack.md              ← Libraries, tools, versions
 │   │   ├── patterns.md           ← Navigation, state, API, testing patterns
 │   │   └── common-errors.md     ← Known issues + fixes
-│   ├── security/                 ← 🔒 Security skills (bắt buộc áp dụng)
+│   ├── security/                 ← 🔒 Security skills (mandatory)
 │   │   ├── semgrep-scan.md          ← Static analysis security scan
 │   │   ├── api-owasp.md             ← OWASP API Top 10 checklist
 │   │   ├── mobile-auth.md           ← Token storage & mobile auth hardening
 │   │   ├── sharp-edges.md           ← Secure defaults & footgun config
 │   │   └── supply-chain-audit.md    ← npm audit + dependency risk
-│   └── monitoring/               ← 📊 Monitoring skills (bắt buộc áp dụng)
+│   └── monitoring/               ← 📊 Monitoring skills (mandatory)
 │       ├── otel-instrumentation.md  ← OTel traces/metrics/logs (RN)
 │       ├── mobile-crash-performance.md ← Crash reporting + performance
 │       ├── otel-collector.md        ← Collector config (receivers/exporters)
@@ -102,7 +102,7 @@ project-template/
 │       └── production-monitoring.md ← Release health, alerting, secure logs
 │   ├── superpowers/             ← 🧠 Debug Iron Law + TDD (obra/superpowers)
 │   ├── ponytail/                ← 🪶 Lazy senior dev ladder (DietrichGebert)
-│   ├── scalability-architecture/ ← 📦 OPTIONAL scalability tiers (Standard/High-Traffic/Enterprise) — chỉ khi user bật option
+│   ├── scalability-architecture/ ← 📦 OPTIONAL scalability tiers (Standard/High-Traffic/Enterprise) — only when user enables the option
 │   └── karpathy-guidelines/      ← ✂️ Surgical changes + think before coding (andrej-karpathy-skills)
 │
 ├── tasks/
@@ -129,76 +129,72 @@ project-template/
 
 ## 🔒 Security Integration
 
-Template tích hợp sẵn các quy tắc bảo mật (nhiều agent đọc & áp dụng bắt buộc), đảm bảo code sinh ra chuẩn security.
+The template ships with built-in security rules (read and applied mandatorily by multiple agents) to ensure the generated code meets security standards.
 
 ### Skills (`skills/security/`)
 
-| Skill | Tác dụng |
-|-------|----------|
-| `semgrep-scan.md` | Static analysis scan lỗi bảo mật trước commit |
-| `api-owasp.md` | OWASP API Top 10 checklist cho mọi endpoint |
+| Skill | Purpose |
+|-------|---------|
+| `semgrep-scan.md` | Static analysis security scan before commit |
+| `api-owasp.md` | OWASP API Top 10 checklist for every endpoint |
 | `mobile-auth.md` | Token storage (`expo-secure-store`) + mobile auth hardening |
 | `sharp-edges.md` | Secure defaults & footgun config/secret/storage |
 | `supply-chain-audit.md` | `npm audit` + dependency takeover risk |
 
-### 3 Chốt chặn bắt buộc
+### 3 Mandatory Checkpoints
 
-1. **Khi code** (`loop.md`) → phải đọc security skill trước khi viết file xử lý auth/storage/input/API
-2. **Khi review** (`reviewer.md`) → chạy semgrep + `npm audit` + mobile security checklist trước khi PASS
-3. **Khi push** (`devops.md`/CI) → `npm audit --audit-level=high` + semgrep scan trong CI
+1. **When coding** (`loop.md`) → read the security skill before writing any file that handles auth/storage/input/API
+2. **When reviewing** (`reviewer.md`) → run semgrep + `npm audit` + mobile security checklist before PASS
+3. **When pushing** (`devops.md`/CI) → `npm audit --audit-level=high` + semgrep scan in CI
 
-> 🔴 ERROR-severity security finding hoặc high/critical CVE → **KHÔNG PASS / không merge**.
+> 🔴 ERROR-severity security finding or high/critical CVE → **DO NOT PASS / do not merge**.
 
 ---
 
 ## 📊 Monitoring Integration
 
-Template tích hợp sẵn giám sát production (release health + runtime observability) dựa trên **OpenTelemetry** — vendor-neutral, kèm crash/performance tracking cho mobile.
+The template ships with built-in production monitoring (release health + runtime observability) based on **OpenTelemetry** — vendor-neutral, plus crash/performance tracking for mobile.
 
 ### Skills (`skills/monitoring/`)
 
-| Skill | Tác dụng |
-|-------|----------|
-| `otel-instrumentation.md` | OTel traces/metrics/logs cho React Native (network, screens) |
+| Skill | Purpose |
+|-------|---------|
+| `otel-instrumentation.md` | OTel traces/metrics/logs for React Native (network, screens) |
 | `mobile-crash-performance.md` | Crash reporting + JS/native errors + performance |
 | `otel-collector.md` | Collector config (receivers/processors/exporters) |
 | `otel-semantic-conventions.md` | OTel naming compliance (span/attribute) |
 | `production-monitoring.md` | Release health, alerting, secure logs, offline batch |
 
-### Keys setup ở Phase 0.5
+### Keys setup in Phase 0.5
 
-Monitor keys/token (OTLP endpoint, service name, Sentry DSN) được hỏi & lưu vào `.env.local` ở **Phase 0.5** — xem `.agent/brainstorm.md` → `3.5 Monitor setup`.
+Monitor keys/tokens (OTLP endpoint, service name, Sentry DSN) are asked and saved into `.env.local` in **Phase 0.5** — see `.agent/brainstorm.md` → `3.5 Monitor setup`.
 
-### 3 Chốt chặn bắt buộc
+### 3 Mandatory Checkpoints
 
-1. **Khi code** (`loop.md`) → phải đọc monitoring skill trước khi viết file API/network/performance/logging
-2. **Khi review** (`reviewer.md`) → check crash capture, no PII in telemetry, OTel naming trước khi PASS
-3. **Khi push** (`devops.md`) → verify OTel init + env keys trong Health Check
+1. **When coding** (`loop.md`) → read the monitoring skill before writing API/network/performance/logging files
+2. **When reviewing** (`reviewer.md`) → check crash capture, no PII in telemetry, OTel naming before PASS
+3. **When pushing** (`devops.md`) → verify OTel init + env keys in Health Check
 
 ---
 
 ## ⚙️ Workflow Skills Integration
 
-Template tích hợp 2 skill workflow (curate từ các repo open-source nổi tiếng — chọn tinh túy, không copy nguyên xi) để nâng chất lượng code xuyên suốt pipeline. Đây là methodology chung (không phụ thuộc stack), áp dụng cho cả React Native.
+The template ships with 2 curated workflow skills (curated from well-known open-source repos — picking the essence, not copying verbatim) to raise code quality throughout the pipeline. These are stack-agnostic methodologies, applicable to React Native.
 
 ### Skills (`skills/`)
 
-| Skill | Nguồn | Dùng khi / Tác dụng |
+| Skill | Source | When used / Purpose |
 |-------|-------|---------------------|
-| `superpowers/` | obra/superpowers (270k⭐) | Mọi task code — **Iron Law debug** (no fix without root cause) + **TDD test-first** |
-| `ponytail/` | DietrichGebert/ponytail (100k⭐) | Loop khi implement — **lazy senior dev ladder**, dừng ở giải pháp tối giản nhất, chống over-engineering |
+| `superpowers/` | obra/superpowers (270k⭐) | Every coding task — **Iron Law debug** (no fix without root cause) + **TDD test-first** |
+| `ponytail/` | DietrichGebert/ponytail (100k⭐) | Loop while implementing — **lazy senior dev ladder**, stop at the simplest solution, avoid over-engineering |
 
-### 3 Chốt chặn bắt buộc
+### 3 Mandatory Checkpoints
 
-1. **Khi debug** (`error-analyzer.md`) → Iron Law: **NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST**. Đọc `superpowers/systematic-debugging.md` trước khi đề xuất fix. ≥3 fixes fail = nghi architecture, không thử fix #4
-2. **Khi implement** (`loop.md`) → TDD test-first (`superpowers/test-driven-development.md`) + ponytail ladder; test fail → code tối thiểu pass
-3. **Khi review** (`reviewer.md`) → xác nhận test-first được tuân thủ, không có over-engineering (YAGNI/DRY)
+1. **When debugging** (`error-analyzer.md`) → Iron Law: **NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST**. Read `superpowers/systematic-debugging.md` before proposing a fix. ≥3 failed fixes = suspect the architecture, don't try fix #4
+2. **When implementing** (`loop.md`) → TDD test-first (`superpowers/test-driven-development.md`) + ponytail ladder; test fails → write minimal code to pass
+3. **When reviewing** (`reviewer.md`) → confirm test-first was followed, no over-engineering (YAGNI/DRY)
 
-> 💡 Các skill design web (`ui-ux-pro-max`, `impeccable`) **không áp dụng** cho React Native — thiết kế mobile dùng design tokens từ Phase 2.5 Design Agent.
-
----
-
-## How It Works
+> 💡 The web design skills (`ui-ux-pro-max`, `impeccable`) **do not apply** to React Native — mobile design uses design tokens from Phase 2.5 Design Agent.
 
 ---
 
