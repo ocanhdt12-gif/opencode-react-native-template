@@ -104,7 +104,8 @@ project-template/
 │   ├── ponytail/                ← 🪶 Lazy senior dev ladder (DietrichGebert)
 │   ├── scalability-architecture/ ← 📦 OPTIONAL scalability tiers (Standard/High-Traffic/Enterprise) — only when user enables the option
 │   ├── karpathy-guidelines/      ← ✂️ Surgical changes + think before coding (andrej-karpathy-skills)
-│   └── aislop/                   ← 🧹 AI-slop detection gate (scanaislop/aislop, curated) — reviewer chạy aislop scan, score ≥ 80
+│   ├── aislop/                   ← 🧹 AI-slop detection gate (scanaislop/aislop, curated) — reviewer chạy aislop scan, score ≥ 80
+│   └── open-code-review/         ← 🔍 Alibaba OCR gate (alibaba/open-code-review, curated) — reviewer chạy ocr review, bắt bug XSS/SQLi/NPE/thread-safety
 │
 ├── tasks/
 │   ├── layer-0/                  ← Foundation tasks
@@ -189,6 +190,7 @@ The template ships with 2 curated workflow skills (curated from well-known open-
 | `superpowers/` | obra/superpowers (270k⭐) | Every coding task — **Iron Law debug** (no fix without root cause) + **TDD test-first** |
 | `ponytail/` | DietrichGebert/ponytail (100k⭐) | Loop while implementing — **lazy senior dev ladder**, stop at the simplest solution, avoid over-engineering |
 | `aislop/` | scanaislop/aislop (curated, MIT) | Reviewer reviews **code changes** — deterministic AI-slop scan (narrative comments, swallowed errors, hidden fallbacks, `as any`, duplication, dead code, todo stubs), score 0-100 ≥80 gate, `fix --safe` mechanical, offline no API key |
+| `open-code-review/` | alibaba/open-code-review (curated, Apache-2.0) | Reviewer reviews **code changes** — hybrid deterministic + LLM code review, precise line-level comments, built-in ruleset (NPE, thread-safety, XSS, SQLi). Delegation mode = no API key needed; CRITICAL finding → FAIL |
 
 ### 3 Mandatory Checkpoints
 

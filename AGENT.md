@@ -206,7 +206,8 @@ SPEC_VALIDATOR_MODEL=deepseek-v4-pro  # Validates specs (yet another provider!)
 │   ├── ponytail/         ← 🪶 Lazy senior dev ladder, chống over-engineering
 │   ├── scalability-architecture/  ← 📦 OPTIONAL scalability tiers (chỉ khi user bật option)
 │   ├── karpathy-guidelines/  ← ✂️ Surgical changes + think before coding (andrej-karpathy-skills)
-│   └── aislop/               ← 🧹 AI-slop detection gate (scanaislop/aislop, curated) — reviewer chạy aislop scan, score ≥ 80
+│   ├── aislop/               ← 🧹 AI-slop detection gate (scanaislop/aislop, curated) — reviewer chạy aislop scan, score ≥ 80
+│   └── open-code-review/     ← 🔍 Alibaba OCR gate (alibaba/open-code-review, curated) — reviewer chạy ocr review, bắt bug XSS/SQLi/NPE/thread-safety
 ├── tasks/                ← Generated task files
 ├── .devops/              ← EAS build/submit templates
 └── .context/             ← Shared state (progress, decisions, errors)

@@ -53,6 +53,21 @@ Sử dụng `REVIEWER_MODEL` từ `.env.local` (recommended: khác hãng với C
 
 ---
 
+## 🔍 Open Code Review Gate (task có code change)
+
+> Khi review task thay đổi code → **ĐỌC `skills/open-code-review/SKILL.md`** + chạy OCR (Alibaba) TRƯỚC khi duyệt PASS — bắt bug thật (XSS/SQLi/NPE/thread-safety) đúng dòng, deterministic + LLM hybrid:
+
+- [ ] Mặc định dùng **delegation mode** (không cần key riêng): `ocr delegate preview` → `ocr delegate rule <file thay đổi...>`
+- [ ] Nếu đã config provider → `ocr review --format json --output .context/review-reports/ocr-{task}.json` (OCR-managed, dùng REVIEWER_MODEL)
+- [ ] **CRITICAL finding** (XSS/SQLi/NPE/thread-safety/security) → FAIL, trả loop sửa
+- [ ] ≥3 MAJOR → FAIL; 1-2 MAJOR → ghi report + cân nhắc sửa; sạch → ghi "OCR clean"
+- [ ] Ghi findings đầy đủ vào `.context/review-reports/`, KHÔNG tự bịa số
+- [ ] Chưa cài/config OCR → báo blocker rõ, không giả vờ review
+
+> ❌ **Refuse (FAIL nếu thấy):** bug nghiêm trọng mà OCR/checklist bỏ sót — security hole, NPE, race condition, swallowed error nghiêm trọng.
+
+---
+
 ## Review Checklist
 
 ### 1. Requirements Coverage
