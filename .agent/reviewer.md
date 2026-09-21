@@ -104,6 +104,7 @@ Sử dụng `REVIEWER_MODEL` từ `.env.local` (recommended: khác hãng với C
 - [ ] Chạy `semgrep --metrics=off --config p/security-audit --config p/owasp-top-ten --severity ERROR --error --include 'src/**' .` — hướng dẫn tại `skills/security/semgrep-scan.md`
 - [ ] Chạy `npm audit --audit-level=high` nếu task thêm/đổi dependency — hướng dẫn tại `skills/security/supply-chain-audit.md`
 - [ ] **ERROR-severity security finding / high+cve → KHÔNG PASS**
+- [ ] *(Optional)* Task nhạy cảm (auth/API public/input user) → `npx blitzstrike serve --mcp` + audit source thay đổi — pentest live, chỉ report finding đã STRIKE-validate — `skills/blitzstrike/SKILL.md`
 
 **Mobile security checklist (theo `skills/security/mobile-auth.md` + `api-owasp.md`):**
 - [ ] Secrets không hardcode (không API key trong client bundle)
