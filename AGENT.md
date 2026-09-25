@@ -225,6 +225,9 @@ SPEC_VALIDATOR_MODEL=deepseek-v4-pro  # Validates specs (yet another provider!)
 │   ├── karpathy-guidelines/     ← ✂️ Surgical changes + think before coding (andrej-karpathy-skills)
 │   ├── aislop/            ← 🧹 AI-slop detection gate (scanaislop/aislop, curated)
 │   ├── open-code-review/  ← 🔍 Alibaba OCR gate (alibaba/open-code-review, curated)
+│   ├── impeccable/        ← 🎨 UI craft-floor + polish gate (pbakaus) — mobile UI (curated)
+│   ├── anti-slop/         ← 🧬 Oxlint rules chống low-evidence TS/JS (dmmulroy/anti-slop, curated)
+│   ├── ai-readable-codebase/ ← 🧠 Code cho 2 độc giả (người + AI) — tên rõ, ít indirection, README+ARCHITECTURE
 │   └── blitzstrike/       ← ⚡ MCP pentest toolbelt (shinthink/blitzstrike, curated)
 ├── scripts/               ← detect-profile / apply-verify-permissions / generate-inventory
 ├── tasks/                 ← Maintenance task board

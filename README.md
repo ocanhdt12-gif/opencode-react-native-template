@@ -263,7 +263,7 @@ The template ships with 2 curated workflow skills (curated from well-known open-
 2. **When implementing** (`loop.md`) → TDD test-first (`superpowers/test-driven-development.md`) + ponytail ladder; test fails → write minimal code to pass
 3. **When reviewing** (`reviewer.md`) → confirm test-first was followed, no over-engineering (YAGNI/DRY)
 
-> 💡 The web design skills (`ui-ux-pro-max`, `impeccable`) **do not apply** to React Native — mobile design uses design tokens from Phase 2.5 Design Agent.
+> 💡 `ui-ux-pro-max` (web design intelligence) không áp dụng cho RN — mobile dùng design tokens từ Phase 2.5 Design Agent. Còn `impeccable` (UI craft-floor) **có áp dụng** cho mobile UI review (xem Mobile UI Checklist Gate).
 
 ---
 
