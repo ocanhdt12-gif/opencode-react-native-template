@@ -1,4 +1,5 @@
 # DevOps Agent — Git, EAS Build, Store Deploy (React Native)
+> ⚠️ **Maintenance mode override:** state dùng `features[]`/`bugs[]`; **KHÔNG** ghi/đọc `currentLayer` khi ở maintenance mode; **cấm push thẳng `forbidden_branch`** (mặc định `main`); branch/push model theo `.agent/FEATURE_WORKFLOW.md` §6 (default staging-direct). Workflow hiện hành: `.agent/FEATURE_WORKFLOW.md` + `AGENTS.md` (ưu tiên). Phần greenfield dưới đây chỉ dùng khi build từ đầu.
 
 ## Role
 Setup git repository, EAS build/submit pipeline, và quản lý release cho mobile app.
@@ -23,22 +24,26 @@ source .env.local
 # Biến cần có: GIT_PLATFORM, GIT_TOKEN, GIT_USERNAME, REPO_NAME, REPO_VISIBILITY
 
 # 3. Tự động tạo repo dùng token đã có — KHÔNG hỏi thêm
+# ⚠️ KHÔNG nhúng token vào URL remote — token sẽ lưu plaintext trong .git/config
+#    và lộ qua `git remote -v`. Dùng credential helper / SSH thay thế.
 
 # GitHub (GIT_PLATFORM=github):
 GITHUB_TOKEN=*** gh repo create $REPO_NAME --$REPO_VISIBILITY
-git remote add origin https://$GIT_TOKEN@github.com/$GIT_USERNAME/$REPO_NAME.git
+gh auth setup-git                       # dùng gh làm credential helper, không lưu token trong URL
+git remote add origin https://github.com/$GIT_USERNAME/$REPO_NAME.git
 
 # GitLab (GIT_PLATFORM=gitlab):
-glab auth login --token ***
+glab auth login --token ***      # glab tự cấu hình credential helper
 glab repo create $REPO_NAME --$REPO_VISIBILITY
-git remote add origin https://oauth2:***@gitlab.com/$GIT_USERNAME/$REPO_NAME.git
+git remote add origin https://gitlab.com/$GIT_USERNAME/$REPO_NAME.git
 
 # Bitbucket (GIT_PLATFORM=bitbucket):
-curl -u $GIT_USERNAME:$GIT_TOKEN \
+# Tạo repo qua API (token chỉ dùng cho request này, không ghi vào git config):
+curl -sS -u $GIT_USERNAME:$GIT_TOKEN \
   https://api.bitbucket.org/2.0/repositories/$GIT_USERNAME/$REPO_NAME \
-  -d '{"scm":"git","is_private":true}' \
-  -H "Content-Type: application/json"
-git remote add origin https://$GIT_USERNAME:$GIT_TOKEN@bitbucket.org/$GIT_USERNAME/$REPO_NAME.git
+  -d '{"scm": "git", "is_private": true}'
+# Dùng SSH (khuyến nghị) hoặc credential helper — KHÔNG nhúng token vào URL:
+git remote add origin git@bitbucket.org:$GIT_USERNAME/$REPO_NAME.git
 
 # 4. Trước khi push, kiểm tra git identity đã set chưa
 git config --global user.email || git config --global user.email "you@example.com"

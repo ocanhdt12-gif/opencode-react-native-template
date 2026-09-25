@@ -1,5 +1,7 @@
 # Change Request Agent
 
+> ⚠️ **Maintenance mode override:** state dùng `features[]`/`bugs[]`; **KHÔNG** ghi/đọc `currentLayer` khi ở maintenance mode; **cấm push thẳng `forbidden_branch`** (mặc định `main`); branch/push model theo `.agent/FEATURE_WORKFLOW.md` §6 (default staging-direct). Workflow hiện hành: `.agent/FEATURE_WORKFLOW.md` + `AGENTS.md` (ưu tiên). Phần greenfield dưới đây chỉ dùng khi build từ đầu.
+
 ## Role
 Xử lý yêu cầu thay đổi từ user sau khi project đã có SPECIFICATIONS.md và tasks. Classify loại thay đổi, phân tích impact, update spec + tasks phù hợp.
 

@@ -1,81 +1,41 @@
-# Entity Relationship Diagram (ERD)
+# ERD — Overview & Pointers
 
-> Define your database schema here.
-> Agent will use this to generate Prisma schema and validate data models in spec.
+> ⚠️ **Không nhúng schema tay ở đây** — sẽ lệch với migration thật.
+> File này là **overview + pointer** tới source of truth.
 
----
+## Source of truth
+
+1. **Migration files** — versioned, đã commit (tool: `.agent/PROJECT_PROFILE.md` → `migrations.tool`).
+2. **Schema file** — vd `prisma/schema.prisma` / `drizzle/schema.ts` / model files trong `source_roots`.
+3. **Generated inventory** — `docs/generated/` (chạy lại, không sửa tay).
+
+> Nếu overview này khác migration/schema → **migration/schema thắng**.
 
 ## Database
 
 **Type:** PostgreSQL / MySQL / MongoDB / SQLite
 **ORM:** Prisma / Drizzle / TypeORM / Mongoose
 
----
+## Entity overview
 
-## Entities
+> Chỉ mô tả **mục đích + quan hệ**; cột/kiểu/index chi tiết lấy từ schema file.
 
-### User
-| Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
-| id | String (cuid) | PK | Unique identifier |
-| email | String | UNIQUE, NOT NULL | Login email |
-| password | String | NOT NULL | Hashed password |
-| name | String | NOT NULL | Display name |
-| role | Enum(USER,ADMIN) | DEFAULT USER | Access role |
-| createdAt | DateTime | DEFAULT now() | Created timestamp |
-| updatedAt | DateTime | Auto-update | Updated timestamp |
-
-### [Entity 2]
-| Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
-| id | | PK | |
-| userId | String | FK → User.id | Owner |
-| ... | | | |
-
----
+| Entity | Mục đích | Quan hệ chính |
+|--------|----------|---------------|
+| User | Tài khoản đăng nhập | has many `<Entity2>` |
+| `<Entity2>` | ... | belongs to User |
+| `<Entity3>` | ... | ... |
 
 ## Relationships
 
 ```
-User ─── has many ──→ [Entity2]
-[Entity2] ─── belongs to ──→ User
-[Entity2] ─── has many ──→ [Entity3]
+User ─── has many ──→ <Entity2>
+<Entity2> ─── belongs to ──→ User
+<Entity2> ─── has many ──→ <Entity3>
 ```
 
----
+## Notes (business rules dữ liệu)
 
-## Prisma Schema (optional — paste if available)
-
-```prisma
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-enum Role {
-  USER
-  ADMIN
-}
-```
-
----
-
-## Indexes
-
-| Table | Columns | Type | Reason |
-|-------|---------|------|--------|
-| User | email | UNIQUE | Fast login lookup |
-| [Table] | [col] | INDEX | [Query optimization] |
-
----
-
-## Notes
-
-- [Any special constraints or business rules about data]
-- [Soft delete strategy if applicable]
-- [Archival / retention policy]
+- Soft delete? (`deleted_at`) — nếu có, ghi rõ ở đây.
+- Archival / retention policy.
+- Index đặc biệt: mô tả **lý do**; định nghĩa index nằm ở migration/schema.

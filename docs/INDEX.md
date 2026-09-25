@@ -1,35 +1,43 @@
-# docs/ — Project Documentation
+# docs/ — Index
 
-This folder contains your project's design documents.
-The Brainstorm agent will **auto-scan and classify** all files here.
+> Brainstorm agent auto-scan và classify file trong `docs/`. File này phân loại rõ
+> **canonical** (dùng để validate) vs **historical** (tham khảo, không dùng để chặn).
 
-## Optional: Manual Index
+## Canonical (source of truth — dùng để validate)
 
-If you want to hint the agent about each file's type, fill in below.
-Otherwise, leave this file as-is and the agent will classify by content.
+| File | Loại | Ghi chú |
+|------|------|---------|
+| `BRD.md` | business_requirements | Yêu cầu nghiệp vụ |
+| `DESIGN.md` | design_spec | Design spec / Figma notes |
+| `API_SPEC.md` | api_spec | **Overview + pointer** → code + `src/shared/types/api.ts` |
+| `ERD.md` | database_schema | **Overview + pointer** → migration/schema file |
+| `PERMISSION.md` | business_rules | Role list + guard order, **sync từ seed + guards thật** |
+| `generated/` | generated | Sinh tự động bằng `check_commands.docs_inventory` — **không sửa tay** |
+
+## Historical (tham khảo — không dùng để validate)
+
+| File | Ghi chú |
+|------|---------|
+| `diagrams/` | Diagram minh họa (archify) — verify với code trước khi tin |
+
+## Optional: manual classification hint
+
+Nếu muốn bỏ auto-detect, điền:
 
 ```yaml
-# Uncomment and fill in as needed:
-# - filename.md: brd              # Business Requirements Document
-# - filename.md: prd              # Product Requirements Document
-# - filename.md: design           # UI/UX Design Spec (Figma, wireframes)
-# - filename.md: api_spec         # API Spec (OpenAPI/Swagger/endpoint list)
-# - filename.md: erd              # Database Schema / ERD
-# - filename.md: architecture     # System Architecture
-# - filename.md: other            # Other reference docs
+# - filename.md: brd
+# - filename.md: design
+# - filename.md: api_spec
+# - filename.md: erd
+# - filename.md: architecture
+# - filename.md: other
 ```
 
-## Supported Doc Types
+## Không có docs?
 
-| Type | Keywords agent looks for | Effect on brainstorm |
-|------|--------------------------|----------------------|
-| **BRD/PRD** | user story, acceptance criteria, business rule, feature list | Skip feature questions already covered |
-| **Design Spec** | screen name, color, typography, layout, component, Figma | Skip UI/design questions |
-| **API Spec** | endpoint, request, response, OpenAPI, swagger, REST | Skip API design questions |
-| **ERD/Schema** | table, column, foreign key, index, relationship | Skip data model questions |
-| **Architecture** | service, microservice, deployment, infrastructure | Skip stack/deploy questions |
+Để trống/điền tối thiểu — brainstorm sẽ hỏi đầy đủ requirements.
 
-## No docs yet?
+## Quy tắc
 
-That's fine — just leave this folder empty (or delete it).
-The agent will run a full brainstorm instead.
+- **Không nhúng code/schema tay** vào docs canonical → dùng pointer + `docs/generated/`.
+- Mọi thay đổi code/config/docs/schema → commit-first tracking là source of truth.

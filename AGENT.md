@@ -1,5 +1,14 @@
 # AGENT.md — AI-Powered Project Template (React Native)
 
+> 📌 **LEGACY / OPTIONAL — greenfield only.** Entry point thực tế là `AGENTS.md`
+> (router, luôn được load). File này chỉ dùng khi build project **từ đầu**.
+> Repo đã có code → dùng **maintenance workflow** `.agent/FEATURE_WORKFLOW.md`
+> (`/bug-check`, `/bug`, `/feature`). Giá trị project: `.agent/PROJECT_PROFILE.md`.
+>
+> ⚠️ Mọi hướng dẫn **auto-push** trong file này + `.agent/devops.md` + `.agent/rollback.md`
+> bị **override** bởi maintenance rules (`AGENTS.md` + `FEATURE_WORKFLOW.md`): cấm push
+> `forbidden_branch`; push theo branch model trong `.agent/FEATURE_WORKFLOW.md` §6.
+
 ## What Is This?
 
 This is a **model-agnostic**, multi-agent project template designed for building mobile applications with React Native + Expo + TypeScript. Any AI coding assistant that can read markdown and execute commands can use this template.
@@ -193,23 +202,33 @@ SPEC_VALIDATOR_MODEL=deepseek-v4-pro  # Validates specs (yet another provider!)
 ## Directory Structure
 
 ```
-├── AGENT.md              ← You are here
-├── BRIEF.md              ← Your project idea
-├── SPECIFICATIONS.md     ← Generated spec (after brainstorm)
-├── .env.local            ← Git/model/deploy config (git-ignored)
-├── .agent/               ← Agent workflows
-├── skills/               ← Stack conventions & patterns
-│   ├── react-native/     ← React Native/Expo stack skills
-│   ├── security/         ← 🔒 Security skills (bắt buộc áp dụng)
-│   ├── monitoring/       ← 📊 Monitoring skills (bắt buộc áp dụng)
-│   ├── superpowers/      ← 🧠 Debug Iron Law + TDD test-first (curate from obra/superpowers)
-│   ├── ponytail/         ← 🪶 Lazy senior dev ladder, chống over-engineering
-│   ├── scalability-architecture/  ← 📦 OPTIONAL scalability tiers (chỉ khi user bật option)
-│   ├── karpathy-guidelines/  ← ✂️ Surgical changes + think before coding (andrej-karpathy-skills)
-│   ├── aislop/               ← 🧹 AI-slop detection gate (scanaislop/aislop, curated) — reviewer chạy aislop scan, score ≥ 80
-│   ├── open-code-review/     ← 🔍 Alibaba OCR gate (alibaba/open-code-review, curated) — reviewer chạy ocr review, bắt bug XSS/SQLi/NPE/thread-safety
-│   └── blitzstrike/          ← ⚡ MCP pentest toolbelt (shinthink/blitzstrike, curated) — security optional
-├── tasks/                ← Generated task files
-├── .devops/              ← EAS build/submit templates
-└── .context/             ← Shared state (progress, decisions, errors)
+├── AGENTS.md              ← ✅ Entry point thực tế (router: bug/feature/review) — luôn được load
+├── AGENT.md               ← Greenfield pipeline (build từ đầu — legacy/optional)
+├── BRIEF.md               ← Your project idea
+├── SPECIFICATIONS.md      ← Generated spec (after brainstorm)
+├── opencode.jsonc         ← Permission gate (builder-strong = ask)
+├── .env.local             ← Git/deploy secrets (git-ignored)
+├── .opencode/
+│   ├── agent/             ← builder / builder-strong / reviewer / spec-validator (subagents)
+│   ├── command/           ← /bug-check /bug /feature /resume /setup-profile
+│   └── plugins/loop-guard.ts ← Doom-loop guard + usage() gate
+├── .agent/                ← Agent workflows
+│   ├── FEATURE_WORKFLOW.md   ← ✅ Maintenance entry (bug/feature/update)
+│   └── PROJECT_PROFILE.md    ← ✅ Project values (branch, pm, checks, models)
+├── skills/                ← Stack conventions & patterns
+│   ├── react-native/      ← React Native/Expo stack skills
+│   ├── security/          ← 🔒 Security skills (bắt buộc áp dụng)
+│   ├── monitoring/        ← 📊 Monitoring skills (bắt buộc áp dụng)
+│   ├── superpowers/       ← 🧠 Debug Iron Law + TDD test-first (curate from obra/superpowers)
+│   ├── ponytail/          ← 🪶 Lazy senior dev ladder, chống over-engineering
+│   ├── scalability-architecture/ ← 📦 OPTIONAL scalability tiers (chỉ khi user bật option)
+│   ├── karpathy-guidelines/     ← ✂️ Surgical changes + think before coding (andrej-karpathy-skills)
+│   ├── aislop/            ← 🧹 AI-slop detection gate (scanaislop/aislop, curated)
+│   ├── open-code-review/  ← 🔍 Alibaba OCR gate (alibaba/open-code-review, curated)
+│   └── blitzstrike/       ← ⚡ MCP pentest toolbelt (shinthink/blitzstrike, curated)
+├── scripts/               ← detect-profile / apply-verify-permissions / generate-inventory
+├── tasks/                 ← Maintenance task board
+├── docs/                  ← API_SPEC, ERD, INDEX, PERMISSION, smoke-tests, generated
+├── .devops/               ← EAS build/submit templates
+└── .context/              ← Shared state (progress, runs/, session-policy)
 ```

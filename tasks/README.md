@@ -1,64 +1,130 @@
 # Tasks Directory
 
-## Structure
+## Hai chế độ
 
-Tasks are organized by layers. Each layer represents a group of tasks that can be executed in parallel (no inter-dependencies within a layer).
+| Mode | Đường dẫn | Dùng khi |
+|------|-----------|----------|
+| **Maintenance** (mặc định) | `tasks/feature-<slug>/phase-<N>-task-<NN>.md`<br>`tasks/bug-<slug>/phase-<N>-task-<NN>.md` | Bug / feature / update sau khi project đã tồn tại |
+| **Greenfield** (legacy) | `tasks/layer-<N>/task-<NN>.md` | Build từ đầu qua `AGENT.md` + `.agent/graph.md` |
+
+> Workflow maintenance: `.agent/FEATURE_WORKFLOW.md`. Phase model: 1 Schema/domain ·
+> 2 Backend/API · 3 UI · 4 Integration · 5 Test/UAT.
+
+## Cấu trúc (maintenance)
 
 ```
 tasks/
-├── README.md              ← This file
-├── layer-0/
-│   ├── task-01.md         ← Infrastructure: project scaffolding
-│   ├── task-02.md         ← Infrastructure: database setup
-│   └── task-03.md         ← Infrastructure: auth foundation
-├── layer-1/
-│   ├── task-01.md         ← Core backend: user CRUD
-│   └── task-02.md         ← Core backend: product CRUD
-└── layer-N/
-    └── ...
+├── README.md
+├── feature-<slug>/
+│   ├── phase-1-task-01.md
+│   ├── phase-2-task-01.md
+│   └── phase-2-task-02.md
+└── bug-<slug>/
+    ├── scan.md            ← output của /bug-check (READ-ONLY, danh sách defect)
+    └── phase-1-task-01.md
 ```
 
-## Task File Format
-
-Each task file follows this structure:
+## Task file format
 
 ```markdown
-# Task {NN}: {Title}
+# Task <NN>: <Title>
 
-## Layer
-{N}
+## Type
+feature (<ADDITIVE|MODIFY|REMOVE>) | bug
+
+## Classification / Risk
+- Work item type: BUG | FEATURE | UPDATE
+- Bug severity: blocker | high | medium | low | n/a
+- Feature change type: ADDITIVE | MODIFY | REMOVE | n/a
+- Scope: SINGLE_SURFACE | CROSS_CUTTING | SHARED_FOUNDATION
+- Root cause category: PERMISSION_SCOPE | TENANT_SCHOOL_BOUNDARY | API_CONTRACT | MOCK_REAL_DATA_BOUNDARY | STATE_CACHE | SCHEMA_DOMAIN | UI_LOGIC | CONFIG_ENV | RACE_TIMING | UNKNOWN | n/a
+- Review level expected: FAST | NORMAL | STRICT
+- Blast radius: <files/modules/API/client/data affected>
+- Doc impact: API_SPEC | ERD | DESIGN | GAPS | NO_DOC_IMPACT
+- Decision impact: YES | NO — if YES, append `.context/decisions.md`
+
+## Phase
+<N>   # 1 Schema/domain · 2 Backend/API · 3 UI · 4 Integration · 5 Test/UAT
 
 ## Description
-{What this task implements — clear and concise}
+{Mục tiêu rõ ràng, ngắn gọn}
+
+## Root cause (bug only)
+{Triệu chứng → nguyên nhân gốc + evidence; KHÔNG fix khi chưa có}
 
 ## Dependencies
-- task-{XX} (reason why this depends on it)
+- task-<XX> (lý do)
 
 ## Acceptance Criteria
-- [ ] Criterion 1 (testable)
-- [ ] Criterion 2 (testable)
+- [ ] Tiêu chí đo được, testable
+- [ ] ...
+
+## Verification Plan
+- Commands: <from `.agent/PROJECT_PROFILE.md` or `skip, no app configured`>
+- Manual/UAT evidence: <if needed>
+- Reviewer report path: `.context/review-reports/<feature|bug>-<slug>-phase-<N>-task-<NN>-round-<R>-review.md`
+
+## Retry / Error Memory
+- Attempt: 0 | 1 | 2 | 3
+- Last failure type: test_failure | lint_error | build_error | review_fail | runtime_error | n/a
+- Error memory entry: `.context/error-memory.md#entry-...` | none
+- Escalation: none | error_analyzer | architecture_review_needed | blocked
+
+## Repro Verification (bug only)
+- Original repro:
+- Expected:
+- Actual before fix:
+- Actual after fix:
+- Evidence:
+- Status: PASS | FAIL | BLOCKED
+
+## Feature Verification (feature/update only)
+- Acceptance criteria: PASS | FAIL | BLOCKED
+- Verify commands + result:
+- Reviewer verdict: PASS | FAIL
+- Spec Validator verdict (phase close): PASS | FAIL | n/a
+
+## Doc / Decision Impact
+- Doc impact result: <updated docs or `no doc impact`>
+- Decision log: `.context/decisions.md#...` | none
+
+## Commit / Tracking
+- Commit: pending until close-out commit (SHA lives in git history; do not amend/backfill just to fill this)
+- Commit source of truth: changed files, timestamp, SHA, rollback point
+- Task source of truth: root cause, repro/evidence, residual risk, doc impact/reconcile, verification summary
+- Progress source of truth: `.context/progress.json` current status, active/completed phase/task, reviewer result/report path
 
 ## DoD (Definition of Done)
-- [ ] Code written
-- [ ] Tests pass
-- [ ] No lint errors
-- [ ] Reviewed by reviewer agent
-- [ ] Committed with proper message
+- [ ] Code written (chỉ trong scope)
+- [ ] Tests added + pass (bug: test tái hiện fail trước fix)
+- [ ] Check commands pass (theo `.agent/PROJECT_PROFILE.md`)
+- [ ] Reviewer độc lập PASS (`.opencode/agent/reviewer.md`)
+- [ ] `.context/progress.json` updated
+- [ ] Error Memory updated for every failed attempt, or `n/a` recorded
+- [ ] Doc Impact reconciled, or `no doc impact` recorded
+- [ ] Decision log updated if `Decision impact: YES`
+- [ ] Commit created after PASS close-out (1 task = 1 commit, unless reason recorded; SHA tracked by git)
 
 ## Files to Create/Modify
-- `src/server/...`
-- `src/client/...`
-- `tests/...`
+- `<path>`
 
 ## Notes
-{Edge cases, gotchas, implementation hints}
+{Edge cases, gotchas, giả định đã nêu}
 ```
 
 ## Rules
 
-1. Tasks are generated by `.agent/graph.md` from SPECIFICATIONS.md
-2. A layer unlocks only when ALL tasks in the previous layer pass review
-3. Tasks within the same layer have NO dependencies on each other
-4. Each task should be small (1-3 files) and focused
-5. Acceptance criteria must be testable (not vague)
-6. Do NOT manually edit task files after generation (regenerate via graph.md)
+1. Task sinh bởi **Change Request workflow** hoặc **Bug workflow** (`.agent/FEATURE_WORKFLOW.md`).
+2. **Mỗi bug / mỗi feature tách task riêng** — không gộp nhiều bug/feature vào 1 task/diff
+   (trừ khi cùng root cause / cùng scope — ghi rõ lý do).
+3. Chốt **thứ tự ưu tiên với user**, xử lý **tuần tự**.
+4. Task nhỏ, focused (1–3 files). Acceptance criteria **testable**, không mơ hồ.
+5. Không nhảy phase: schema → API → UI → integration → UAT.
+6. Không sửa tay task sau khi đã chạy — tạo task mới nếu cần. **WIP/checkpoint ghi ở
+   `.context/runs/<type>-<slug>-<phaseTask>.md`** (xem `AGENTS.md` § Session Handoff), không nhét vào task file.
+7. `tasks/bug-<slug>/scan.md` sinh bởi `/bug-check` là **read-only report** — không sửa code,
+   không phải task; user chọn defect xong mới tạo task `/bug` cho từng defect.
+8. Mọi task bug/feature/update phải có `Classification / Risk`, `Retry / Error Memory`,
+   `Verification`, và `Doc / Decision Impact` trước khi Builder bắt đầu.
+9. Bug 1 dòng được `/bug` cho phép sửa không tạo task thì commit body bắt buộc có trailer
+   `Repro-Verification: <short evidence of root cause + expected/actual>`.

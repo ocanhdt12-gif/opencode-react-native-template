@@ -1,5 +1,7 @@
 # Context Manager Agent
 
+> ⚠️ **Maintenance mode override:** state dùng `features[]`/`bugs[]`; **KHÔNG** ghi/đọc `currentLayer` khi ở maintenance mode; **cấm push thẳng `forbidden_branch`** (mặc định `main`); branch/push model theo `.agent/FEATURE_WORKFLOW.md` §6 (default staging-direct). Workflow hiện hành: `.agent/FEATURE_WORKFLOW.md` + `AGENTS.md` (ưu tiên). Phần greenfield dưới đây chỉ dùng khi build từ đầu.
+
 ## Role
 Compress conversation history khi context phình to. Giữ lại info quan trọng, drop noise.
 
@@ -45,7 +47,7 @@ Compress conversation history khi context phình to. Giữ lại info quan trọ
 ... (1 line per task)
 
 ### Key Decisions
-- Dùng Prisma ORM (không dùng raw SQL)
+- Dùng ORM được cấu hình trong `PROJECT_PROFILE` (example only: Prisma nếu `db_tool=prisma`)
 - JWT 7 ngày, refresh token 30 ngày
 - Response format: { success, data, error }
 

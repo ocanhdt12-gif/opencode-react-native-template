@@ -1,10 +1,6 @@
 {
-  "projectName": "",
-  "currentLayer": 0,
-  "totalLayers": 0,
-  "completedTasks": [],
-  "inProgressTask": null,
-  "blockedTasks": [],
-  "decisions": [],
-  "lastUpdated": ""
+  "mode": "maintenance",
+  "activeWorkItem": null,
+  "features": [],
+  "bugs": []
 }

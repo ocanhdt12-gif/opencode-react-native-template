@@ -1,28 +1,31 @@
-# API Specification
+# API Specification — Overview & Pointers
 
-> Define your API endpoints here, or paste your OpenAPI/Swagger spec.
-> Agent will use this to ensure backend implementation matches contract.
+> ⚠️ **Không nhúng code/schema tay ở đây** — sẽ lệch với code thật.
+> File này là **overview + pointer** tới source of truth.
 
----
+## Source of truth (theo thứ tự ưu tiên)
+
+1. **Code thật** — route/controller/validation trong `source_roots` (xem `.agent/PROJECT_PROFILE.md`).
+2. **Shared contract types** — `src/shared/types/api.ts` (client & server cùng import).
+3. **Generated inventory** — `docs/generated/` (tạo bằng `check_commands.docs_inventory`; chỉ chạy lại, không sửa tay).
+4. **OpenAPI/Swagger** (nếu có) — file do tooling sinh, không sửa tay.
+
+> Nếu overview này khác code → **code thắng**. Cập nhật overview hoặc chạy lại inventory.
 
 ## Base URL
 
 ```
 Development: http://localhost:3000/api
-Production:  https://api.yourdomain.com/api
+Production:  https://<domain>/api
 ```
 
 ## Authentication
 
-**Method:** Bearer Token (JWT)
+`Authorization: Bearer <JWT>` — chi tiết hardening: `skills/security/jwt-security.md`.
 
-```
-Authorization: Bearer <token>
-```
+## Response contract (bất biến)
 
-## Response Format
-
-All responses follow this shared contract:
+Mọi response đi qua helper chung `ok()` / `fail()` (không viết tay `res.json()`):
 
 ```typescript
 // Success
@@ -32,154 +35,33 @@ All responses follow this shared contract:
 { "success": false, "error": "<message>", "details": [...] }
 ```
 
----
+## Endpoint overview
 
-## Endpoints
+> Bảng dưới chỉ liệt kê **nhóm endpoint**; request/response chi tiết lấy từ code + `src/shared/types/api.ts`.
 
-### Auth
+| Nhóm | Ví dụ | Auth | Ghi chú |
+|------|-------|------|---------|
+| Auth | `POST /auth/register`, `POST /auth/login`, `POST /auth/refresh` | public/refresh | rate-limit chặt (`skills/security/*`) |
+| Users | `GET/POST /users`, `GET/PUT/DELETE /users/:id` | required | `:id` phải verify ownership — BOLA/IDOR |
+| <Resource> | `...` | ... | ... |
 
-#### POST /auth/register
-Register a new user.
-
-**Request:**
-```json
-{
-  "email": "user@example.com",
-  "password": "min8chars",
-  "name": "John Doe"
-}
-```
-
-**Response 201:**
-```json
-{
-  "success": true,
-  "data": {
-    "token": "jwt_token",
-    "user": { "id": "...", "email": "...", "name": "..." }
-  }
-}
-```
-
-**Errors:** 400 (validation), 409 (email exists)
-
----
-
-#### POST /auth/login
-Authenticate user.
-
-**Request:**
-```json
-{
-  "email": "user@example.com",
-  "password": "password123"
-}
-```
-
-**Response 200:**
-```json
-{
-  "success": true,
-  "data": {
-    "token": "jwt_token",
-    "user": { "id": "...", "email": "...", "name": "..." }
-  }
-}
-```
-
-**Errors:** 400 (validation), 401 (invalid credentials)
-
----
-
-### [Resource Name] (e.g. Users)
-
-#### GET /users
-Get list of users. Requires auth.
-
-**Query params:**
-- `page` (number, default 1)
-- `limit` (number, default 20)
-- `search` (string, optional)
-
-**Response 200:**
-```json
-{
-  "success": true,
-  "data": {
-    "items": [...],
-    "total": 100,
-    "page": 1,
-    "limit": 20
-  }
-}
-```
-
----
-
-#### GET /users/:id
-Get single user. Requires auth.
-
-**Response 200:**
-```json
-{
-  "success": true,
-  "data": { "id": "...", "email": "...", "name": "..." }
-}
-```
-
-**Errors:** 404 (not found)
-
----
-
-#### POST /users
-Create user. Requires auth + admin role.
-
-**Request:** `{ "email": "...", "name": "...", "role": "USER" }`
-
-**Response 201:** `{ "success": true, "data": { ...user } }`
-
----
-
-#### PUT /users/:id
-Update user. Requires auth.
-
-**Request:** `{ "name": "..." }` (partial update)
-
-**Response 200:** `{ "success": true, "data": { ...updated_user } }`
-
----
-
-#### DELETE /users/:id
-Delete user. Requires auth + admin role.
-
-**Response 200:** `{ "success": true, "data": null }`
-
----
-
-## Error Codes
+## Error codes
 
 | Code | Meaning |
 |------|---------|
 | 400 | Bad Request — validation failed |
-| 401 | Unauthorized — missing or invalid token |
+| 401 | Unauthorized — missing/invalid token |
 | 403 | Forbidden — insufficient permissions |
 | 404 | Not Found |
 | 409 | Conflict — duplicate resource |
 | 429 | Too Many Requests — rate limited |
 | 500 | Internal Server Error |
 
----
+## Rate limiting (policy)
 
-## Rate Limiting
+- Auth endpoints: 10 req/phút/IP
+- API endpoints: 100 req/phút/user
 
-- **Auth endpoints:** 10 requests / minute per IP
-- **API endpoints:** 100 requests / minute per user
+## Webhooks (nếu có)
 
----
-
-## Webhooks (if applicable)
-
-| Event | Payload |
-|-------|---------|
-| `user.created` | `{ userId, email, createdAt }` |
-| `order.completed` | `{ orderId, total, userId }` |
+> Payload shape lấy từ code publisher, không copy tay vào đây.

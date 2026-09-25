@@ -1,5 +1,13 @@
 # Rollback Agent — Git Checkpoint Strategy
 
+> ⚠️ **Maintenance mode override:** state dùng `features[]`/`bugs[]`; **KHÔNG** ghi/đọc `currentLayer` khi ở maintenance mode; **cấm push thẳng `forbidden_branch`** (mặc định `main`); branch/push model theo `.agent/FEATURE_WORKFLOW.md` §6 (default staging-direct). Workflow hiện hành: `.agent/FEATURE_WORKFLOW.md` + `AGENTS.md` (ưu tiên). Phần greenfield dưới đây chỉ dùng khi build từ đầu.
+
+> ⚠️ **Maintenance push override:** Maintenance mode overrides all literal push examples below.
+> Do NOT push `main`/`develop` from these examples. Auto-push after PASS review must use
+> branch model in `.agent/FEATURE_WORKFLOW.md` §6 (default: `git push origin <target_branch>` only from `target_branch`).
+> Bare `git push` is denied by `opencode.jsonc`. Production/main promotion requires explicit
+> human approval outside normal maintenance workflow.
+
 ## Role
 Manage git checkpoints để có thể rollback khi task/layer fail.
 
@@ -18,9 +26,10 @@ git commit -m "feat(layer-{N}): task-{NN} {description}"
 ```
 
 ### After Each Layer PASS (all tasks + review)
+> ⚠️ **Maintenance mode override:** KHÔNG push `main`/`forbidden_branch` (xem `AGENTS.md`).
 ```bash
 git tag "layer-{N}-done" -m "Layer {N} complete: {layer description}"
-git push origin main --tags
+git push origin main --tags   # ❌ LEGACY greenfield — bị override ở maintenance mode
 ```
 
 ### Before Risky Operations
@@ -50,7 +59,7 @@ git log --oneline --tags
 # Reset to previous layer checkpoint
 git reset --hard layer-{N-1}-done
 
-# Force push (careful!)
+# Force push (careful!) — ❌ bị CHẶN ở maintenance mode (permission.bash deny --force)
 git push origin main --force
 ```
 
