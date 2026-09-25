@@ -1,3 +1,8 @@
+---
+name: ponytail
+description: "Use when implementing or reviewing code for simplicity, anti-overengineering, YAGNI decisions, dependency avoidance, minimal diffs, and choosing the simplest working solution."
+---
+
 # Ponytail (Curated)
 
 > Curated from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) — "lazy senior dev" ladder, chống over-engineering. Rút gọn + Việt hóa, khớp Phase 4 Loop của template.

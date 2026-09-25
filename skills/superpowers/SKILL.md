@@ -1,3 +1,8 @@
+---
+name: superpowers
+description: "Use when debugging, fixing bugs, investigating test/lint/build failures, finding root cause before changes, or applying test-driven development for feature and bug work."
+---
+
 # Superpowers Methodology (Curated)
 
 > Curated from [obra/superpowers](https://github.com/obra/superpowers) — chọn phần hay nhất khớp với flow OpenCode Project Template, không copy nguyên xi.
