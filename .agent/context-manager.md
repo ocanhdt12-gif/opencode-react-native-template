@@ -101,3 +101,4 @@ Sau khi compress xong, báo:
 4. **progress.json luôn full** — file nhỏ, không cần trim
 5. **Trust git** — code đã commit không cần giữ trong context
 6. **compressed-summary.md là source of truth** — các session sau đọc file này trước
+7. **Docs tái tạo được ngoài context** — nếu repo có `openwiki` (langchain-ai/openwiki), chạy `openwiki --update` để duy trì docs codebase; KHÔNG giữ nguyên văn docs dài trong context, đọc file khi cần

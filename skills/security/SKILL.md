@@ -15,3 +15,4 @@ Wrapper for security references in this folder. Read the relevant file instead o
 - `bola-idor.md` — object-level authorization and IDOR/BOLA checks.
 - `sharp-edges.md` — secrets, defaults, and configuration sharp edges.
 - `supply-chain-audit.md` — dependency and supply-chain audit guidance.
+- `codex-security.md` — OpenAI Codex Security CLI (AI-driven scan/fix, curated) — lớp bổ trợ cho semgrep/OWASP trên task nhạy cảm.

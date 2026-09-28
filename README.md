@@ -126,13 +126,15 @@ project-template/
 │   │   ├── stack.md              ← Libraries, tools, versions
 │   │   ├── patterns.md           ← Navigation, state, API, testing patterns
 │   │   ├── common-errors.md     ← Known issues + fixes
-│   │   └── SKILL.md             ← Wrapper skill (frontmatter)
+│   │   ├── SKILL.md             ← Wrapper skill (frontmatter)
+│   │   └── e2e-maestro.md       ← Maestro E2E testing (YAML flows)
 │   ├── security/                 ← 🔒 Security skills (mandatory)
 │   │   ├── semgrep-scan.md          ← Static analysis security scan
 │   │   ├── api-owasp.md             ← OWASP API Top 10 checklist
 │   │   ├── mobile-auth.md           ← Token storage & mobile auth hardening
 │   │   ├── sharp-edges.md           ← Secure defaults & footgun config
-│   │   └── supply-chain-audit.md    ← dependency audit + dependency risk
+│   │   ├── supply-chain-audit.md    ← dependency audit + dependency risk
+│   │   └── codex-security.md        ← OpenAI Codex Security CLI scan/fix (AI-driven, curated)
 │   └── monitoring/               ← 📊 Monitoring skills (mandatory)
 │       ├── otel-instrumentation.md  ← OTel traces/metrics/logs (RN)
 │       ├── mobile-crash-performance.md ← Crash reporting + performance
@@ -206,6 +208,7 @@ The template ships with built-in security rules (read and applied mandatorily by
 | `mobile-auth.md` | Token storage (`expo-secure-store`) + mobile auth hardening |
 | `sharp-edges.md` | Secure defaults & footgun config/secret/storage |
 | `supply-chain-audit.md` | `npm audit` + dependency takeover risk |
+| `codex-security.md` | OpenAI Codex Security CLI — AI-driven scan/fix (curated, optional) |
 
 ### 3 Mandatory Checkpoints
 
@@ -256,6 +259,8 @@ The template ships with 2 curated workflow skills (curated from well-known open-
 | `aislop/` | scanaislop/aislop (curated, MIT) | Reviewer reviews **code changes** — deterministic AI-slop scan (narrative comments, swallowed errors, hidden fallbacks, `as any`, duplication, dead code, todo stubs), score 0-100 ≥80 gate, `fix --safe` mechanical, offline no API key |
 | `open-code-review/` | alibaba/open-code-review (curated, Apache-2.0) | Reviewer reviews **code changes** — hybrid deterministic + LLM code review, precise line-level comments, built-in ruleset (NPE, thread-safety, XSS, SQLi). Delegation mode = no API key needed; CRITICAL finding → FAIL |
 | `blitzstrike/` | shinthink/blitzstrike (curated, MIT) | Reviewer — **optional** MCP pentest toolbelt (BLITZ recon → EAGLE-EYE source trace → STRIKE live validate). Task nhạy cảm (auth/API/input) → chỉ report finding đã verify live |
+| `security/codex-security.md` | openai/codex-security (curated, npm `@openai/codex-security`) | Reviewer task nhạy cảm (optional) — AI-driven scan/fix; **CRITICAL verified** → FAIL, ≥3 MAJOR → FAIL; chưa login/không network → ghi `N/A`, không chặn PASS |
+| `react-native/e2e-maestro.md` | mobile-dev-inc/maestro (curated, Apache-2.0) | Builder viết E2E + Reviewer — YAML flows (`launchApp`/`tapOn`/`assertVisible`) chạy `maestro test .maestro/`; flow fail → FAIL; không có device/môi trường → ghi `N/A` |
 
 ### 3 Mandatory Checkpoints
 

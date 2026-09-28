@@ -13,3 +13,4 @@ Wrapper for React Native/Expo stack references in this folder. Read the relevant
 - `stack.md` — stack assumptions and technology notes.
 - `patterns.md` — implementation patterns for React Native/Expo work.
 - `common-errors.md` — common failures and troubleshooting notes.
+- `e2e-maestro.md` — Maestro E2E testing (UI flows bằng YAML).

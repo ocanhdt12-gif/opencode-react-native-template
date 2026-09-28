@@ -5,10 +5,10 @@
 | Category | Technology | Version |
 |----------|-----------|---------|
 | Language | TypeScript | 5.x |
-| Framework | React Native (via Expo) | SDK 51+ |
+| Framework | React Native (via Expo) | SDK 57 |
 | Runtime | Expo Go / Dev Client | Latest |
 | Bundler | Metro | Built-in |
-| Navigation | React Navigation | v6/v7 |
+| Navigation | React Navigation | v7 |
 
 ## Expo Core Packages
 
@@ -62,7 +62,7 @@
 |----------|------|
 | Unit Test | Jest + React Native Testing Library |
 | Component | @testing-library/react-native |
-| E2E | Detox / Maestro |
+| E2E | Maestro (recommended — xem `e2e-maestro.md`) / Detox |
 | Coverage | jest coverage |
 
 ## Dev & Build
@@ -81,8 +81,8 @@
 Always pin exact versions in `package.json`:
 ```json
 "dependencies": {
-  "react": "18.3.1",
-  "react-native": "0.76.0"
+  "react": "19.2.3",       // ✅ exact — theo Expo SDK 57
+  "react-native": "0.86.3"  // ✅ exact — theo Expo SDK 57
 }
 ```
 

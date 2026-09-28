@@ -254,6 +254,8 @@ Repo chưa cài tool / không có app code / không áp dụng → ghi `N/A` ho�
 | `skills/open-code-review/SKILL.md` | Reviewer, task code change | `ocr review`/`ocr delegate`; **CRITICAL** (XSS/SQLi/NPE/thread-safety) → FAIL, ≥3 MAJOR → FAIL. Chưa cài `ocr` → ghi chú, không chặn PASS |
 | `skills/ai-readable-codebase/SKILL.md` | Reviewer mọi phase + Builder khi viết mới | AI-chaos indicators **≥3 → FAIL**; code mới đổi luồng chính phải cập nhật `README.md`/`ARCHITECTURE.md` |
 | `skills/blitzstrike/SKILL.md` | Reviewer Phase 2 STRICT (optional) | pentest live trên môi trường được phép; chỉ finding **STRIKE-validated** mới tính FAIL; chưa cài/không môi trường → bỏ qua |
+| `skills/security/codex-security.md` | Reviewer, task nhạy cảm (auth/API/secrets, optional) | `npx @openai/codex-security scan <dir>` — CRITICAL **verified** → FAIL, ≥3 MAJOR → FAIL; chưa login/không network/không cài được → ghi `N/A` + lý do, không chặn PASS |
+| `skills/react-native/e2e-maestro.md` | Builder viết E2E + Reviewer task có flow UI | `maestro test .maestro/` trên emulator/simulator; flow fail → FAIL; không có device/môi trường → ghi `N/A`, không chặn PASS |
 
 > Trong bảng trên, gate nào trỏ skill không tồn tại trong repo (vd `ai-friendly-web`, `m3e-canvas`
 > — web-only, không port sang mobile) → ghi `N/A, skill không có trong template mobile`.
