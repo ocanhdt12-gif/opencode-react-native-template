@@ -1,9 +1,12 @@
 ---
-description: Brainstorm — đọc spec/code rồi (1) clear/làm rõ yêu cầu qua đối thoại + design doc (skill brainstorming) và (2) hỏi user nhập config dự án (git, package, verify commands, DB, models, deploy, monitoring) ghi .context/project-config.md. Chạy sau /spec-init hoặc chạy lại để update.
+description: Brainstorm — đọc spec/code rồi (1) clear/làm rõ yêu cầu qua đối thoại + design doc (skill brainstorming) và (2) hỏi user nhập config dự án (git, package, verify commands, DB, models, deploy, monitoring) ghi .context/project-config.md. Lệnh manual; trong /start được gọi tự động.
 ---
 
-Chạy **Brainstorm** cho repo hiện tại: đọc spec/code đã có → hỏi user **từng câu** để chốt
-thông tin dự án + cấu hình vận hành → ghi `.context/project-config.md` cho mọi workflow/agent đọc.
+Chạy **Brainstorm** cho repo hiện tại: đọc spec/code đã có → **clear/làm rõ yêu cầu (design doc)** + hỏi user
+**từng câu** để chốt thông tin dự án + cấu hình vận hành → ghi `.context/project-config.md` cho mọi agent đọc.
+
+> 🔁 **Lệnh MANUAL.** Trong `/start` (khởi tạo dự án) brainstorm được **gọi tự động** sau khi đọc spec.
+> Chạy tay `/brainstorm` khi cần chạy lại/update (vd đổi branch, thêm command, đổi model).
 
 `$ARGUMENTS` (tùy chọn: `<nhóm>` để chỉ sửa 1 nhóm — vd `git`, `models`; `--dry-run` chỉ in nháp, không ghi)
 

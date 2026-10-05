@@ -1,7 +1,8 @@
 # FEATURE_WORKFLOW.md — Workflow entry point (bug · feature · update)
 
 > Entry point cho **mọi request** trên project đã có code.
-> Luồng khởi đầu: `/spec-init` (đọc code → dựng spec) → loop thực thi task.
+> 🚀 **Start dự án** = `/start` (tự động): đọc spec (`/spec-init` nếu chưa có) → `/brainstorm` (clear yêu cầu + design doc + config) → `/graph` (chia layer/task) → loop. Mỗi bước có human checkpoint.
+> ⭐ **Sau khi build xong**, mọi thay đổi đi qua agent `change-request` (feature + bug).
 > Luật cứng/route nhanh → `AGENTS.md`. Giá trị project → `.context/project-config.md`.
 
 ## 0. Precedence

@@ -1,7 +1,9 @@
 # AGENTS.md — AI Workflow Router (entry point)
 
 > This is the **always-loaded entry point**. Read it before acting on any request.
-> Luồng công việc: **`/spec-init`** (đọc code → dựng spec) → **`/brainstorm`** (chốt config dự án, ghi `.context/project-config.md`) → **loop** (thực thi task) → **`/change`** (mọi thay đổi sau đó qua agent `change-request`).
+> 🚀 **Start dự án = `/start`** (TỰ ĐỘNG): **đọc spec** (`/spec-init` nếu chưa có) → **`/brainstorm`** (clear yêu cầu + design doc + config) → **`/graph`** (chia layer/task) → **loop**. Mỗi bước có human checkpoint (dừng chờ duyệt).
+> `/brainstorm` và `/graph` là lệnh **manual** — chạy tay khi cần chạy lại/update; trong `/start` chúng được gọi tự động.
+> ⭐ **Sau khi build xong, MỌI thay đổi đi qua MỘT agent: `change-request`** (feature mới + fix bug). Cửa vào: **`/change`** (đọc hết `spec/changes/*.md`), hoặc `/bug` / `/feature`. `/bug-check` chỉ soi read-only.
 > Workflow chi tiết: `.agent/FEATURE_WORKFLOW.md`. Giá trị project → `.context/project-config.md` (do `/brainstorm` ghi, không điền tay).
 >
 > ⭐ **Sau khi spec đã có, MỌI thay đổi đi qua MỘT agent: `change-request`** (feature mới + fix bug). Cửa vào: **`/change`** (đọc hết `spec/changes/*.md`), hoặc `/bug` / `/feature`. `/bug-check` chỉ soi read-only.
@@ -19,8 +21,10 @@
 | "soi/kiểm tra màn", "cảm giác nhiều lỗi nhưng không rõ" | **Bug discovery / sweep** → `/bug-check` — READ-ONLY, KHÔNG fix |
 | "thêm/sửa/bỏ/xóa tính năng", "change/update feature" | **Change Request (ADDITIVE/MODIFY/REMOVE)** → agent `change-request` · `/change` (hoặc `/feature`) |
 | thay đổi đã ghi sẵn trong `spec/changes/` | **`/change`** — đọc hết file pending → agent `change-request` |
+| "bắt đầu project", "start", "đưa repo vào pipeline", "khởi tạo dự án" | **Start** → `/start` — chuỗi TỰ ĐỘNG: đọc spec → brainstorm → graph (mỗi bước có checkpoint) |
 | "project cũ chưa có spec", "dựng spec từ code", thừa kế codebase | **Spec Init (reverse-engineer)** → `/spec-init` — đọc code → dựng spec + scope (chạy 1 lần đầu) |
-| "config dự án", "setup thông tin", "brainstorm", sửa branch/package/verify commands/DB/models/deploy | **Brainstorm** → `/brainstorm` — đọc spec/code → hỏi user từng câu → ghi `.context/project-config.md` |
+| "config dự án", "setup thông tin", "brainstorm", "clear yêu cầu", sửa branch/package/verify commands/DB/models/deploy | **Brainstorm** → `/brainstorm` — đọc spec/code → clear yêu cầu + design doc + ghi `.context/project-config.md` |
+| "chia task", "chia layer", "lập kế hoạch triển khai", "breakdown" | **Graph** → `/graph` — chia spec/design thành layer/task theo dependency + layer-plan diagram |
 | "implement feature" (spec/task đã có sẵn) | **Builder theo task** → `.opencode/agent/builder` |
 | "review", "check", "soát" (một diff/task cụ thể) | **Reviewer** → `.opencode/agent/reviewer` — KHÔNG tự sửa code |
 | "thêm skill", "add skill", "tạo skill", "register skill" | **Customize opencode** — tạo/cập nhật runtime skill đúng format (§Local skills) |
@@ -32,6 +36,8 @@ Không rõ intent → hỏi 1 câu ngắn để phân loại, đừng đoán.
 
 | Command | Dùng khi | Tính chất |
 |---|---|---|
+| `/start` | **Khởi tạo dự án (lần đầu)** | Chuỗi TỰ ĐỘNG: đọc spec (`/spec-init` nếu chưa có) → `/brainstorm` → `/graph`. Dừng ở human checkpoint mỗi bước. Sau khi build xong → dùng `/change` |
+| `/graph` | **Chia layer/task** cho initial build (thường tự động trong `/start`) | Đọc spec + design → sinh `tasks/<slug>/layer-{N}-task-{NN}.md` + layer-plan diagram + update `progress.json`. Chạy tay khi chạy lại/điều chỉnh kế hoạch |
 | `/change` | **Cửa vào chính cho thay đổi hậu-build** | Đọc hết `spec/changes/*.md` pending → gọi agent `change-request`. Không có file → báo "không có change chờ". |
 | `/bug-check` | Khu vực/màn mơ hồ, "cảm giác nhiều lỗi" | **READ-ONLY** — soi, liệt kê defect vào `tasks/bug-<slug>/scan.md`, **dừng chờ user chọn**. Không sửa, không commit. |
 | `/bug` | **Một bug đã biết** hoặc list bug đã xác nhận | Cửa vào → agent `change-request` (class BUG): root cause → task → builder → reviewer → **★ Spec Publisher (sinh test-scope/current.json)** → progress → commit-first |

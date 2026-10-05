@@ -2,7 +2,7 @@
 
 > A model-agnostic multi-agent template for **mobile repos that already have code** (bug/feature/update).
 
-> 📌 **Luồng làm việc:** `/brainstorm` (cấu hình) → **`/spec-init`** (đọc code → dựng spec, chạy 1 lần) → **loop** thực thi task → **`/change`** cho mọi thay đổi sau đó (agent `change-request`).
+> 📌 **Luồng làm việc:** `/start` (TỰ ĐỘNG): đọc spec (`/spec-init` nếu chưa có) → `/brainstorm` (clear yêu cầu + config) → `/graph` (chia layer/task) → **loop** → `/change` cho mọi thay đổi sau đó (agent `change-request`). `/brainstorm` + `/graph` là lệnh manual, tự động được gọi trong `/start`.
 >
 > ⭐ **Sau khi spec đã có, MỌI thay đổi (feature mới + fix bug) đi qua MỘT agent: `change-request`.**
 > Cửa vào: **`/change`** (đọc hết `spec/changes/*.md`) · `/bug` · `/feature`.
@@ -34,7 +34,7 @@
 
 ## Overview
 
-This template provides a **multi-agent workflow** for **mobile repos that already have code** (bug / feature / update). Bắt đầu bằng `/spec-init` (đọc code → spec) → loop thực thi task → `/change` cho mọi thay đổi sau đó (agent `change-request`). `AGENTS.md` routes every request; specialized subagents handle build, independent review, spec validation, and close-out.
+This template provides a **multi-agent workflow** for **mobile repos that already have code** (bug / feature / update). Bắt đầu bằng `/start` (tự động): đọc spec → brainstorm (clear yêu cầu + config) → graph (chia layer/task) → loop thực thi task → `/change` cho mọi thay đổi sau đó (agent `change-request`). `AGENTS.md` routes every request; specialized subagents handle build, independent review, spec validation, and close-out.
 
 **Key features:**
 - 🧭 **Intent router** — `AGENTS.md` classifies every request (bug / sweep / feature / review / research) before any code is touched
@@ -286,11 +286,17 @@ The template ships with 2 curated workflow skills (curated from well-known open-
 
 ## How It Works
 
+> 📌 **Start dự án:** `/start` (TỰ ĐỘNG) — đọc spec (`/spec-init` nếu chưa có) → `/brainstorm` (clear yêu cầu + design doc + config) → `/graph` (chia layer/task) → **loop**. Mỗi bước dừng ở human checkpoint. Sau khi build xong → `/change` cho mọi thay đổi.
+> `/brainstorm` và `/graph` là lệnh **manual** — chạy tay để chạy lại/update; trong `/start` chúng tự động được gọi.
+
 ### Pipeline
 
 ```
-/brainstorm (cấu hình)  →  /spec-init (đọc code → SPECIFICATIONS.md + spec/ + test-scope)   ← chạy 1 lần
-    │  spec-validator PASS
+🚀 /start  (tự động chuỗi khởi tạo)
+├─ 1. Đọc spec          → có rồi thì dùng; chưa có → /spec-init (đọc code → SPECIFICATIONS.md + spec/)
+├─ 2. /brainstorm       → clear yêu cầu (design doc docs/specs/) + config .context/project-config.md   ← DỪNG chờ approve design
+└─ 3. /graph            → chia layer/task (tasks/<slug>/layer-N-task-NN.md) + layer-plan diagram         ← DỪNG chờ duyệt plan
+    │
     ▼
 Loop Agent — execute từng task (ReAct)
 ├─ Builder code + test
@@ -303,7 +309,7 @@ Review Agent (different model)
 └─ PASS → close-out
     │
     ▼
-👀 Human Checkpoint → task/phase tiếp theo
+👀 Human Checkpoint → layer/phase tiếp theo (Layer N+1 chỉ unlock khi Layer N PASS + user approve)
 
 ────────── Sau đó: mọi thay đổi ──────────
 spec/changes/<file>.md → /change → agent change-request
@@ -352,13 +358,15 @@ spec/changes/<file>.md → /change → agent change-request
 # 1. Clone repo code thật + copy phần template workflow vào (hoặc dùng template này làm base)
 git clone <your-existing-repo> my-app && cd my-app
 
-# 2. Chạy /brainstorm  →  auto-detect stack, điền .context/project-config.md
-#    (target_branch, package_manager, verify commands, models theo vai)
+# 2. Chạy /start (chuỗi TỰ ĐỘNG): đọc spec → /brainstorm (clear yêu cầu + config) → /graph (chia layer/task)
+#    - /brainstorm: auto-detect stack → điền .context/project-config.md (target_branch, package_manager, verify commands, models theo vai)
+#    - /graph: chia layer/task + layer-plan diagram, dừng chờ anh duyệt plan
+#    (chạy tay /brainstorm hoặc /graph bất cứ lúc nào để chạy lại/update)
 
-# 3. Restart opencode (config không hot-reload) — bắt buộc sau /brainstorm
+# 3. Restart opencode (config không hot-reload) — bắt buộc sau khi sửa .opencode/
 
-# 4. Dựng spec (1 lần) rồi bắt đầu
-/spec-init                       # đọc code → SPECIFICATIONS.md + spec/ + test-scope
+# 4. Sau khi project build xong → dùng /change cho mọi thay đổi
+/spec-init                       # đọc code → SPECIFICATIONS.md + spec/ + test-scope (nếu chưa có spec)
 /bug-check "soi màn Settings"     # read-only sweep → list defect → anh chọn
 /change "thêm tính năng Y"         # ⭐ cửa vào chính cho mọi thay đổi (agent change-request)
 /resume                          # làm tiếp từ Run Journal (session mới)
