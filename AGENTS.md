@@ -1,12 +1,11 @@
 # AGENTS.md — AI Workflow Router (entry point)
 
 > This is the **always-loaded entry point**. Read it before acting on any request.
-> 🚀 **Start dự án = `/start`** (TỰ ĐỘNG): **đọc spec** (`/spec-init` nếu chưa có) → **`/brainstorm`** (clear yêu cầu + design doc + config) → **`/design`** (design spec + tokens) → **`/graph`** (chia layer/task) → **loop** (DevOps lo git/CI-CD/deploy). Mỗi bước có human checkpoint (dừng chờ duyệt).
-> `/brainstorm`, `/design`, `/graph` là lệnh **manual** — chạy tay khi cần chạy lại/update; trong `/start` chúng được gọi tự động.
+> 🚀 **Start dự án = `/start`** — chuỗi **chạy LIÊN TỤC, tự chuyển bước**: **đọc spec** (`/spec-init` nếu chưa có) → **brainstorm** (clear yêu cầu + design doc + config) → **design** (design spec + tokens) → **graph** (chia layer/task) → **loop** (DevOps lo git/CI-CD/deploy).
+> **Không cần gõ lại lệnh mỗi bước** — agent tự chạy tiếp; chỉ **DỪNG ở human checkpoint** (duyệt/confirm/duyệt plan) rồi chờ anh reply "ok".
 > ⭐ **Sau khi build xong, MỌI thay đổi đi qua MỘT agent: `change-request`** (feature mới + fix bug). Cửa vào: **`/change`** (đọc hết `spec/changes/*.md`), hoặc `/bug` / `/feature`. `/bug-check` chỉ soi read-only.
-> Workflow chi tiết: `.agent/FEATURE_WORKFLOW.md`. Giá trị project → `.context/project-config.md` (do `/brainstorm` ghi, không điền tay).
->
-> ⭐ **Sau khi spec đã có, MỌI thay đổi đi qua MỘT agent: `change-request`** (feature mới + fix bug). Cửa vào: **`/change`** (đọc hết `spec/changes/*.md`), hoặc `/bug` / `/feature`. `/bug-check` chỉ soi read-only.
+> Workflow chi tiết: `.agent/FEATURE_WORKFLOW.md`. Giá trị project → `.context/project-config.md` (do brainstorm ghi, không điền tay).
+> Lệnh con `/brainstorm`, `/design`, `/graph` là **manual override** (chạy tay khi muốn chạy lại/update 1 bước); trong `/start` chúng không bắt user gọi.
 
 ## Precedence
 
@@ -21,7 +20,7 @@
 | "soi/kiểm tra màn", "cảm giác nhiều lỗi nhưng không rõ" | **Bug discovery / sweep** → `/bug-check` — READ-ONLY, KHÔNG fix |
 | "thêm/sửa/bỏ/xóa tính năng", "change/update feature" | **Change Request (ADDITIVE/MODIFY/REMOVE)** → agent `change-request` · `/change` (hoặc `/feature`) |
 | thay đổi đã ghi sẵn trong `spec/changes/` | **`/change`** — đọc hết file pending → agent `change-request` |
-| "bắt đầu project", "start", "đưa repo vào pipeline", "khởi tạo dự án" | **Start** → `/start` — chuỗi TỰ ĐỘNG: đọc spec → brainstorm → graph (mỗi bước có checkpoint) |
+| "bắt đầu project", "start", "đưa repo vào pipeline", "khởi tạo dự án" | **Start** → `/start` — chuỗi chạy LIÊN TỤC: đọc spec → brainstorm → design → graph → loop (tự chuyển bước, chỉ dừng ở checkpoint) |
 | "project cũ chưa có spec", "dựng spec từ code", thừa kế codebase | **Spec Init (reverse-engineer)** → `/spec-init` — đọc code → dựng spec + scope (chạy 1 lần đầu) |
 | "config dự án", "setup thông tin", "brainstorm", "clear yêu cầu", sửa branch/package/verify commands/DB/models/deploy | **Brainstorm** → `/brainstorm` — đọc spec/code → clear yêu cầu + design doc + ghi `.context/project-config.md` |
 | "chia task", "chia layer", "lập kế hoạch triển khai", "breakdown" | **Graph** → `/graph` — chia spec/design thành layer/task theo dependency + layer-plan diagram |
@@ -37,9 +36,9 @@ Không rõ intent → hỏi 1 câu ngắn để phân loại, đừng đoán.
 
 | Command | Dùng khi | Tính chất |
 |---|---|---|
-| `/start` | **Khởi tạo dự án (lần đầu)** | Chuỗi TỰ ĐỘNG: đọc spec (`/spec-init` nếu chưa có) → `/brainstorm` → `/graph`. Dừng ở human checkpoint mỗi bước. Sau khi build xong → dùng `/change` |
-| `/graph` | **Chia layer/task** cho initial build (thường tự động trong `/start`) | Đọc spec + design → sinh `tasks/<slug>/layer-{N}-task-{NN}.md` + layer-plan diagram + update `progress.json`. Chạy tay khi chạy lại/điều chỉnh kế hoạch |
-| `/design` | **Design spec + tokens** cho project có UI (thường tự động trong `/start`) | Đọc spec + brainstorm → hỏi design reference → sinh design tokens + `.context/design-spec.md`. Confirm tokens với user trước khi `/graph` |
+| `/start` | **Khởi tạo dự án (lần đầu)** | Chuỗi chạy **LIÊN TỤC, tự chuyển bước**: đọc spec (`/spec-init` nếu chưa có) → brainstorm → design → graph → loop. Chỉ **DỪNG ở human checkpoint** (không bắt user gõ lại lệnh). Sau khi build xong → dùng `/change` |
+| `/graph` | **Chia layer/task** cho initial build (manual override — tự chạy trong `/start`) | Đọc spec + design → sinh `tasks/<slug>/layer-{N}-task-{NN}.md` + layer-plan diagram + update `progress.json`. Chạy tay khi chạy lại/điều chỉnh kế hoạch |
+| `/design` | **Design spec + tokens** cho project có UI (manual override — tự chạy trong `/start`) | Đọc spec + brainstorm → hỏi design reference → sinh design tokens + `.context/design-spec.md`. Confirm tokens với user trước khi chia layer |
 | `/change` | **Cửa vào chính cho thay đổi hậu-build** | Đọc hết `spec/changes/*.md` pending → gọi agent `change-request`. Không có file → báo "không có change chờ". |
 | `/bug-check` | Khu vực/màn mơ hồ, "cảm giác nhiều lỗi" | **READ-ONLY** — soi, liệt kê defect vào `tasks/bug-<slug>/scan.md`, **dừng chờ user chọn**. Không sửa, không commit. |
 | `/bug` | **Một bug đã biết** hoặc list bug đã xác nhận | Cửa vào → agent `change-request` (class BUG): root cause → task → builder → reviewer → **★ Spec Publisher (sinh test-scope/current.json)** → progress → commit-first |
