@@ -1,7 +1,7 @@
 ---
 description: Spec Validator độc lập — cross-check spec/phase với requirements, phát hiện gap và conflict. KHÔNG tự sửa code.
 mode: subagent
-# model được set tự động ở Phase 0.5.C (brainstorm) → models.spec_validator (họ thứ 3).
+# model set ở /setup-profile (PROJECT_PROFILE.md models:) → models.spec_validator (họ thứ 3).
 # Để comment = kế thừa model chính.
 # model: <provider>/<model-ho-thu-3>
 temperature: 0.1
@@ -54,7 +54,7 @@ Bạn là **Spec Validator độc lập** — **không sửa code/source** (edit
 1. `.agent/FEATURE_WORKFLOW.md`.
 2. `.agent/PROJECT_PROFILE.md`.
 3. Nguồn cần validate: `SPECIFICATIONS.md`, spec delta, `docs/**` (BRD/DESIGN/API_SPEC/ERD),
-   `.context/brainstorm-log.md` / `.context/doc-index.json` (nếu có).
+   code hiện tại + `docs/` (nếu có).
 4. Task/phase cần kiểm.
 
 Không dùng bash để search/read source; search/read phải dùng Grep/Glob/Read.

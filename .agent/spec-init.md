@@ -1,7 +1,7 @@
 # Spec Init — dựng spec cho project CŨ (code đã có, chưa có spec)
 
 > **Mục đích:** project đã chạy/thừa kế (legacy) chưa có `SPECIFICATIONS.md` → đọc code có sẵn, **dựng ngược** ra spec + versioning + scope bàn giao cho template TEST.
-> Khác `brainstorm.md` (hỏi user từ đầu) và `spec-publish.md` (sau bug/feature) — cái này là **bootstrap 1 lần cho code đã có**.
+> Khác `spec-publish.md` (sau bug/feature) — cái này là **bootstrap 1 lần cho code đã có**.
 
 ## Khi nào dùng
 - Nhận project cũ: code đã chạy nhưng không có spec/docs

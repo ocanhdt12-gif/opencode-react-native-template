@@ -1,6 +1,6 @@
 # spec/changes/ — Change requests (sau initial build)
 
-> **Sau khi project build xong lần đầu (greenfield), MỌI thay đổi đi qua đây.**
+> **Sau khi spec đã có (từ `/spec-init`), MỌI thay đổi đi qua đây.**
 > Feature mới (thêm/sửa/xoá) **và** fix bug đều là **change request** — một agent duy nhất xử lý: `change-request`.
 
 ## Cách dùng

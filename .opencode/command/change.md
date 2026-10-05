@@ -1,6 +1,6 @@
 # /change — Xử lý change request sau initial build (agent `change-request`)
 
-> Sau khi project build xong lần đầu (greenfield hoàn tất), **MỌI thay đổi — feature mới (thêm/sửa/xoá) + fix bug — đi qua MỘT agent duy nhất: `change-request`.**
+> **MỌI thay đổi — feature mới (thêm/sửa/xoá) + fix bug — đi qua MỘT agent duy nhất: `change-request`.**
 > `/change` là cửa vào: đọc hết file trong `spec/changes/` rồi gọi agent.
 
 ## Cách dùng

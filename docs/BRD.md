@@ -1,7 +1,7 @@
 # Business Requirements Document (BRD)
 
 > Fill in this template if your project has formal business requirements.
-> Agent will auto-detect and use this file during brainstorm.
+> Agent auto-detect và dùng file này khi dựng/validate spec.
 
 ---
 

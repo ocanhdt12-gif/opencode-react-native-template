@@ -1,11 +1,13 @@
 # Loop Agent — Task Execution (ReAct Pattern) (React Native)
-> ⚠️ **Maintenance mode override:** state dùng `features[]`/`bugs[]`; **KHÔNG** ghi/đọc `currentLayer` khi ở maintenance mode; **cấm push thẳng `forbidden_branch`** (mặc định `main`); branch/push model theo `.agent/FEATURE_WORKFLOW.md` §6 (default staging-direct). Workflow hiện hành: `.agent/FEATURE_WORKFLOW.md` + `AGENTS.md` (ưu tiên). Phần greenfield dưới đây chỉ dùng khi build từ đầu.
+
+> Engine thực thi từng task theo ReAct: Read → Plan → Act → Observe → Repeat.
+> Điều phối: `AGENTS.md` + `.agent/FEATURE_WORKFLOW.md`. State: `.context/progress.json` (`features[]`/`bugs[]`).
 
 ## Role
 Execute từng task theo ReAct cycle: Read → Plan → Act → Observe → Repeat.
 
 ## Trigger
-- Graph agent tạo xong tasks
+- `change-request` hoặc `/change` chia xong phase/task (feature/bug)
 - Hoặc resume từ `.context/progress.json`
 
 ## Pattern
@@ -85,8 +87,9 @@ Write the test first. Watch it fail. Write minimal code to pass.
    import json
    with open('.context/progress.json') as f:
        p = json.load(f)
-   print('Completed:', p['completedTasks'])
-   print('In progress:', p['inProgressTask'])
+   print('Active:', p.get('activeWorkItem'))
+   print('Features:', [x.get('slug') for x in p.get('features', [])])
+   print('Bugs:', [x.get('slug') for x in p.get('bugs', [])])
    "
    ```
 
@@ -96,8 +99,8 @@ Write the test first. Watch it fail. Write minimal code to pass.
    import json
    with open('.context/progress.json') as f:
        p = json.load(f)
-   p['completedTasks'].append('layer-N/task-NN')
-   p['inProgressTask'] = None
+   # schema: features[] / bugs[], activeWorkItem
+   p['activeWorkItem'] = None
    with open('.context/progress.json','w') as f:
        json.dump(p, f, indent=2)
    "

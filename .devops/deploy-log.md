@@ -1,6 +1,6 @@
 # Deploy Log
 
-> Written by `.agent/devops.md` on every deployment. One entry per deploy.
+> Written by the deploy workflow (CI/CD templates trong `.devops/`) on every deployment. One entry per deploy.
 
 ## Format
 

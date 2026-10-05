@@ -1,14 +1,15 @@
 # Tasks Directory
 
-## Hai chế độ
+> Task file format + rules. Workflow: `.agent/FEATURE_WORKFLOW.md` (qua agent `change-request`).
 
-| Mode | Đường dẫn | Dùng khi |
+## Đường dẫn
+
+| Loại | Đường dẫn | Dùng khi |
 |------|-----------|----------|
-| **Maintenance** (mặc định) | `tasks/feature-<slug>/phase-<N>-task-<NN>.md`<br>`tasks/bug-<slug>/phase-<N>-task-<NN>.md` | Bug / feature / update sau khi project đã tồn tại |
-| **Greenfield** (legacy) | `tasks/layer-<N>/task-<NN>.md` | Build từ đầu qua `AGENT.md` + `.agent/graph.md` |
+| **Feature** | `tasks/feature-<slug>/phase-<N>-task-<NN>.md` | Thêm/sửa/xoá tính năng |
+| **Bug** | `tasks/bug-<slug>/phase-<N>-task-<NN>.md` | Fix bug (scan.md cho `/bug-check`) |
 
-> Workflow maintenance: `.agent/FEATURE_WORKFLOW.md`. Phase model: 1 Schema/domain ·
-> 2 Backend/API · 3 UI · 4 Integration · 5 Test/UAT.
+> Phase model: 1 Schema/domain · 2 Backend/API · 3 UI · 4 Integration · 5 Test/UAT.
 
 ## Cấu trúc (maintenance)
 

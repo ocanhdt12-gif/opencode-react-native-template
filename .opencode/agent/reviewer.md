@@ -1,7 +1,7 @@
 ---
 description: Reviewer độc lập — tìm defect trong code/test của 1 task hoặc 1 phase. KHÔNG tự sửa code.
 mode: subagent
-# model được set tự động ở Phase 0.5.C (brainstorm) → models.reviewer (khác họ builder).
+# model set ở /setup-profile (PROJECT_PROFILE.md models:) → models.reviewer (khác họ builder).
 # Để comment = kế thừa model chính.
 # model: <provider>/<model-khac-ho>
 temperature: 0.1

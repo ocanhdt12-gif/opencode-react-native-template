@@ -1,17 +1,15 @@
 # AGENTS.md — AI Workflow Router (entry point)
 
 > This is the **always-loaded entry point**. Read it before acting on any request.
-> Detailed workflow: greenfield build → `AGENT.md`; maintenance (bug/feature/update) → `.agent/FEATURE_WORKFLOW.md`.
-> Project-specific values (branch, package manager, check commands) → `.agent/PROJECT_PROFILE.md`.
+> Luồng công việc: **`/spec-init`** (đọc code → dựng spec, chạy 1 lần đầu) → **loop** (thực thi task) → **`/change`** (mọi thay đổi sau đó qua agent `change-request`).
+> Workflow chi tiết: `.agent/FEATURE_WORKFLOW.md`. Giá trị project → `.agent/PROJECT_PROFILE.md`.
 >
-> ⭐ **Sau initial build, MỌI thay đổi đi qua MỘT agent: `change-request`** (feature mới + fix bug). Cửa vào: **`/change`** (đọc hết `spec/changes/*.md`), hoặc `/bug` / `/feature` (tương đương). `/bug-check` chỉ soi read-only.
+> ⭐ **Sau khi spec đã có, MỌI thay đổi đi qua MỘT agent: `change-request`** (feature mới + fix bug). Cửa vào: **`/change`** (đọc hết `spec/changes/*.md`), hoặc `/bug` / `/feature`. `/bug-check` chỉ soi read-only.
 
 ## Precedence
 
-`AGENTS.md` **always wins** over every file in `.agent/`. If a legacy workflow file
-(`.agent/blackboard.md`, `.agent/rollback.md`, `.agent/graph.md`, …) conflicts with this
-file or `.agent/FEATURE_WORKFLOW.md`, follow **this file**. Legacy files carry a
-`Maintenance mode override` note at the top — honor it.
+`AGENTS.md` **always wins** over every file in `.agent/`. Nếu `.agent/FEATURE_WORKFLOW.md` hoặc
+`.agent/PROJECT_PROFILE.md` mâu thuẫn với file này → theo **file này**.
 
 ## Router — classify intent BEFORE coding
 

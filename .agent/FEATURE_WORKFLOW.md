@@ -1,7 +1,7 @@
-# FEATURE_WORKFLOW.md — Maintenance entry point (bug · feature · update)
+# FEATURE_WORKFLOW.md — Workflow entry point (bug · feature · update)
 
-> Entry point cho **mọi request sau khi project đã tồn tại** (maintenance mode).
-> Greenfield build (từ BRIEF/spec tới deploy lần đầu) → `AGENT.md`.
+> Entry point cho **mọi request** trên project đã có code.
+> Luồng khởi đầu: `/spec-init` (đọc code → dựng spec) → loop thực thi task.
 > Luật cứng/route nhanh → `AGENTS.md`. Giá trị project → `.agent/PROJECT_PROFILE.md`.
 
 ## 0. Precedence
@@ -9,11 +9,9 @@
 1. `AGENTS.md` — luôn thắng.
 2. `.agent/FEATURE_WORKFLOW.md` (file này).
 3. `.agent/PROJECT_PROFILE.md` — giá trị cụ thể (branch, package manager, lệnh check, model).
-4. Các file `.agent/*.md` khác (greenfield) — chỉ đọc phần không bị override.
-   Mọi file legacy có dòng `Maintenance mode override:` ở đầu → phần bị override KHÔNG áp dụng.
+4. `.agent/loop.md` — engine thực thi task.
 
-> ⚠️ Nếu file legacy ghi `git push origin main --tags` hoặc ghi `currentLayer` vào state
-> → **bỏ qua**. Ở maintenance mode: cấm push thẳng `forbidden_branch`; state dùng `features[]`/`bugs[]`.
+> ⚠️ Ở maintenance mode: cấm push thẳng `forbidden_branch`; state dùng `features[]`/`bugs[]`.
 
 ---
 
@@ -322,7 +320,7 @@ Khi có work item, có thể mở rộng trong `features[]` / `bugs[]`:
 ```
 - Tối thiểu: `mode`, `activeWorkItem`, `features`, `bugs`. Có thể thêm `lastUpdated` nếu muốn.
 - Status semantics: `blocked` = chặn chung như thiếu info/môi trường; `architecture_review_needed` = đã fail ≥3 attempt, cần review kiến trúc/refactor trước khi sửa tiếp.
-- **KHÔNG** dùng field greenfield (`currentLayer`, `totalLayers`, `completedTasks`, `inProgressTask`, …)
+- State dùng `features[]`/`bugs[]` + `activeWorkItem`; không dùng field layer cũ (`currentLayer`, `totalLayers`, …)
   trong maintenance mode.
 - `activeWorkItem` = `{ type, slug }` của bug/feature đang làm, hoặc `null`.
 - Cập nhật progress.json là bước **bắt buộc** (§2.7, §3.9).

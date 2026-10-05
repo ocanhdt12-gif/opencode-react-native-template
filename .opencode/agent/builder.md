@@ -1,7 +1,7 @@
 ---
 description: Builder mặc định — implement code + test cho 1 task (feature hoặc bug). Không tự mở rộng scope.
 mode: subagent
-# model được set tự động ở Phase 0.5.C (brainstorm) → models.builder.
+# model set ở /setup-profile (PROJECT_PROFILE.md models:) → models.builder.
 # Để comment = kế thừa model chính (an toàn trước khi cấu hình).
 # model: <provider>/<model-code-chinh>
 temperature: 0.1

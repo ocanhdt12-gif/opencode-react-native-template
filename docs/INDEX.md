@@ -1,6 +1,6 @@
 # docs/ — Index
 
-> Brainstorm agent auto-scan và classify file trong `docs/`. File này phân loại rõ
+> `/spec-init` auto-scan và classify file trong `docs/`. File này phân loại rõ
 > **canonical** (dùng để validate) vs **historical** (tham khảo, không dùng để chặn).
 
 ## Canonical (source of truth — dùng để validate)
@@ -35,7 +35,7 @@ Nếu muốn bỏ auto-detect, điền:
 
 ## Không có docs?
 
-Để trống/điền tối thiểu — brainstorm sẽ hỏi đầy đủ requirements.
+Để trống/điền tối thiểu — `/spec-init` sẽ dựng spec từ code.
 
 ## Quy tắc
 

@@ -14,4 +14,4 @@
 
 ## Decisions
 
-_No decisions recorded yet. Decisions will be logged here during brainstorm and implementation phases._
+_No decisions recorded yet. Decisions logged here khi dựng spec và trong implementation._

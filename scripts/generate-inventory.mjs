@@ -105,7 +105,7 @@ function main() {
   lines.push("## Files");
   lines.push("");
   if (files.length === 0) {
-    lines.push("_Chưa có source files (greenfield). Chạy lại sau khi code._");
+    lines.push("_Chưa có source files. Chạy lại sau khi code._");
   } else {
     for (const [dir, list] of [...byDir.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
       lines.push(`### ${dir}`);

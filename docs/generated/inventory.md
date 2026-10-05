@@ -14,4 +14,4 @@
 
 ## Files
 
-_Chưa có source files (greenfield). Chạy lại sau khi code._
+_Chưa có source files. Chạy lại sau khi code._

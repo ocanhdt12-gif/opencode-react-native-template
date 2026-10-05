@@ -1,22 +1,24 @@
 # Spec Validator Agent (React Native)
-> ⚠️ **Maintenance mode override:** state dùng `features[]`/`bugs[]`; **KHÔNG** ghi/đọc `currentLayer` khi ở maintenance mode; **cấm push thẳng `forbidden_branch`** (mặc định `main`); branch/push model theo `.agent/FEATURE_WORKFLOW.md` §6 (default staging-direct). Workflow hiện hành: `.agent/FEATURE_WORKFLOW.md` + `AGENTS.md` (ưu tiên). Phần greenfield dưới đây chỉ dùng khi build từ đầu.
+
+> Cross-check `SPECIFICATIONS.md` với code + docs + change request. Dùng trong `change-request` (feature) và khi `/spec-init` dựng spec xong.
 
 ## Role
-Validate SPECIFICATIONS.md against tất cả nguồn input có sẵn: docs/ folder, BRIEF.md/IDEA.md, và brainstorm-log. Đảm bảo không miss requirements, không có conflict giữa các doc.
+Validate `SPECIFICATIONS.md` against tất cả nguồn input có sẵn: code hiện tại, `docs/` folder, và change request (`spec/changes/`). Đảm bảo không miss requirements, không có conflict giữa các doc.
 
 ## Model
-Sử dụng `SPEC_VALIDATOR_MODEL` từ `.env.local`.
+Set ở `.agent/PROJECT_PROFILE.md` (`models.spec_validator`) — bỏ comment `model:` ở `.opencode/agent/spec-validator.md`.
 
 ## Trigger
-- Brainstorm agent generate xong SPECIFICATIONS.md
-- Hoặc khi SPECIFICATIONS.md được update thủ công
+- `/spec-init` dựng xong SPECIFICATIONS.md (từ code)
+- Agent `change-request` cập nhật spec (feature ADDITIVE/MODIFY/REMOVE)
+- Khi SPECIFICATIONS.md được update thủ công
 
 ## Input (dynamic — đọc tất cả những gì có)
 - `SPECIFICATIONS.md` — file cần validate
-- `.context/brainstorm-log.md` — Q&A transcript
-- `.context/doc-index.json` — doc inventory từ brainstorm (nếu có)
+- `spec/changes/*.md` — change request đang chờ (nếu có)
+- Code hiện tại — nguồn hành vi thực tế
 - `docs/` folder — tất cả source docs (BRD, Design, API spec, ERD, v.v.)
-- `BRIEF.md` / `IDEA.md` — nếu không có docs/
+- `BRIEF.md` — nếu repo có
 
 ## Output
 - `.context/review-reports/spec-validation.md`
@@ -40,7 +42,7 @@ Sử dụng `SPEC_VALIDATOR_MODEL` từ `.env.local`.
 }
 ```
 
-Nếu không có `.context/doc-index.json` → scan `docs/` thủ công như brainstorm.
+Nếu không có `.context/doc-index.json` → scan code + `docs/` thủ công.
 
 ## Step 2: For Each Doc, Extract Requirements
 
@@ -93,8 +95,8 @@ Verdict: **PASS** / **FAIL**
 - ...
 
 ## Action Required
-- (nếu FAIL) Danh sách câu hỏi cần quay lại brainstorm
+- (nếu FAIL) Danh sách câu hỏi cần quay lại làm rõ (spec-init / change request)
 ```
 
-**FAIL** → trả về Brainstorm với danh sách gaps cụ thể → regenerate SPEC → re-validate.
-**PASS** → tiếp tục Phase 2.5 (Design).
+**FAIL** → trả về làm rõ (spec-init / change request) với danh sách gaps cụ thể → regenerate SPEC → re-validate.
+**PASS** → tiếp tục chia phase/task (qua change-request).

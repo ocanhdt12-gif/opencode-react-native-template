@@ -1,7 +1,7 @@
 ---
 description: Builder cho task khó — CHỈ dùng khi user yêu cầu rõ (bị gate permission.task = ask). Không tự chọn theo độ khó.
 mode: subagent
-# model được set tự động ở Phase 0.5.C (brainstorm) → models.builder_strong.
+# model set ở /setup-profile (PROJECT_PROFILE.md models:) → models.builder_strong.
 # Để comment = kế thừa model chính. CHỈ gọi khi user yêu cầu rõ (xem opencode.jsonc).
 # model: <provider>/<model-manh-hon>
 temperature: 0.1

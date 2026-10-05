@@ -117,7 +117,7 @@ Bảng độ phủ do **template TEST tự lưu** (trong repo test, vd `.context
 
 | File | Ai ghi | Khi nào |
 |---|---|---|
-| `SPECIFICATIONS.md` (version) | DEV (brainstorm/spec-validator) | mỗi lần đổi spec |
+| `SPECIFICATIONS.md` (version) | DEV (`/spec-init` / agent change-request) | mỗi lần đổi spec |
 | `spec/updates/*` + `CHANGELOG` | DEV | mỗi lần đổi spec |
 | `spec/test-scope/current.json` | **DEV** | sau mỗi bug-fix / feature-update |
 | `.context/coverage.json` (repo TEST) | **TEST** | sau mỗi lần chạy test (board độ phủ của test) |

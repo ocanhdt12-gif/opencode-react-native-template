@@ -1,8 +1,7 @@
-# Change Request Agent — agent DUY NHẤT cho mọi thay đổi sau initial build
+# Change Request Agent — agent DUY NHẤT cho mọi thay đổi
 
-> ⚠️ **Maintenance mode override:** state dùng `features[]`/`bugs[]`; **KHÔNG** ghi/đọc `currentLayer` khi ở maintenance mode; **cấm push thẳng `forbidden_branch`** (mặc định `main`); branch/push model theo `.agent/FEATURE_WORKFLOW.md` §6 (default staging-direct). Workflow hiện hành: `.agent/FEATURE_WORKFLOW.md` + `AGENTS.md` (ưu tiên). Phần greenfield dưới đây chỉ dùng khi build từ đầu.
->
-> ⭐ **Sau khi project build xong lần đầu, MỌI thay đổi đi qua agent này** — feature mới (ADDITIVE/MODIFY/REMOVE) **và** fix bug (BUG). Không có agent/workflow thay thế khác cho hậu-build.
+> ⭐ **Sau khi spec đã có (từ `/spec-init`), MỌI thay đổi đi qua agent này** — feature mới (ADDITIVE/MODIFY/REMOVE) **và** fix bug (BUG). Không có agent/workflow thay thế khác.
+> State: `.context/progress.json` (`features[]`/`bugs[]`). Cấm push thẳng `forbidden_branch`.
 
 ## Role
 Đọc change request (từ `spec/changes/*.md` qua `/change`, hoặc mô tả trực tiếp qua `/bug`, `/feature`), **classify**, phân tích impact, cập nhật spec + sinh scope bàn giao test, chia phase/task, rồi chạy builder/reviewer/spec-validator tới khi PASS.
@@ -12,9 +11,9 @@ Dùng model `change_request` trong `.agent/PROJECT_PROFILE.md` (`models.change_r
 
 ## Trigger
 - `/change` — đọc hết file pending trong `spec/changes/`
-- `/bug <mô tả>` — fix bug đã biết (sau initial build)
-- `/feature <mô tả>` — thêm/sửa/xoá feature (sau initial build)
-- Bất cứ yêu cầu thay đổi nào sau khi đã có `SPECIFICATIONS.md` + build xong
+- `/bug <mô tả>` — fix bug đã biết
+- `/feature <mô tả>` — thêm/sửa/xoá feature
+- Bất cứ yêu cầu thay đổi nào sau khi đã có `SPECIFICATIONS.md`
 
 ---
 
@@ -24,7 +23,7 @@ Dùng model `change_request` trong `.agent/PROJECT_PROFILE.md` (`models.change_r
 |---|---|
 | `/change` | mọi `spec/changes/*.md` có `status: pending` (bỏ `_TEMPLATE.md`, bỏ `archive/`) |
 | `/bug`, `/feature` | mô tả trong `$ARGUMENTS` |
-| Luôn đọc | `SPECIFICATIONS.md`, `.context/progress.json`, `spec/CHANGELOG.md`, `.context/brainstorm-log.md` (nếu có) |
+| Luôn đọc | `SPECIFICATIONS.md`, `.context/progress.json`, `spec/CHANGELOG.md` |
 
 ---
 
