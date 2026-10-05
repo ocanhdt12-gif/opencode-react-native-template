@@ -10,7 +10,7 @@ order. Mỗi layer chứa các task có thể chạy — task trong cùng layer 
 
 ## Output
 - `tasks/<slug>/layer-{N}-task-{NN}.md` — task files (slug = tên work item, vd `build-myapp`)
-- `docs/diagrams/layer-plan.html` — workflow diagram dependency giữa các layer (archify)
+- `docs/diagrams/layer-plan.html` — workflow diagram dependency giữa các layer (archify, **best-effort** — bỏ qua nếu archify không chạy được)
 - `.context/progress.json` — cập nhật `totalLayers` / `currentLayer` / `completedTasks` / `inProgressTask`
 
 ---
@@ -111,7 +111,8 @@ build (initial) | feature | bug
 3. Tasks trong cùng layer KHÔNG có dependency lẫn nhau.
 4. Mỗi task phải có acceptance criteria rõ ràng, testable.
 5. Prefer small tasks (1-3 files) over large tasks.
-6. **Layer plan diagram (HUMAN CHECKPOINT):** sau khi sinh xong layer plan và trước khi user approve → **ĐỌC `skills/archify/SKILL.md`**, tạo 1 `workflow` diagram thể hiện dependency Layer 0 → 1 → 2… (kèm HUMAN CHECKPOINT giữa các layer), lưu `docs/diagrams/layer-plan.html`, mở cho user xác nhận.
+6. **Layer plan diagram (BEST-EFFORT — không được chặn bước graph):** sau khi sinh xong layer plan → nếu dùng được archify thì ĐỌC `skills/archify/SKILL.md`, tạo 1 `workflow` diagram (dependency Layer 0 → 1 → 2…, kèm HUMAN CHECKPOINT), lưu `docs/diagrams/layer-plan.html`.
+   ⚠️ **Diagram là optional.** Nếu archify chưa cài / cần `external_directory` (`~/.agents/skills/archify/*`) mà bị chặn / chạy lỗi → **ghi blocker rồi BỎ QUA**, KHÔNG dùng lệnh archify trong subagent, KHÔNG fail cả bước graph. Task file + layer plan vẫn phải được sinh. Nêu trong plan: "layer-plan diagram skipped (<lý do>)".
 7. Cập nhật `.context/progress.json` sau khi generate xong (initial build):
    ```json
    {

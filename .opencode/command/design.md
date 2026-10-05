@@ -12,7 +12,7 @@ Chạy **Design** cho repo hiện tại. Thực thi `.agent/design.md`:
 3. Hỏi user design reference: ảnh / Figma link / tự design — **hỏi một câu một lúc**.
 4. Sinh/ cập nhật `skills/<stack>/design-tokens.md` (colors, typography, spacing, radius, shadows).
 5. Sinh `.context/design-spec.md` (mỗi screen: layout, components, states loading/empty/error, interactions).
-6. Có kiến trúc/flow đáng vẽ → `skills/archify/SKILL.md` → `docs/diagrams/`.
+6. (best-effort) Có kiến trúc/flow đáng vẽ → `skills/archify/SKILL.md` → `docs/diagrams/`. archify chưa cài/bị chặn/lỗi → **ghi blocker rồi bỏ qua**, không fail bước design.
 7. **DỪNG confirm design tokens với user** trước khi sang `/graph`.
 
 ## Rule
