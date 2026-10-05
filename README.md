@@ -14,6 +14,7 @@
 
 ## 📋 Table of Contents
 
+- [Getting Started](#getting-started)
 - [Overview](#overview)
 - [Architecture](#architecture)
 - [Project Structure](#project-structure)
@@ -23,7 +24,6 @@
 - [⚙️ Workflow Skills Integration](#️-workflow-skills-integration)
 - [How It Works](#how-it-works)
 - [Agent Roles](#agent-roles)
-- [Getting Started](#getting-started)
 - [Smoke Test Without App Code](#smoke-test-without-app-code)
 - [Agent Models](#agent-models)
 - [Git & CI/CD](#git--cicd)
@@ -31,6 +31,40 @@
 - [License](#license)
 
 ---
+
+## Getting Started
+
+### Quickstart (repo already has code)
+
+```bash
+# 1. Clone your real repo + copy the template workflow into it (or use this template as the base)
+git clone <your-existing-repo> my-app && cd my-app
+
+# 2. Type ONCE: /start  → the chain runs continuously, auto-advancing: read spec → brainstorm (clarify requirements + config) → design (tokens) → graph (split layers/tasks) → loop
+#    - stops only at ⏸ checkpoints (approve design / confirm tokens / approve plan / after each layer)
+#    - NO need to re-type /brainstorm, /design, /graph for each step
+#    (run /brainstorm, /design or /graph by hand when you want to re-run/update one step)
+
+# 3. Restart opencode (config is not hot-reloaded) — required after editing .opencode/
+
+# 4. Once the project is built → use /change for all changes
+/spec-init                       # read code → SPECIFICATIONS.md + spec/ + test-scope (if no spec yet)
+/bug-check "sweep the Settings screen"   # read-only sweep → list defects → you choose
+/change "add feature Y"          # ⭐ main entry for all changes (agent change-request)
+/resume                          # continue from the Run Journal (new session)
+```
+
+### Resuming
+
+```
+Read AGENTS.md and resume the project
+# or:  /resume feature/<slug>   /resume bug/<slug>
+```
+
+The agent reads `.context/progress.json` + the Run Journal `.context/runs/<type>-<slug>-<phaseTask>.md` and continues from the last checkpoint.
+
+---
+
 
 ## Overview
 
@@ -372,39 +406,6 @@ spec/changes/<file>.md → /change → agent change-request
 | **Reviewer** | `.agent/reviewer.md` | Independent code review with a different model |
 | **Error Analyzer** | `.agent/error-analyzer.md` | Root cause analysis; builds error memory to prevent recurrence |
 | **Change Request** ⭐ | `.agent/change-request.md` | **The ONLY agent for all changes** (feature + bug) — reads `spec/changes/`, spec-publish + test-scope. Entry: `/change`, `/bug`, `/feature` |
-
----
-
-## Getting Started
-
-### Quickstart (repo already has code)
-
-```bash
-# 1. Clone your real repo + copy the template workflow into it (or use this template as the base)
-git clone <your-existing-repo> my-app && cd my-app
-
-# 2. Type ONCE: /start  → the chain runs continuously, auto-advancing: read spec → brainstorm (clarify requirements + config) → design (tokens) → graph (split layers/tasks) → loop
-#    - stops only at ⏸ checkpoints (approve design / confirm tokens / approve plan / after each layer)
-#    - NO need to re-type /brainstorm, /design, /graph for each step
-#    (run /brainstorm, /design or /graph by hand when you want to re-run/update one step)
-
-# 3. Restart opencode (config is not hot-reloaded) — required after editing .opencode/
-
-# 4. Once the project is built → use /change for all changes
-/spec-init                       # read code → SPECIFICATIONS.md + spec/ + test-scope (if no spec yet)
-/bug-check "sweep the Settings screen"   # read-only sweep → list defects → you choose
-/change "add feature Y"          # ⭐ main entry for all changes (agent change-request)
-/resume                          # continue from the Run Journal (new session)
-```
-
-### Resuming
-
-```
-Read AGENTS.md and resume the project
-# or:  /resume feature/<slug>   /resume bug/<slug>
-```
-
-The agent reads `.context/progress.json` + the Run Journal `.context/runs/<type>-<slug>-<phaseTask>.md` and continues from the last checkpoint.
 
 ---
 
