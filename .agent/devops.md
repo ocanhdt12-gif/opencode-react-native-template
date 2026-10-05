@@ -146,6 +146,16 @@ npx eas-cli submit --platform android --profile production
 | `APPLE_API_KEY` | iOS submit | App Store Connect API key |
 | `GOOGLE_SERVICE_ACCOUNT` | Android submit | Google service account JSON |
 
+## Phase 5: Deploy Templates
+
+Load hướng dẫn chi tiết theo platform từ `.devops/templates/`:
+- `.devops/templates/eas-preview.md` — build preview (internal)
+- `.devops/templates/eas-production.md` — build production
+- `.devops/templates/eas-expo.md` — EAS/Expo setup
+- `.devops/templates/github-actions-eas.md` — CI build qua GitHub Actions
+
+Environment config (dev/staging/production, promotion flow): `.devops/environments.md`.
+
 ## Delegated Repo Management
 
 Sau mỗi layer PASS, DevOps auto:

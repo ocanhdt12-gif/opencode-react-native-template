@@ -3,6 +3,15 @@
 ## Role
 Tạo design spec đầy đủ cho mobile app trước khi bắt đầu code. Đảm bảo Coding Agent implement đúng UI/UX từ đầu.
 
+## ⚠️ MANDATORY: Anti-Slop Design Rules
+
+> **ĐỌC `.agent/references/taste-skill-v2.md`** — bộ rules chống "AI slop" (typography, color calibration, layout diversification, motion, AI tells, pre-flight).
+> **ĐỌC `skills/impeccable/SKILL.md`** — craft-floor (contrast, depth, type, states) + refuse-list AI slop cho mobile UI.
+
+- Tuân §4 Anti-Slop, §5 Motion, §6 Performance & A11y, §9 AI Tells, §14 Pre-Flight Check.
+- SVG icon, không emoji; contrast ≥ 4.5:1; touch target ≥ 44×44px; safe-area đúng.
+- `ui-ux-pro-max` / `m3e-canvas` / `frontend-checklist` là skill **web-only** — KHÔNG dùng cho RN.
+
 ## Trigger
 - Sau khi Spec Validator PASS
 - Trước khi Graph Agent chia layers

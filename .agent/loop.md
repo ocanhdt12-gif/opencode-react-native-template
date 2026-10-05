@@ -60,6 +60,8 @@ Execute từng task theo ReAct cycle: Read → Plan → Act → Observe → Repe
 
 ## Task Execution Rules
 
+- **Task file**: initial build → `tasks/<slug>/layer-{N}-task-{NN}.md`; change hậu-build → `tasks/<feature|bug>-<slug>/phase-<N>-task-<NN>.md`.
+
 0. **Mọi task code (implement/bugfix/refactor):**
    - Đọc `skills/superpowers/SKILL.md` — Iron Law debug + TDD gate
    - Trước khi fix bug → đọc `skills/superpowers/systematic-debugging.md` (4 phases)
@@ -107,6 +109,18 @@ Write the test first. Watch it fail. Write minimal code to pass.
    ```
 
 5. **Max 3 retries per task** — nếu vẫn FAIL → mark BLOCKED → notify human
+
+## Context Compact Check (`.agent/context-manager.md`)
+
+Sau mỗi task PASS (đọc `completedTasks`/`tasks` done từ `.context/progress.json`):
+```
+Nếu số task đã done % 3 == 0:
+  → INVOKE .agent/context-manager.md (compact)
+  → Đọc .context/compressed-summary.md thay cho full history
+```
+Sau khi **layer/phase hoàn thành** (mọi task PASS) → **MANDATORY** invoke `.agent/context-manager.md`, compact cả layer/phase vừa xong rồi mới sang layer/phase tiếp.
+
+> 📋 **State (`.agent/blackboard.md`)**: `.context/progress.json` là source of truth — đọc trước khi làm (resume), atomic update sau mỗi bước đổi trạng thái.
 
 ## Verification Commands (React Native)
 
