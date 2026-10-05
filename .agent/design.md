@@ -13,8 +13,8 @@ Tạo design spec đầy đủ cho mobile app trước khi bắt đầu code. Đ
 - `ui-ux-pro-max` / `m3e-canvas` / `frontend-checklist` là skill **web-only** — KHÔNG dùng cho RN.
 
 ## Trigger
-- Sau khi Spec Validator PASS
-- Trước khi Graph Agent chia layers
+- **TỰ ĐỘNG** ở project start: brainstorm xong (design doc + config) → Design chạy → Graph chia layer.
+- **Manual:** `/design` khi chạy lại/đổi design (spec + tokens đã có vẫn chạy lại được).
 
 ## Input
 - `SPECIFICATIONS.md` — danh sách screens cần build

@@ -5,7 +5,7 @@
 order. Mỗi layer chứa các task có thể chạy — task trong cùng layer không phụ thuộc nhau.
 
 ## Trigger
-- **TỰ ĐỘNG** ở project start: brainstorm xong (design đã approve) → `spec-validator` PASS → Graph chạy.
+- **TỰ ĐỘNG** ở project start: brainstorm xong (design đã approve) → Design xong → Graph chạy (spec đã qua `spec-validator` ở bước đọc spec).
 - **Manual:** `/graph` khi `SPECIFICATIONS.md` + design doc đã sẵn sàng (chạy lại/điều chỉnh kế hoạch).
 
 ## Output

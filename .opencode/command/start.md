@@ -23,6 +23,8 @@ Chạy **Project Start** — chuỗi khởi tạo **chạy liên tục** cho rep
 1. ĐỌC SPEC
    ├─ Có SPECIFICATIONS.md rồi  → đọc + dùng luôn
    └─ Chưa có                    → chạy /spec-init (reverse-engineer từ code)
+   → gọi subagent `spec-validator` (.opencode/agent/spec-validator.md) cross-check spec vs code/docs
+   → PASS → tự chạy tiếp · FAIL → làm rõ rồi validate lại (max 2 vòng), KHÔNG sang bước 2
 
 2. BRAINSTORM   (tự chạy tiếp)
    → .agent/brainstorm.md: clear yêu cầu (skills/brainstorming) → design doc docs/specs/
@@ -41,10 +43,24 @@ Chạy **Project Start** — chuỗi khởi tạo **chạy liên tục** cho rep
    → ⏸ CHECKPOINT: duyệt layer plan        → reply "ok" → tự chạy tiếp
 
 5. LOOP         (tự chạy tiếp sau khi duyệt plan)
-   → .agent/loop.md thực thi layer 0 → ⏸ checkpoint → layer 1 → …
+   → .agent/loop.md thực thi từng task → gọi subagent `builder` (.opencode/agent/builder.md)
+     → PASS → gọi subagent `reviewer` (.opencode/agent/reviewer.md) review độc lập
+     → FAIL → gọi `error-analyzer` → fix → retry (max 3)
    → DevOps (.agent/devops.md) lo git init/CI-CD/deploy ở layer 0 + sau mỗi layer
-   → Layer N+1 chỉ unlock khi Layer N PASS + user approve (vẫn là checkpoint, không cần gõ lệnh)
+   → hết layer/phase → `spec-validator` cross-check; hết phase → context-manager compact
+   → ⏸ checkpoint sau mỗi layer → layer 1 → … (Layer N+1 chỉ unlock khi Layer N PASS + user approve)
 ```
+
+## Agent được gọi trong chuỗi
+
+| Bước | Subagent (`.opencode/agent/`) | Prompt-level (`.agent/`) | Skill |
+|---|---|---|---|
+| 1. Spec | `spec-init` → `spec-validator` | `spec-init.md`, `spec-validator.md` | `brainstorming`, `superpowers` |
+| 2. Brainstorm | — | `brainstorm.md` | `skills/brainstorming/SKILL.md` |
+| 3. Design | `design` | `design.md` | `impeccable`, `taste-skill-v2`, `ui-ux-pro-max` (web) |
+| 4. Graph | `graph` | `graph.md` | `archify` |
+| 5. Loop | `builder`, `reviewer` (+ `error-analyzer`) | `loop.md` | `superpowers`, `ponytail`, `security`, `monitoring` |
+| Deploy | — | `devops.md`, `rollback.md` | `ai-friendly-web` (web) |
 
 ## Ghi chú
 - `/start` = **một** cửa vào cho lần đầu dựng dự án; cả chuỗi tự chạy, user chỉ duyệt ở checkpoint.

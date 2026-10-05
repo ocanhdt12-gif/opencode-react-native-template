@@ -163,4 +163,7 @@
 
 ## After All Phases (Post Phase 3)
 1. (Chỉ khi dựng spec mới) generate `SPECIFICATIONS.md` từ spec/docs + brainstorm-log + clarifications.
-2. Trigger `.agent/spec-validator.md`; PASS → `.agent/loop.md`; FAIL → hỏi bổ sung → validate lại.
+2. `spec-validator` cross-check SPEC vs code/docs → PASS mới đi tiếp; FAIL → làm rõ rồi validate lại.
+3. Nếu project có UI → bàn giao `.agent/design.md` (design tokens + screen specs) → `.agent/graph.md` (chia layer/task).
+   Không có UI → bàn giao thẳng `.agent/graph.md`.
+4. Graph xong (user duyệt plan) → `.agent/loop.md` thực thi (builder → reviewer → …).

@@ -7,6 +7,7 @@
 Execute từng task theo ReAct cycle: Read → Plan → Act → Observe → Repeat.
 
 ## Trigger
+- **`/start`** (project start): sau khi `graph` sinh layer plan + user duyệt plan → loop chạy layer 0 → …. (Đây là đường vào chính của initial build.)
 - `change-request` hoặc `/change` chia xong phase/task (feature/bug)
 - Hoặc resume từ `.context/progress.json`
 
@@ -109,6 +110,7 @@ Write the test first. Watch it fail. Write minimal code to pass.
    ```
 
 5. **Max 3 retries per task** — nếu vẫn FAIL → mark BLOCKED → notify human
+6. **Sau khi PASS (tests/typecheck/lint pass):** gọi subagent `reviewer` (`.opencode/agent/reviewer.md`) review độc lập → PASS mới commit/đóng task; FAIL → quay lại builder (max 2 vòng), gọi `error-analyzer` khi fail lặp.
 
 ## Context Compact Check (`.agent/context-manager.md`)
 
