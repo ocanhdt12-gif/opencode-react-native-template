@@ -150,6 +150,7 @@ project-template/
 │       ├── production-monitoring.md ← Release health, alerting, secure logs
 │       └── eas-observe.md          ← EAS Observe: startup perf (TTI/launch) production cho Expo/EAS
 │   ├── superpowers/             ← 🧠 Debug Iron Law + TDD test-first (obra/superpowers)
+│   ├── brainstorming/           ← 💬 Clear yêu cầu → propose approaches → design doc trước khi code (nửa "clarify" của /brainstorm)
 │   ├── ponytail/                ← 🪶 Lazy senior dev ladder, chống over-engineering
 │   ├── impeccable/              ← 🎨 UI craft-floor + polish gate (pbakaus) — mobile UI
 │   ├── anti-slop/               ← 🧬 Oxlint rules chống low-evidence TS/JS (dmmulroy/anti-slop)
@@ -265,6 +266,7 @@ The template ships with 2 curated workflow skills (curated from well-known open-
 | Skill | Source | When used / Purpose |
 |-------|-------|---------------------|
 | `superpowers/` | obra/superpowers (270k⭐) | Every coding task — **Iron Law debug** (no fix without root cause) + **TDD test-first** |
+| `brainstorming/` | curated (in-house) | **Trước khi code** feature/thay đổi lớn — clear/clarify yêu cầu từng câu một, propose 2-3 approaches + trade-offs, present design, viết `docs/specs/*-design.md`, user approve trước khi implement (HARD-GATE). Nửa "clear yêu cầu" của `/brainstorm` |
 | `ponytail/` | DietrichGebert/ponytail (100k⭐) | Loop while implementing — **lazy senior dev ladder**, stop at the simplest solution, avoid over-engineering |
 | `aislop/` | scanaislop/aislop (curated, MIT) | Reviewer reviews **code changes** — deterministic AI-slop scan (narrative comments, swallowed errors, hidden fallbacks, `as any`, duplication, dead code, todo stubs), score 0-100 ≥80 gate, `fix --safe` mechanical, offline no API key |
 | `open-code-review/` | alibaba/open-code-review (curated, Apache-2.0) | Reviewer reviews **code changes** — hybrid deterministic + LLM code review, precise line-level comments, built-in ruleset (NPE, thread-safety, XSS, SQLi). Delegation mode = no API key needed; CRITICAL finding → FAIL |

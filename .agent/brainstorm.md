@@ -96,7 +96,11 @@
 
 ---
 
-## Phase 1: Requirements (CHỈ khi dựng spec mới)
+## Phase 1: Clear yêu cầu (skill `brainstorming` — chạy TRƯỚC khi code)
+
+> 📖 ĐỌC `skills/brainstorming/SKILL.md` và làm theo checklist của nó: explore context → scope assessment →
+> clarify từng câu một → propose 2-3 approaches + trade-offs → present design theo section → viết design doc
+> → tự review → user review gate → chuyển tasks. **HARD-GATE:** không code/scaffold cho tới khi user approve + design doc commit.
 
 **Chỉ hỏi những gì CHƯA có trong spec/docs đã scan.** Hỏi từng câu một.
 1. Stack: Web (React + Node) hay Mobile (React Native)?
@@ -116,12 +120,16 @@
 
 ---
 
-## Phase 2: Clarification Round
-Đọc lại toàn bộ spec/docs + answers → flag conflict (BRD có A nhưng Design/API không có) và ambiguity
-(requirement mơ hồ). Hỏi từng cái một để user clarify.
+## Phase 2: Clarification Round (scope + conflict + ambiguity)
+Đọc lại toàn bộ spec/docs + answers → **scope assessment** (nhiều subsystem độc lập → đề xuất chia nhỏ),
+**conflict detection** (BRD có A nhưng Design/API không có) và **ambiguity detection** (requirement mơ hồ
+→ hỏi threshold/edge case). Hỏi từng cái một để user clarify.
 
-## Phase 3: Summary Confirmation
-Tóm tắt (từ spec/docs + brainstorm + clarifications) → hỏi user confirm **trước khi** generate/ghi.
+## Phase 3: Summary + Design Doc + Confirm
+1. Tóm tắt (từ spec/docs + brainstorm + clarifications) → hỏi user confirm.
+2. Nếu là **feature/thay đổi lớn** (không chỉ config): viết design doc theo `skills/brainstorming/SKILL.md`
+   → `docs/specs/YYYY-MM-DD-<topic>-design.md`; tự review (placeholder/consistency/scope/ambiguity) rồi commit.
+3. User review gate: chờ user approve design doc **trước khi** tạo tasks/chuyển sang loop.
 
 ---
 
