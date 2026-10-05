@@ -1,8 +1,8 @@
 # AGENTS.md — AI Workflow Router (entry point)
 
 > This is the **always-loaded entry point**. Read it before acting on any request.
-> 🚀 **Start dự án = `/start`** (TỰ ĐỘNG): **đọc spec** (`/spec-init` nếu chưa có) → **`/brainstorm`** (clear yêu cầu + design doc + config) → **`/graph`** (chia layer/task) → **loop**. Mỗi bước có human checkpoint (dừng chờ duyệt).
-> `/brainstorm` và `/graph` là lệnh **manual** — chạy tay khi cần chạy lại/update; trong `/start` chúng được gọi tự động.
+> 🚀 **Start dự án = `/start`** (TỰ ĐỘNG): **đọc spec** (`/spec-init` nếu chưa có) → **`/brainstorm`** (clear yêu cầu + design doc + config) → **`/design`** (design spec + tokens) → **`/graph`** (chia layer/task) → **loop** (DevOps lo git/CI-CD/deploy). Mỗi bước có human checkpoint (dừng chờ duyệt).
+> `/brainstorm`, `/design`, `/graph` là lệnh **manual** — chạy tay khi cần chạy lại/update; trong `/start` chúng được gọi tự động.
 > ⭐ **Sau khi build xong, MỌI thay đổi đi qua MỘT agent: `change-request`** (feature mới + fix bug). Cửa vào: **`/change`** (đọc hết `spec/changes/*.md`), hoặc `/bug` / `/feature`. `/bug-check` chỉ soi read-only.
 > Workflow chi tiết: `.agent/FEATURE_WORKFLOW.md`. Giá trị project → `.context/project-config.md` (do `/brainstorm` ghi, không điền tay).
 >
@@ -25,6 +25,7 @@
 | "project cũ chưa có spec", "dựng spec từ code", thừa kế codebase | **Spec Init (reverse-engineer)** → `/spec-init` — đọc code → dựng spec + scope (chạy 1 lần đầu) |
 | "config dự án", "setup thông tin", "brainstorm", "clear yêu cầu", sửa branch/package/verify commands/DB/models/deploy | **Brainstorm** → `/brainstorm` — đọc spec/code → clear yêu cầu + design doc + ghi `.context/project-config.md` |
 | "chia task", "chia layer", "lập kế hoạch triển khai", "breakdown" | **Graph** → `/graph` — chia spec/design thành layer/task theo dependency + layer-plan diagram |
+| "design", "thiết kế UI", "design tokens", "screen spec", "làm đẹp" | **Design** → `/design` — sinh design tokens + screen specs (`design-spec.md`) trước khi chia layer |
 | "implement feature" (spec/task đã có sẵn) | **Builder theo task** → `.opencode/agent/builder` |
 | "review", "check", "soát" (một diff/task cụ thể) | **Reviewer** → `.opencode/agent/reviewer` — KHÔNG tự sửa code |
 | "thêm skill", "add skill", "tạo skill", "register skill" | **Customize opencode** — tạo/cập nhật runtime skill đúng format (§Local skills) |
@@ -38,6 +39,7 @@ Không rõ intent → hỏi 1 câu ngắn để phân loại, đừng đoán.
 |---|---|---|
 | `/start` | **Khởi tạo dự án (lần đầu)** | Chuỗi TỰ ĐỘNG: đọc spec (`/spec-init` nếu chưa có) → `/brainstorm` → `/graph`. Dừng ở human checkpoint mỗi bước. Sau khi build xong → dùng `/change` |
 | `/graph` | **Chia layer/task** cho initial build (thường tự động trong `/start`) | Đọc spec + design → sinh `tasks/<slug>/layer-{N}-task-{NN}.md` + layer-plan diagram + update `progress.json`. Chạy tay khi chạy lại/điều chỉnh kế hoạch |
+| `/design` | **Design spec + tokens** cho project có UI (thường tự động trong `/start`) | Đọc spec + brainstorm → hỏi design reference → sinh design tokens + `.context/design-spec.md`. Confirm tokens với user trước khi `/graph` |
 | `/change` | **Cửa vào chính cho thay đổi hậu-build** | Đọc hết `spec/changes/*.md` pending → gọi agent `change-request`. Không có file → báo "không có change chờ". |
 | `/bug-check` | Khu vực/màn mơ hồ, "cảm giác nhiều lỗi" | **READ-ONLY** — soi, liệt kê defect vào `tasks/bug-<slug>/scan.md`, **dừng chờ user chọn**. Không sửa, không commit. |
 | `/bug` | **Một bug đã biết** hoặc list bug đã xác nhận | Cửa vào → agent `change-request` (class BUG): root cause → task → builder → reviewer → **★ Spec Publisher (sinh test-scope/current.json)** → progress → commit-first |
