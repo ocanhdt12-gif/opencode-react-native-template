@@ -34,27 +34,45 @@
 
 ## Getting Started
 
-### Quickstart (repo already has code)
+### New project
 
 ```bash
-# 1. Clone your real repo + copy the template workflow into it (or use this template as the base)
-git clone <your-existing-repo> my-app && cd my-app
+# 1. Copy the template into your project folder
+git clone <template-repo-url> my-app && cd my-app
 
-# 2. Type ONCE: /start  → the chain runs continuously, auto-advancing: read spec → brainstorm (clarify requirements + config) → design (tokens) → graph (split layers/tasks) → loop
-#    - stops only at ⏸ checkpoints (approve design / confirm tokens / approve plan / after each layer)
-#    - NO need to re-type /brainstorm, /design, /graph for each step
-#    (run /brainstorm, /design or /graph by hand when you want to re-run/update one step)
+# 2. Open opencode
+opencode
 
-# 3. Restart opencode (config is not hot-reloaded) — required after editing .opencode/
+# 3. (Recommended) Set per-role models:
+#    edit .context/project-config.md → models:, then uncomment the `model:` line in .opencode/agent/*.md
 
-# 4. Once the project is built → use /change for all changes
-/spec-init                       # read code → SPECIFICATIONS.md + spec/ + test-scope (if no spec yet)
-/bug-check "sweep the Settings screen"   # read-only sweep → list defects → you choose
-/change "add feature Y"          # ⭐ main entry for all changes (agent change-request)
-/resume                          # continue from the Run Journal (new session)
+# 4. Start the project
+/start
 ```
 
-### Resuming
+`/start` runs the whole init chain and stops only at checkpoints:
+
+```
+read spec → brainstorm → design → graph → loop (build)
+```
+
+Type `/start` **once** — the chain advances on its own. Reply **"ok"** at each checkpoint to continue.
+Once the build is done, use **`/change`** for every change (new feature or bug fix).
+
+> ⚠️ After editing `.opencode/` or `opencode.jsonc`, restart opencode (config is not hot-reloaded).
+
+### Commands
+
+| Command | When to use |
+|---|---|
+| `/start` 🚀 | Start a project (once) — runs read spec → brainstorm → design → graph → loop |
+| `/change` ⭐ | Change something after the build (feature + bug) |
+| `/bug-check <area>` | Sweep an area read-only and list defects |
+| `/resume <type>/<slug>` | Continue an unfinished session |
+
+> Smoke test for the empty template → `docs/smoke-tests/MAINTENANCE_TEMPLATE_SMOKE.md`.
+
+### Resuming a session
 
 ```
 Read AGENTS.md and resume the project
@@ -62,9 +80,6 @@ Read AGENTS.md and resume the project
 ```
 
 The agent reads `.context/progress.json` + the Run Journal `.context/runs/<type>-<slug>-<phaseTask>.md` and continues from the last checkpoint.
-
----
-
 
 ## Overview
 
