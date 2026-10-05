@@ -3,9 +3,12 @@
 > A model-agnostic multi-agent template for **maintaining existing repos** (bug/feature/update)
 > with an optional greenfield pipeline for building from scratch.
 
-> 📌 **Default mode = maintenance (repo đã có code).** Dùng `/bug-check`, `/bug`, `/feature`
+> 📌 **Default mode = maintenance (repo đã có code).** Dùng `/change`, `/bug-check`, `/bug`, `/feature`
 > (xem mục **Getting Started → Quickstart (maintenance)**).
 > Greenfield (build từ đầu) là **legacy/optional** → `AGENT.md`.
+>
+> ⭐ **Sau initial build, MỌI thay đổi (feature mới + fix bug) đi qua MỘT agent: `change-request`.**
+> Cửa vào: **`/change`** (đọc hết `spec/changes/*.md`) · `/bug` · `/feature`.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Works with](https://img.shields.io/badge/Works%20with-Cursor%20%7C%20Opencode%20%7C%20Windsurf%20%7C%20Copilot-blue)](https://opencode.ai)
@@ -77,15 +80,28 @@ project-template/
 │   ├── agent/
 │   │   ├── builder.md            ← Default code+test (model code chính)
 │   │   ├── builder-strong.md     ← Hard task (opt-in only; gated)
+│   │   ├── change-request.md     ← ⭐ agent DUY NHẤT cho hậu-build (feature + bug)
+│   │   ├── spec-init.md          ← reverse-engineer spec cho project CŨ
+│   │   ├── spec-publisher.md     ← tự động phát hành spec + test-scope cho template test
 │   │   ├── reviewer.md           ← Independent review (edit: deny)
 │   │   └── spec-validator.md     ← Spec/phase cross-check (edit: deny)
 │   ├── command/
 │   │   ├── setup-profile.md      ← /setup-profile → onboarding repo thật (PROJECT_PROFILE)
+│   │   ├── change.md             ← /change → change request hậu-build (đọc spec/changes/ → agent change-request)
 │   │   ├── bug-check.md          ← /bug-check → read-only sweep, list defects
-│   │   ├── bug.md                ← /bug  → fix ONE known bug
-│   │   ├── feature.md            ← /feature → Change Request workflow
+│   │   ├── bug.md                ← /bug  → fix ONE known bug (→ agent change-request)
+│   │   ├── feature.md            ← /feature → Change Request workflow (→ agent change-request)
+│   │   ├── spec-init.md          ← /spec-init → reverse-engineer spec cho project CŨ
+│   │   ├── spec-publish.md       ← /spec-publish → phát hành spec cho template test
 │   │   └── resume.md             ← /resume → continue from Run Journal (cross-session)
 │   └── plugins/loop-guard.ts     ← Doom-loop guard + usage() gate
+│
+├── spec/                         ← Spec versioning + change requests
+│   ├── CHANGELOG.md              ← lịch sử version spec
+│   ├── updates/                  ← 1 file / lần update (spec delta)
+│   ├── archive/                  ← spec đóng băng theo release
+│   ├── changes/                  ← ⭐ change request hậu-build (pending → archive)
+│   └── test-scope/current.json   ← hợp đồng bàn giao cho template test
 │
 ├── docs/                         ← Drop your project docs here (optional)
 │   ├── INDEX.md                  ← Canonical vs historical classification
@@ -109,6 +125,8 @@ project-template/
 │   ├── references/               ← taste-skill-v2.md (anti-slop design reference)
 │   ├── brainstorm.md             ← Gather requirements (doc-aware)
 │   ├── spec-validator.md         ← Validate spec vs docs + brainstorm-log
+│   ├── spec-init.md              ← /spec-init: reverse-engineer spec cho project CŨ
+│   ├── spec-publish.md           ← /spec-publish: phát hành spec + test-scope
 │   ├── design.md                 ← Generate design tokens + screen specs
 │   ├── graph.md                  ← Break work into dependency layers
 │   ├── loop.md                   ← Execute tasks (ReAct pattern)
@@ -118,7 +136,7 @@ project-template/
 │   ├── context-manager.md        ← Context window management
 │   ├── rollback.md               ← Git checkpoint + recovery strategy
 │   ├── devops.md                 ← Git setup + EAS builds + store deploy
-│   └── change-request.md        ← Modify features after project is done
+│   └── change-request.md        ← ⭐ Agent DUY NHẤT cho mọi thay đổi hậu-build (feature + bug) — đọc spec/changes/
 │
 ├── skills/
 │   ├── react-native/
@@ -187,9 +205,10 @@ project-template/
 
 | Intent (user says…) | Route |
 |---|---|
-| "fix bug", "lỗi", "broken", crash (đã biết bug) | **`/bug`** — bug workflow (root cause → fix → review) |
+| "fix bug", "lỗi", "broken", crash (đã biết bug) | **`/change`** hoặc **`/bug`** — agent `change-request` (class BUG): root cause → fix → review |
 | "soi/kiểm tra màn", "cảm giác nhiều lỗi" | **`/bug-check`** — READ-ONLY sweep, liệt kê defect, dừng chờ duyệt |
-| "thêm/sửa/bỏ tính năng" | **`/feature`** — Change Request workflow (classify → spec delta → phase/task) |
+| "thêm/sửa/bỏ tính năng" | **`/change`** hoặc **`/feature`** — agent `change-request` (class ADDITIVE/MODIFY/REMOVE) |
+| thay đổi đã ghi trong `spec/changes/` | **`/change`** — đọc hết file pending → agent `change-request` |
 | "implement feature" (đã có spec/task) | subagent **builder** theo task file |
 | "review/check/soát" | subagent **reviewer** — KHÔNG tự sửa code |
 | hỏi / điều tra | research-only — không edit |
@@ -382,7 +401,9 @@ Done ✅ → Extract patterns → Update common-errors.md
 | **Context Manager** | `.agent/context-manager.md` | Summarizes and pins context to prevent amnesia in long sessions |
 | **Rollback** | `.agent/rollback.md` | Git commit strategy; reverts layer on failure |
 | **DevOps** | `.agent/devops.md` | Git init, EAS Build, store submission |
-| **Change Request** | `.agent/change-request.md` | Handles feature additions, modifications, or removals post-launch |
+| **Change Request** ⭐ | `.agent/change-request.md` | **Agent DUY NHẤT cho mọi thay đổi hậu-build** (feature + bug) — đọc `spec/changes/`, spec-publish + test-scope. Cửa vào: `/change`, `/bug`, `/feature` |
+| **Spec Init** | `.opencode/agent/spec-init.md` | Reverse-engineer spec cho project CŨ (chưa có spec) |
+| **Spec Publisher** | `.opencode/agent/spec-publisher.md` | Tự động bump spec + sinh `spec/test-scope/current.json` cho template test |
 
 ---
 
@@ -402,7 +423,8 @@ git clone <your-existing-repo> my-app && cd my-app
 # 4. Bắt đầu
 /bug-check "soi màn Settings"     # read-only sweep → list defect → anh chọn
 /bug "lỗi X cụ thể"               # fix 1 bug đã biết (root cause → fix → review)
-/feature "thêm tính năng Y"       # Change Request workflow
+/change "thêm tính năng Y"         # ⭐ cửa vào chính cho thay đổi hậu-build (agent change-request)
+/feature "thêm tính năng Y"       # tương đương /change (agent change-request)
 /resume                           # làm tiếp từ Run Journal (session mới)
 ```
 

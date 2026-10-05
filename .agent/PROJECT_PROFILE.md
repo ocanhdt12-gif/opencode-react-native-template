@@ -94,6 +94,7 @@ models:
   builder_strong: <provider>/<model-manh-hon>     # chỉ dùng khi user yêu cầu rõ (§7 gate)
   reviewer:       <provider>/<model-khac-ho>
   spec_validator: <provider>/<model-ho-thu-3>     # họ thứ 3 nếu có
+  change_request: <provider>/<model-plan>          # ⭐ agent hậu-build (classify/spec/task) — cửa vào /change
 ```
 
 ## UI rules (nếu project có UI)

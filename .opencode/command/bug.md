@@ -2,6 +2,8 @@
 description: Điều tra và sửa bug đã biết; list bug phải qua checkpoint trước khi gọi Builder.
 ---
 
+> ⭐ **Sau initial build, mọi fix bug đi qua agent `change-request` (class BUG).** `/bug` là cửa vào → nạp loop này vào agent `change-request` (xem `.agent/change-request.md`). `/change` là cửa vào tương đương cho change có sẵn trong `spec/changes/`.
+
 Chạy Bug workflow trong `AGENTS.md` và `.agent/FEATURE_WORKFLOW.md` (§2) cho bug:
 
 `$ARGUMENTS`

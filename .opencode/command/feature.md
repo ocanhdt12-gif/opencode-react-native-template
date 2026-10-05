@@ -2,6 +2,8 @@
 description: Thêm/sửa/bỏ tính năng theo Change Request workflow (classify → spec delta → phase/task → build/review/validate).
 ---
 
+> ⭐ **Sau initial build, mọi thay đổi feature đi qua agent `change-request` (class ADDITIVE/MODIFY/REMOVE).** `/feature` là cửa vào → nạp workflow này vào agent `change-request` (xem `.agent/change-request.md`). `/change` là cửa vào tương đương cho change có sẵn trong `spec/changes/`.
+
 Chạy Change Request workflow trong `AGENTS.md` và `.agent/FEATURE_WORKFLOW.md` (§3) cho:
 
 `$ARGUMENTS`

@@ -161,13 +161,32 @@ Submit → Done ✅
 > Anh confirm để em submit lên store (EAS Submit) không?"
 > **KHÔNG tự động submit production store.** Chờ user approve.
 
-## Post-Completion: Change Requests (`.agent/change-request.md`)
+## Post-Completion: Change Requests
 
-1. User yêu cầu thêm/sửa/bỏ feature
-2. Change Request Agent classifies: **ADDITIVE** / **MODIFY** / **REMOVE**
-3. Analyze impact on existing layers + tasks
-4. Update `SPECIFICATIONS.md` + changelog
-5. Re-trigger: Spec Validator → Graph → Loop → Review → DevOps
+> ⭐ **Sau khi project build xong lần đầu (greenfield hoàn tất), MỌI thay đổi đi qua MỘT agent duy nhất: `change-request`** — feature mới (ADDITIVE/MODIFY/REMOVE) **và** fix bug (BUG). Cửa vào: **`/change`** (đọc hết `spec/changes/*.md`) · `/bug` · `/feature`.
+> Greenfield pipeline **chỉ dùng để build lần đầu**.
+
+1. Ghi change request: tạo file `spec/changes/YYYY-MM-DD-<slug>.md` (copy `spec/changes/_TEMPLATE.md`) — hoặc mô tả trực tiếp qua `/change`.
+2. Chạy **`/change`** → agent `change-request` đọc hết file pending + phân tích.
+3. Classify: **ADDITIVE** / **MODIFY** / **REMOVE** / **BUG**.
+4. Analyze impact on existing layers + tasks.
+5. Update `SPECIFICATIONS.md` + changelog + **★ Spec Publisher tự động** (`spec/updates/` + `spec/test-scope/current.json`).
+6. Re-trigger: Spec Validator → Graph → Loop → Review → DevOps → **test-scope handoff** (bên test `/test-scope` chạy được).
+
+```
+User ghi spec/changes/<file>.md  →  /change
+    ↓
+Change Request Agent → classify (BUG/ADDITIVE/MODIFY/REMOVE) + impact
+    ↓
+Update SPECIFICATIONS.md + spec/updates/ + spec/CHANGELOG.md + spec/test-scope/current.json
+    ↓
+Spec Validator → Graph → Loop → Review → DevOps
+    ↓
+Đóng change file (status=done → spec/changes/archive/)
+```
+
+> 💡 **Trigger:** bất cứ khi nào cần thay đổi sau khi đã có `SPECIFICATIONS.md` + build xong.
+> Đọc full workflow tại `.agent/change-request.md`.
 
 ## Resume Protocol
 
