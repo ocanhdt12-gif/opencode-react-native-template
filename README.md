@@ -356,25 +356,22 @@ The template ships with curated workflow skills (curated from well-known open-so
 
 ```
 🚀 /start  (type once — the chain runs continuously, auto-advances, stops only at ⏸ checkpoints)
-├─ 1. Read spec         → use it if it exists; otherwise → /spec-init (read code → SPECIFICATIONS.md + spec/)
-├─ 2. Brainstorm        → clarify requirements (design doc docs/specs/) + config .context/project-config.md   ⏸ wait for design approval
-├─ 3. Design            → design tokens + screen specs (.context/design-spec.md)                               ⏸ confirm tokens
-└─ 4. Graph             → split into layers/tasks (tasks/<slug>/layer-N-task-NN.md) + layer-plan diagram       ⏸ approve plan
+├─ 1. Read spec    → use it if it exists; otherwise /spec-init; then spec-validator      ⏸ (validator must PASS)
+├─ 2. Brainstorm   → design doc docs/specs/ + config .context/project-config.md          ⏸ approve design
+├─ 3. Design       → design tokens + screen specs .context/design-spec.md                ⏸ confirm tokens
+└─ 4. Graph        → tasks/<slug>/layer-N-task-NN.md + layer-plan diagram                ⏸ approve plan
     │
     ▼  (auto-continues after you reply "ok")
 Loop Agent — execute each task (ReAct)
-├─ Builder code + test
-├─ Test FAIL → Error Analyzer → fix → retry
-└─ Test PASS → git commit (rollback point)
+├─ 5a Builder   code + test (TDD)
+├─ 5b Observe   tsc / lint / jest / expo build
+├─ 5c Error Analyzer → fix → retry (max 3)
+├─ 5d Reviewer  independent review (different model)
+└─ 5e Close-out doc reconcile → progress → commit
     │
     ▼
-Review Agent (different model)
-├─ FAIL → fix + log error memory
-└─ PASS → close-out
-    │
-    ▼
-⏸ Human Checkpoint → next layer/phase (Layer N+1 only unlocks when Layer N PASSes + you approve; NO command needed)
-   (DevOps agent: git init/CI-CD at layer 0, auto-push/CI checks after each layer, EAS build/store submit at the final layer)
+⏸ Human Checkpoint → next layer (Layer N+1 only unlocks when Layer N PASSes + you approve)
+   (DevOps agent: git init/CI-CD at layer 0, CI checks after each layer, EAS build/store submit at the final layer)
 
 ────────── Afterwards: all changes ──────────
 spec/changes/<file>.md → /change → agent change-request
@@ -383,6 +380,38 @@ spec/changes/<file>.md → /change → agent change-request
 ├─ loop(builder/reviewer) → spec-validator
 └─ progress + commit-first → change file archive
 ```
+
+### Step-by-step — which agent handles which step
+
+> Subagent = `.opencode/agent/*.md` (invoked via the `task` tool). Prompt-level = `.agent/*.md` (read and executed in the main session).
+
+| Step | What | Subagent | Prompt-level | Skill | Output | Gate |
+|---|---|---|---|---|---|---|
+| **0** | Session start / resume | — | `AGENTS.md`, `.agent/blackboard.md` | — | reads `progress.json` (`activeWorkItem`); if in-progress → `/resume` | — |
+| **1a** | Build spec from code (if none) | **`spec-init`** | `.agent/spec-init.md` | — | `SPECIFICATIONS.md` + `spec/` + `spec/test-scope/current.json` | read-only, once |
+| **1b** | Validate spec vs code/docs | **`spec-validator`** | `.agent/spec-validator.md` | — | report `.context/review-reports/spec-validation.md` | PASS → step 2 · FAIL → clarify, re-validate (max 2 rounds) |
+| **2** | Clarify requirements + set config | — | `.agent/brainstorm.md` | `brainstorming` | design doc `docs/specs/*.md` + `.context/project-config.md` (+ secrets → `.env.local`) | ⏸ **approve design** — HARD-GATE: no code before approval |
+| **3** | Design tokens + screen specs (if UI) | **`design`** | `.agent/design.md` | `impeccable`, `taste-skill-v2` | `skills/react-native/design-tokens.md` + `.context/design-spec.md` (+ archify diagram) | ⏸ **confirm tokens** |
+| **4** | Split into layers + tasks (dependency order) | **`graph`** | `.agent/graph.md` | `archify` | `tasks/<slug>/layer-{N}-task-{NN}.md` + `docs/diagrams/layer-plan.html` + `progress.json` | ⏸ **approve plan** |
+| **5a** | Implement one task (+ tests, TDD) | **`builder`** (hard: `builder-strong`, opt-in) | `.agent/loop.md` | `superpowers`, `ponytail`, `karpathy-guidelines`, `security`, `monitoring` | code + tests | — |
+| **5b** | Observe: tsc / lint / jest / expo build | — | `.agent/loop.md` | — | verify results (commands from `project-config`) | FAIL → 5c |
+| **5c** | Root cause + fix | (`error-analyzer`) | `.agent/error-analyzer.md` | `superpowers/systematic-debugging` | `.context/error-memory.md` | retry max 3 → `BLOCKED` |
+| **5d** | Independent review | **`reviewer`** | `.agent/reviewer.md` | `aislop`, `anti-slop`, `open-code-review`, `impeccable`, `react-native/e2e-maestro` | `.context/review-reports/<feature\|bug>-<slug>-phase-<N>-task-<NN>-round-<R>-review.md` | PASS → 5e · FAIL → back to 5a (max 2 rounds) |
+| **5e** | Close-out task | — | `.agent/loop.md`, `.agent/FEATURE_WORKFLOW.md` §5/§6 | — | Doc Impact/Reconcile → `progress.json` → **commit** (1 task = 1 commit) | — |
+| **5f** | Compact context | — | `.agent/context-manager.md` | — | `.context/compressed-summary.md` | every 3 tasks + end of layer |
+| **5g** | End of layer → phase review | **`spec-validator`** | `.agent/spec-validator.md` | — | phase report | ⏸ **checkpoint after each layer** — Layer N+1 unlocks only when Layer N PASSes + you approve |
+| **6** | Git init / EAS build / store deploy | — | `.agent/devops.md` (+ `.devops/templates/*`) | — | git repo, EAS profiles, build preview → store submit | ⏸ **approve production submit** |
+| **7** | Rollback on failure | — | `.agent/rollback.md` | — | tag `layer-N-done`, revert to checkpoint | notify human |
+
+**Runtime hand-off:** every subagent call writes the Run Journal **write-ahead** (`.context/runs/<type>-<slug>-<phaseTask>.md`), printing `▶ START` before / `✅ DONE` after (§ Session Handoff).
+
+### After the build — every change goes through one agent
+
+| Entry | Agent | Steps |
+|---|---|---|
+| `/change` · `/bug` · `/feature` | **`change-request`** (+ `.agent/change-request.md`) | classify BUG / ADDITIVE / MODIFY / REMOVE → spec delta → **`spec-publisher`** (bump `spec_version` + `spec/updates/` + `spec/test-scope/current.json`) → `spec-validator` → phase/task → `loop`(builder→reviewer) → `spec-validator` (phase close) → doc reconcile → progress → commit → archive change file |
+| `/bug-check` | — (read-only) | sweep the area, list defects into `tasks/bug-<slug>/scan.md`, **STOP for you to choose** — does NOT call builder |
+| `/spec-publish` | **`spec-publisher`** | publish spec + test-scope (usually automatic inside change-request; use manually when needed) |
 
 > 💡 **The test loop runs like the first time:** every change leaves behind `spec/test-scope/current.json` → the test template runs `/autotest --full` (first time) then `/test-scope`, `/regression`.
 

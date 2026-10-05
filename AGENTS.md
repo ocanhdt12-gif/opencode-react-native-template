@@ -51,6 +51,41 @@ Không rõ intent → hỏi 1 câu ngắn để phân loại, đừng đoán.
 
 ---
 
+## Workflow từng bước (initial build — `/start`)
+
+> `/start` chạy **liên tục, tự chuyển bước**; chỉ **DỪNG ở ⏸ checkpoint**. User reply "ok" để đi tiếp.
+> **Subagent** = `.opencode/agent/*.md` (gọi qua `task` tool). **Prompt-level** = `.agent/*.md` (đọc + thực thi trong session chính).
+
+| Bước | Việc | Ai xử lý (subagent) | Prompt-level | Skill | Output | Gate |
+|---|---|---|---|---|---|---|
+| **0** | Session start / resume | — | `AGENTS.md`, `.agent/blackboard.md` | — | đọc `progress.json` (`activeWorkItem`); đang dở → `/resume` | — |
+| **1a** | Dựng spec từ code (nếu chưa có) | **`spec-init`** | `.agent/spec-init.md` | — | `SPECIFICATIONS.md` + `spec/` + `spec/test-scope/current.json` | read-only, chạy 1 lần |
+| **1b** | Validate spec vs code/docs | **`spec-validator`** | `.agent/spec-validator.md` | — | report `.context/review-reports/spec-validation.md` | PASS → bước 2 · FAIL → làm rõ, validate lại (max 2 vòng) |
+| **2** | Clear yêu cầu + chốt config | — | `.agent/brainstorm.md` | `brainstorming` | design doc `docs/specs/*.md` + `.context/project-config.md` (+ secret → `.env.local`) | ⏸ **approve design** — HARD-GATE: chưa approve không code |
+| **3** | Design tokens + screen specs (nếu có UI) | **`design`** | `.agent/design.md` | `impeccable`, `taste-skill-v2` (RN) | `skills/react-native/design-tokens.md` + `.context/design-spec.md` (+ archify diagram) | ⏸ **confirm tokens** |
+| **4** | Chia layer + task (dependency order) | **`graph`** | `.agent/graph.md` | `archify` | `tasks/<slug>/layer-{N}-task-{NN}.md` + `docs/layer-plan.html` + `progress.json` (totalLayers/currentLayer) | ⏸ **duyệt plan** |
+| **5a** | Implement 1 task (+ test, TDD) | **`builder`** (task khó: `builder-strong`, opt-in) | `.agent/loop.md` | `superpowers`, `ponytail`, `karpathy-guidelines`, `security`, `monitoring` | code + test | — |
+| **5b** | Observe: tsc / lint / jest / expo build | — | `.agent/loop.md` | — | kết quả verify (cmd từ `project-config`) | FAIL → 5c |
+| **5c** | Root cause + fix | (`error-analyzer`) | `.agent/error-analyzer.md` | `superpowers/systematic-debugging` | `.context/error-memory.md` | retry max 3 → `BLOCKED` |
+| **5d** | Review độc lập | **`reviewer`** | `.agent/reviewer.md` | `aislop`, `anti-slop`, `open-code-review`, `impeccable`, `react-native/e2e-maestro` | `.context/review-reports/<feature\|bug>-<slug>-phase-<N>-task-<NN>-round-<R>-review.md` | PASS → 5e · FAIL → về 5a (max 2 vòng) |
+| **5e** | Close-out task | — | `.agent/loop.md`, `.agent/FEATURE_WORKFLOW.md` §5/§6 | — | Doc Impact/Reconcile → `progress.json` → **commit** (1 task = 1 commit) | — |
+| **5f** | Compact context | — | `.agent/context-manager.md` | — | `.context/compressed-summary.md` | mỗi 3 task + hết layer |
+| **5g** | Hết layer → review phase | **`spec-validator`** | `.agent/spec-validator.md` | — | phase report | ⏸ **checkpoint sau mỗi layer** — Layer N+1 chỉ unlock khi Layer N PASS + user duyệt |
+| **6** | Git init / EAS build / store deploy | — | `.agent/devops.md` (+ `.devops/templates/*`) | — | git repo, EAS profiles, build preview → store submit | ⏸ **approve production submit** |
+| **7** | Rollback khi fail | — | `.agent/rollback.md` | — | tag `layer-N-done`, revert về checkpoint | notify human |
+
+**Bàn giao runtime:** mỗi lần gọi subagent → ghi Run Journal **write-ahead** (`.context/runs/<type>-<slug>-<phaseTask>.md`), in `▶ START` trước / `✅ DONE` sau (§ Session Handoff).
+
+### Sau khi build xong — MỌI thay đổi qua 1 agent
+
+| Cửa vào | Agent | Các bước |
+|---|---|---|
+| `/change` · `/bug` · `/feature` | **`change-request`** (+ `.agent/change-request.md`) | classify BUG / ADDITIVE / MODIFY / REMOVE → spec delta → **`spec-publisher`** (bump `spec_version` + `spec/updates/` + `spec/test-scope/current.json`) → `spec-validator` → phase/task → `loop`(builder→reviewer) → `spec-validator` (hết phase) → doc reconcile → progress → commit → archive change file |
+| `/bug-check` | — (read-only) | soi khu vực, liệt kê defect vào `tasks/bug-<slug>/scan.md`, **DỪNG chờ user chọn** — KHÔNG gọi builder |
+| `/spec-publish` | **`spec-publisher`** | phát hành spec + test-scope (thường tự động trong change-request; dùng tay khi cần) |
+
+---
+
 ## Bug rules (bắt buộc)
 
 1. **Không sửa triệu chứng trước khi có root cause.** (Iron Law — `skills/superpowers/systematic-debugging.md`)
