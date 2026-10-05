@@ -140,7 +140,8 @@ project-template/
 │       ├── mobile-crash-performance.md ← Crash reporting + performance
 │       ├── otel-collector.md        ← Collector config (receivers/exporters)
 │       ├── otel-semantic-conventions.md ← OTel naming compliance
-│       └── production-monitoring.md ← Release health, alerting, secure logs
+│       ├── production-monitoring.md ← Release health, alerting, secure logs
+│       └── eas-observe.md          ← EAS Observe: startup perf (TTI/launch) production cho Expo/EAS
 │   ├── superpowers/             ← 🧠 Debug Iron Law + TDD test-first (obra/superpowers)
 │   ├── ponytail/                ← 🪶 Lazy senior dev ladder, chống over-engineering
 │   ├── impeccable/              ← 🎨 UI craft-floor + polish gate (pbakaus) — mobile UI
@@ -233,6 +234,7 @@ The template ships with built-in production monitoring (release health + runtime
 | `otel-collector.md` | Collector config (receivers/processors/exporters) |
 | `otel-semantic-conventions.md` | OTel naming compliance (span/attribute) |
 | `production-monitoring.md` | Release health, alerting, secure logs, offline batch |
+| `eas-observe.md` | EAS Observe — startup perf (TTI/TTR/launch/frame drops), per-route timings, CLI query (Expo/EAS) |
 
 ### Keys setup in Phase 0.5
 

@@ -87,3 +87,6 @@ Always pin exact versions in `package.json`:
 ```
 
 ⚠️ **Dùng `npx expo install` cho native modules** — tự chọn đúng version tương thích SDK. Không tự cài version bừa.
+
+## Theo dõi (chưa nâng)
+- **Expo SDK 58** (beta 15/09/2026, chưa stable): RN 0.88 RC, iOS 27, plugin `expo-device-hub`, nền tảng SwiftPM. **Chưa nâng stack** — khi stable (dự kiến cuối tháng 10) cập nhật bảng Core + `e2e-maestro.md` (EAS Observe giờ đã chạy trên SDK 57+).

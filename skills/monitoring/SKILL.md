@@ -10,7 +10,8 @@ Wrapper for monitoring and observability references in this folder. Read the rel
 ## References
 
 - `otel-instrumentation.md` — backend traces, metrics, and logs instrumentation.
-- `otel-browser.md` — browser RUM, Web Vitals, and frontend error telemetry.
+- `mobile-crash-performance.md` — crash reporting + JS/native errors + performance (RN).
 - `otel-collector.md` — OpenTelemetry Collector setup and pipeline guidance.
 - `otel-semantic-conventions.md` — span, metric, log, and attribute naming conventions.
 - `production-monitoring.md` — production monitoring, alerting, dashboards, and incident signals.
+- `eas-observe.md` — EAS Observe: startup performance production (TTI/launch/frame drops) + CLI query cho Expo/EAS.
