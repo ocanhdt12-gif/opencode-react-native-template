@@ -1,7 +1,7 @@
 # docs/generated/ — Auto-generated (không sửa tay)
 
 Sinh bởi `scripts/generate-inventory.mjs`, đọc từ code trong `source_roots`
-(`.agent/PROJECT_PROFILE.md`). Deterministic — chạy lại cho kết quả giống nhau (theo git HEAD).
+(`.context/project-config.md`). Deterministic — chạy lại cho kết quả giống nhau (theo git HEAD).
 
 ## Chạy
 

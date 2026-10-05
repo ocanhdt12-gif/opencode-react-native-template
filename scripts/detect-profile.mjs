@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Deterministic project profile detector.
-// Reads the repo tree (no mutation) and prints suggested values for .agent/PROJECT_PROFILE.md.
-// The /setup-profile command consumes this JSON and asks the user to confirm.
+// Reads the repo tree (no mutation) and prints suggested values for .context/project-config.md.
+// The /brainstorm command consumes this JSON and asks the user to confirm.
 //
 // Usage: node scripts/detect-profile.mjs
 //        node scripts/detect-profile.mjs --md   (human-readable)

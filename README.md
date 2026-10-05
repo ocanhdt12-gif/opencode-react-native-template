@@ -2,7 +2,7 @@
 
 > A model-agnostic multi-agent template for **mobile repos that already have code** (bug/feature/update).
 
-> 📌 **Luồng làm việc:** `/setup-profile` (cấu hình) → **`/spec-init`** (đọc code → dựng spec, chạy 1 lần) → **loop** thực thi task → **`/change`** cho mọi thay đổi sau đó (agent `change-request`).
+> 📌 **Luồng làm việc:** `/brainstorm` (cấu hình) → **`/spec-init`** (đọc code → dựng spec, chạy 1 lần) → **loop** thực thi task → **`/change`** cho mọi thay đổi sau đó (agent `change-request`).
 >
 > ⭐ **Sau khi spec đã có, MỌI thay đổi (feature mới + fix bug) đi qua MỘT agent: `change-request`.**
 > Cửa vào: **`/change`** (đọc hết `spec/changes/*.md`) · `/bug` · `/feature`.
@@ -82,7 +82,7 @@ project-template/
 │   │   ├── reviewer.md           ← Independent review (edit: deny)
 │   │   └── spec-validator.md     ← Spec/phase cross-check (edit: deny)
 │   ├── command/
-│   │   ├── setup-profile.md      ← /setup-profile → onboarding repo thật (PROJECT_PROFILE)
+│   │   ├── brainstorm.md      ← /brainstorm → onboarding repo thật (project-config)
 │   │   ├── change.md             ← /change → change request hậu-build (đọc spec/changes/ → agent change-request)
 │   │   ├── bug-check.md          ← /bug-check → read-only sweep, list defects
 │   │   ├── bug.md                ← /bug  → fix ONE known bug (→ agent change-request)
@@ -112,12 +112,12 @@ project-template/
 │
 ├── scripts/
 │   ├── generate-inventory.mjs         ← Deterministic inventory generator
-│   ├── detect-profile.mjs             ← Detect stack → gợi ý PROJECT_PROFILE (dùng bởi /setup-profile)
+│   ├── detect-profile.mjs             ← Detect stack → gợi ý project-config (dùng bởi /brainstorm)
 │   └── apply-verify-permissions.mjs   ← Sync allow rule verify command vào reviewer/spec-validator
 │
 ├── .agent/
 │   ├── FEATURE_WORKFLOW.md       ← ✅ Workflow entry (bug/feature/update)
-│   ├── PROJECT_PROFILE.md        ← ✅ Project values (branch, pm, checks, models)
+│   ├── project-config.md        ← ✅ Project values (branch, pm, checks, models)
 │   ├── references/               ← taste-skill-v2.md (anti-slop design reference)
 │   ├── spec-validator.md         ← Validate spec vs code/docs
 │   ├── spec-init.md              ← /spec-init: reverse-engineer spec cho project CŨ
@@ -246,7 +246,7 @@ The template ships with built-in production monitoring (release health + runtime
 
 ### Keys setup in Phase 0.5
 
-Monitor keys/tokens (OTLP endpoint, service name, Sentry DSN) lưu vào `.env.local` khi `/setup-profile`.
+Monitor keys/tokens (OTLP endpoint, service name, Sentry DSN) lưu vào `.env.local` khi `/brainstorm`.
 
 ### 3 Mandatory Checkpoints
 
@@ -287,7 +287,7 @@ The template ships with 2 curated workflow skills (curated from well-known open-
 ### Pipeline
 
 ```
-/setup-profile (cấu hình)  →  /spec-init (đọc code → SPECIFICATIONS.md + spec/ + test-scope)   ← chạy 1 lần
+/brainstorm (cấu hình)  →  /spec-init (đọc code → SPECIFICATIONS.md + spec/ + test-scope)   ← chạy 1 lần
     │  spec-validator PASS
     ▼
 Loop Agent — execute từng task (ReAct)
@@ -350,10 +350,10 @@ spec/changes/<file>.md → /change → agent change-request
 # 1. Clone repo code thật + copy phần template workflow vào (hoặc dùng template này làm base)
 git clone <your-existing-repo> my-app && cd my-app
 
-# 2. Chạy /setup-profile  →  auto-detect stack, điền .agent/PROJECT_PROFILE.md
+# 2. Chạy /brainstorm  →  auto-detect stack, điền .context/project-config.md
 #    (target_branch, package_manager, verify commands, models theo vai)
 
-# 3. Restart opencode (config không hot-reload) — bắt buộc sau /setup-profile
+# 3. Restart opencode (config không hot-reload) — bắt buộc sau /brainstorm
 
 # 4. Dựng spec (1 lần) rồi bắt đầu
 /spec-init                       # đọc code → SPECIFICATIONS.md + spec/ + test-scope
@@ -412,7 +412,7 @@ Repo template (chưa có app code) vẫn test được workflow — `docs/smoke-
 ## Agent Models
 
 Models theo vai nằm trong **frontmatter** `.opencode/agent/*.md` (`builder`, `builder-strong`,
-`reviewer`, `spec-validator`) — khai ở `.agent/PROJECT_PROFILE.md` (`models:`) rồi **bỏ comment**
+`reviewer`, `spec-validator`) — khai ở `.context/project-config.md` (`models:`) rồi **bỏ comment**
 dòng `model:` và copy giá trị sang. Dùng **provider khác họ** giữa builder và reviewer để tránh bias.
 
 | Agent | File | Gợi ý |
@@ -431,7 +431,7 @@ dòng `model:` và copy giá trị sang. Dùng **provider khác họ** giữa bu
 
 ### Branch Strategy (maintenance)
 
-- **Default staging-direct**: làm việc trên `target_branch` (khai trong `.agent/PROJECT_PROFILE.md`), commit trực tiếp ở đó.
+- **Default staging-direct**: làm việc trên `target_branch` (khai trong `.context/project-config.md`), commit trực tiếp ở đó.
 - **Cấm push `forbidden_branch`** (mặc định `main`) — chặn cứng ở `opencode.jsonc` → `permission.bash`.
 - **Cấm `--force` / `-f`** — chặn cứng.
 - Feature branch (`feature/<slug>` / `bug/<slug>`) chỉ khi user yêu cầu rõ; PR chỉ mở khi user yêu cầu.

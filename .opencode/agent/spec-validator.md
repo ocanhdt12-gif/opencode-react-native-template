@@ -1,7 +1,7 @@
 ---
 description: Spec Validator độc lập — cross-check spec/phase với requirements, phát hiện gap và conflict. KHÔNG tự sửa code.
 mode: subagent
-# model set ở /setup-profile (PROJECT_PROFILE.md models:) → models.spec_validator (họ thứ 3).
+# model set ở /brainstorm (project-config.md models:) → models.spec_validator (họ thứ 3).
 # Để comment = kế thừa model chính.
 # model: <provider>/<model-ho-thu-3>
 temperature: 0.1
@@ -12,7 +12,7 @@ permission:
     ".context/review-reports/**": allow
   bash:
     "*": deny
-    # verify-commands:start — auto-generated từ .agent/PROJECT_PROFILE.md (scripts/apply-verify-permissions.mjs)
+    # verify-commands:start — auto-generated từ .context/project-config.md (scripts/apply-verify-permissions.mjs)
     # verify-commands:end
     "pnpm *typecheck*": allow
     "pnpm *lint*": allow
@@ -52,7 +52,7 @@ Bạn là **Spec Validator độc lập** — **không sửa code/source** (edit
 
 Đọc theo thứ tự:
 1. `.agent/FEATURE_WORKFLOW.md`.
-2. `.agent/PROJECT_PROFILE.md`.
+2. `.context/project-config.md`.
 3. Nguồn cần validate: `SPECIFICATIONS.md`, spec delta, `docs/**` (BRD/DESIGN/API_SPEC/ERD),
    code hiện tại + `docs/` (nếu có).
 4. Task/phase cần kiểm.

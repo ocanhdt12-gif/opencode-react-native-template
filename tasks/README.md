@@ -61,7 +61,7 @@ feature (<ADDITIVE|MODIFY|REMOVE>) | bug
 - [ ] ...
 
 ## Verification Plan
-- Commands: <from `.agent/PROJECT_PROFILE.md` or `skip, no app configured`>
+- Commands: <from `.context/project-config.md` or `skip, no app configured`>
 - Manual/UAT evidence: <if needed>
 - Reviewer report path: `.context/review-reports/<feature|bug>-<slug>-phase-<N>-task-<NN>-round-<R>-review.md`
 
@@ -98,7 +98,7 @@ feature (<ADDITIVE|MODIFY|REMOVE>) | bug
 ## DoD (Definition of Done)
 - [ ] Code written (chỉ trong scope)
 - [ ] Tests added + pass (bug: test tái hiện fail trước fix)
-- [ ] Check commands pass (theo `.agent/PROJECT_PROFILE.md`)
+- [ ] Check commands pass (theo `.context/project-config.md`)
 - [ ] Reviewer độc lập PASS (`.opencode/agent/reviewer.md`)
 - [ ] `.context/progress.json` updated
 - [ ] Error Memory updated for every failed attempt, or `n/a` recorded

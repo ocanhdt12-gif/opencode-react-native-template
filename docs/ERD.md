@@ -5,7 +5,7 @@
 
 ## Source of truth
 
-1. **Migration files** — versioned, đã commit (tool: `.agent/PROJECT_PROFILE.md` → `migrations.tool`).
+1. **Migration files** — versioned, đã commit (tool: `.context/project-config.md` → `migrations.tool`).
 2. **Schema file** — vd `prisma/schema.prisma` / `drizzle/schema.ts` / model files trong `source_roots`.
 3. **Generated inventory** — `docs/generated/` (chạy lại, không sửa tay).
 

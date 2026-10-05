@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Deterministic project inventory generator.
-// Reads source roots from .agent/PROJECT_PROFILE.md and writes docs/generated/inventory.md.
+// Reads source roots from .context/project-config.md and writes docs/generated/inventory.md.
 // No dependencies. Safe to run repeatedly; output depends only on the repo tree + git HEAD.
 //
 // Usage: node scripts/generate-inventory.mjs
@@ -11,7 +11,7 @@ import { execSync } from "node:child_process";
 import { join, relative, extname, sep } from "node:path";
 
 const ROOT = process.cwd();
-const PROFILE = join(ROOT, ".agent", "PROJECT_PROFILE.md");
+const PROFILE = join(ROOT, ".context", "project-config.md");
 const OUT_DIR = join(ROOT, "docs", "generated");
 const OUT_FILE = join(OUT_DIR, "inventory.md");
 

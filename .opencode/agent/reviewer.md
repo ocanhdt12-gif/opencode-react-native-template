@@ -1,7 +1,7 @@
 ---
 description: Reviewer độc lập — tìm defect trong code/test của 1 task hoặc 1 phase. KHÔNG tự sửa code.
 mode: subagent
-# model set ở /setup-profile (PROJECT_PROFILE.md models:) → models.reviewer (khác họ builder).
+# model set ở /brainstorm (project-config.md models:) → models.reviewer (khác họ builder).
 # Để comment = kế thừa model chính.
 # model: <provider>/<model-khac-ho>
 temperature: 0.1
@@ -12,7 +12,7 @@ permission:
     ".context/review-reports/**": allow
   bash:
     "*": deny
-    # verify-commands:start — auto-generated từ .agent/PROJECT_PROFILE.md (scripts/apply-verify-permissions.mjs)
+    # verify-commands:start — auto-generated từ .context/project-config.md (scripts/apply-verify-permissions.mjs)
     # verify-commands:end
     "aislop *": allow
     "npx aislop*": allow
@@ -58,7 +58,7 @@ Bạn là **Reviewer độc lập** — **chỉ tìm defect, KHÔNG sửa code/s
 
 Đọc theo thứ tự:
 1. `.agent/FEATURE_WORKFLOW.md` — luật/cổng chặn (chỉ đọc section liên quan).
-2. `.agent/PROJECT_PROFILE.md` — verify commands, UI rules, DB/tool config.
+2. `.context/project-config.md` — verify commands, UI rules, DB/tool config.
 3. Task file + diff/implementation của task hoặc cả phase.
 
 ## Review level — risk-based
@@ -109,7 +109,7 @@ Không dùng bash để search/read source; search/read phải dùng Grep/Glob/R
 
 ## Mobile UI Checklist Gate (MANDATORY khi diff đụng UI)
 
-**Điều kiện áp dụng:** chỉ chạy khi project có UI (`.agent/PROJECT_PROFILE.md` có block `ui:` hoặc repo có app code RN) **và**
+**Điều kiện áp dụng:** chỉ chạy khi project có UI (`.context/project-config.md` có block `ui:` hoặc repo có app code RN) **và**
 diff/phase đang review có đụng UI (screen/component/navigation/theme). Không đụng UI hoặc project không có UI → ghi `N/A`, bỏ qua gate.
 
 **Phạm vi:** chỉ đánh giá **thay đổi UI trong diff/phase đang review**, KHÔNG audit toàn repo.

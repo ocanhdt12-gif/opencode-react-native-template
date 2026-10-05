@@ -26,7 +26,7 @@
     "bash": {
       "*": "allow",
 
-      // --- Cấm push trần: automation phải dùng explicit target branch từ PROJECT_PROFILE ---
+      // --- Cấm push trần: automation phải dùng explicit target branch từ project-config ---
       "git push": "deny",
 
       // --- Cho phép push explicit target branch generic; deny hẹp bên dưới vẫn override ---
@@ -65,7 +65,7 @@
       "git reset --hard*": "deny",
       "git checkout --*": "deny",
 
-      // --- Cấm DB/migration destructive shortcuts; dùng migration versioned theo PROJECT_PROFILE ---
+      // --- Cấm DB/migration destructive shortcuts; dùng migration versioned theo project-config ---
       // Chỉ match command đặc trưng để không chặn nhầm commit message/prose.
       "*prisma db push*": "deny",
       "*drizzle-kit push*": "deny",
@@ -76,13 +76,13 @@
       "*db:reset*": "deny",
       "*db:seed*": "deny"
 
-      // Bare git push is denied. Automation must use explicit target branch from PROJECT_PROFILE:
+      // Bare git push is denied. Automation must use explicit target branch from project-config:
       // `git push origin <target_branch>`.
-      // PROJECT_PROFILE.forbidden_branch is not read automatically by opencode.jsonc;
+      // project-config.forbidden_branch is not read automatically by opencode.jsonc;
       // add a local deny rule for the real forbidden branch if it is not `main`.
 
       // --- Template generic: KHÔNG hardcode target_branch ở đây.
-      //     Nếu project muốn allow hẹp hơn, điền tên branch thật trong PROJECT_PROFILE rồi thêm rule local
+      //     Nếu project muốn allow hẹp hơn, điền tên branch thật trong project-config rồi thêm rule local
       //     đặt TRƯỚC các deny main/force để không vô tình mở lại force-push:
       // "git push -u origin <target_branch>*": "allow",
       // "git push origin <target_branch>*": "allow",

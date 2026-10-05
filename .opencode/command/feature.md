@@ -49,7 +49,7 @@ Quy tắc bắt buộc:
    (`git push origin <current-branch>`) và chỉ mở PR khi user yêu cầu rõ. Cấm push `forbidden_branch`, cấm `--force`/`-f`.
 13. Mỗi failed attempt phải append `.context/error-memory.md` hoặc ghi rõ vì sao không có entry.
 14. Nếu update làm đổi kiến trúc/ownership/scope boundary/API contract/mock-real boundary → append `.context/decisions.md`.
-15. Verify commands lấy từ `.agent/PROJECT_PROFILE.md`; nếu command chưa cấu hình hoặc chưa có app code → ghi `skip, no app configured`, không tự hardcode package manager/test command.
+15. Verify commands lấy từ `.context/project-config.md`; nếu command chưa cấu hình hoặc chưa có app code → ghi `skip, no app configured`, không tự hardcode package manager/test command.
 16. Trước khi báo xong/đóng task/phase phải chạy **Doc Impact & Reconcile** trong `AGENTS.md` + `.agent/FEATURE_WORKFLOW.md`:
     reconcile as-built docs nếu code đổi hoặc ghi rõ `no doc impact`. **Không** sửa intent docs để khớp code;
     code ≠ intent thì ghi gap register nếu có.

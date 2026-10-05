@@ -2,13 +2,13 @@
 
 > Entry point cho **mọi request** trên project đã có code.
 > Luồng khởi đầu: `/spec-init` (đọc code → dựng spec) → loop thực thi task.
-> Luật cứng/route nhanh → `AGENTS.md`. Giá trị project → `.agent/PROJECT_PROFILE.md`.
+> Luật cứng/route nhanh → `AGENTS.md`. Giá trị project → `.context/project-config.md`.
 
 ## 0. Precedence
 
 1. `AGENTS.md` — luôn thắng.
 2. `.agent/FEATURE_WORKFLOW.md` (file này).
-3. `.agent/PROJECT_PROFILE.md` — giá trị cụ thể (branch, package manager, lệnh check, model).
+3. `.context/project-config.md` — giá trị cụ thể (branch, package manager, lệnh check, model).
 4. `.agent/loop.md` — engine thực thi task.
 
 > ⚠️ Ở maintenance mode: cấm push thẳng `forbidden_branch`; state dùng `features[]`/`bugs[]`.
@@ -47,7 +47,7 @@ Triage → Reproduce → Root cause → Task → Builder → Reviewer PASS
 
 ### 2.2 Reproduce
 - Dựng lại đúng điều kiện. Nếu không reproduce được → ghi nhận, hỏi thêm, **không sửa mò**.
-- Chạy verify command thật từ `.agent/PROJECT_PROFILE.md` (`lint_command`, `typecheck_command`,
+- Chạy verify command thật từ `.context/project-config.md` (`lint_command`, `typecheck_command`,
   `test_command`, `build_command` — mobile dùng alias generic, không có split web/api).
 
 ### 2.3 Root cause (Iron Law)
@@ -126,7 +126,7 @@ Chỉ bỏ checkpoint nếu prompt có đúng một trong các cụm: `auto proc
   ```
 - Branch model: default **staging-direct** nghĩa là commit trên current branch khi current branch = `target_branch` và push bằng `git push origin <target_branch>`; nếu user yêu cầu feature branch thì commit/push chính current feature branch bằng `git push origin <current-branch>` và chỉ mở PR khi user yêu cầu rõ.
 - Tuyệt đối không push `forbidden_branch`; không `--force`/`-f` (đã chặn ở `opencode.jsonc`).
-- Push chỉ khi user yêu cầu rõ hoặc `auto_push_after_pass: true` trong `.agent/PROJECT_PROFILE.md`; Reviewer FAIL / progress chưa xong → **không** commit/push.
+- Push chỉ khi user yêu cầu rõ hoặc `auto_push_after_pass: true` trong `.context/project-config.md`; Reviewer FAIL / progress chưa xong → **không** commit/push.
 - Không hardcode tên branch — luôn đọc từ profile.
 
 ### 2.9 Nhánh "bug đã biết" = 1 bug
@@ -149,7 +149,7 @@ Quy tắc bắt buộc:
 - Phân loại trước khi soi: **SINGLE-SURFACE** (1 màn/luồng) hoặc **CROSS-CUTTING** (theme/dark mode,
   permission, i18n, tenant/campus, responsive, format tiền/ngày, a11y, loading/empty state).
 - CROSS-CUTTING: bắt buộc enumerate toàn bộ surface ứng viên theo `source_roots` trong
-  `.agent/PROJECT_PROFILE.md`; **CẤM sampling**. Surface RN gồm screen `**/screens/**/*.tsx`,
+  `.context/project-config.md`; **CẤM sampling**. Surface RN gồm screen `**/screens/**/*.tsx`,
   component dùng chung `**/components/**/*.tsx`, navigation `**/navigation/**/*.tsx`,
   theme/constants `**/theme/**`, `**/constants/**`.
 - CROSS-CUTTING dùng query count-based: đếm match theo từng file; `count=0` vẫn ghi coverage là đã soi;
@@ -346,7 +346,7 @@ Khi có work item, có thể mở rộng trong `features[]` / `bugs[]`:
 - **Commit-first close-out**: sau task/bug/phase PASS review + Doc Impact/Reconcile + progress xong,
   commit lên branch hiện tại theo §2.8. FAIL → không commit/push.
 - **Push**: mặc định không. Chỉ khi user yêu cầu rõ hoặc `auto_push_after_pass: true`
-  (`.agent/PROJECT_PROFILE.md`), theo branch model ở §2.8/§6.
+  (`.context/project-config.md`), theo branch model ở §2.8/§6.
 - **Commit hygiene**: trước commit phải `git status` + `git diff`; chỉ stage file thuộc task;
   không stage dirty cũ ngoài scope. Nếu shared file interleave nhiều scope khiến tách commit không an toàn,
   chỉ combined batch commit cho đúng epic đó và ghi rõ lý do.
@@ -433,7 +433,7 @@ Khi có work item, có thể mở rộng trong `features[]` / `bugs[]`:
   vượt ngưỡng thì hỏi user End/Làm tiếp (xem `AGENTS.md` § Session Handoff).
 
 ### Check commands
-Lấy từ `.agent/PROJECT_PROFILE.md` → các field `lint_command`, `typecheck_command`,
+Lấy từ `.context/project-config.md` → các field `lint_command`, `typecheck_command`,
 `test_command`, `build_command` (mobile dùng alias generic; field `web_*`/`api_*` để null). `check_commands` chỉ là alias tổng hợp
 từ các field trên nếu project đã điền.
 Ví dụ placeholder (thay bằng lệnh thật khi repo có app code):
@@ -464,7 +464,7 @@ không fail workflow và không tự hardcode lệnh.
 ## 7. Model mapping + luật opt-in
 
 ### Cách bật model mapping (bắt buộc khi clone template)
-1. Khai model từng vai ở `.agent/PROJECT_PROFILE.md` → block `models:`
+1. Khai model từng vai ở `.context/project-config.md` → block `models:`
    (`builder`, `builder_strong`, `reviewer`, `spec_validator`).
 2. **Bỏ comment** dòng `model:` trong frontmatter `.opencode/agent/*.md` (hiện đang comment
    `<provider>/<...>` để kế thừa).

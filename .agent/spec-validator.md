@@ -6,7 +6,7 @@
 Validate `SPECIFICATIONS.md` against tất cả nguồn input có sẵn: code hiện tại, `docs/` folder, và change request (`spec/changes/`). Đảm bảo không miss requirements, không có conflict giữa các doc.
 
 ## Model
-Set ở `.agent/PROJECT_PROFILE.md` (`models.spec_validator`) — bỏ comment `model:` ở `.opencode/agent/spec-validator.md`.
+Set ở `.context/project-config.md` (`models.spec_validator`) — bỏ comment `model:` ở `.opencode/agent/spec-validator.md`.
 
 ## Trigger
 - `/spec-init` dựng xong SPECIFICATIONS.md (từ code)

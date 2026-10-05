@@ -5,7 +5,7 @@
 
 ## Source of truth (theo thứ tự ưu tiên)
 
-1. **Code thật** — route/controller/validation trong `source_roots` (xem `.agent/PROJECT_PROFILE.md`).
+1. **Code thật** — route/controller/validation trong `source_roots` (xem `.context/project-config.md`).
 2. **Shared contract types** — `src/shared/types/api.ts` (client & server cùng import).
 3. **Generated inventory** — `docs/generated/` (tạo bằng `check_commands.docs_inventory`; chỉ chạy lại, không sửa tay).
 4. **OpenAPI/Swagger** (nếu có) — file do tooling sinh, không sửa tay.

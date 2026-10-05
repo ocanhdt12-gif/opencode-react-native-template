@@ -120,7 +120,7 @@ Expected:
 Expected:
 - Reviewer/spec-validator được ghi report vào `.context/review-reports/**`.
 - Reviewer/spec-validator vẫn bị deny khi edit source hoặc path ngoài `.context/review-reports/**`.
-- Reviewer/spec-validator verify commands phổ biến từ `.agent/PROJECT_PROFILE.md` không bị ask treo: `pnpm/npm/yarn/bun *typecheck*`, `*lint*`, `*test*`, `vitest`, `jest`, `pytest`, `ruff`, `go test`, `cargo test`.
+- Reviewer/spec-validator verify commands phổ biến từ `.context/project-config.md` không bị ask treo: `pnpm/npm/yarn/bun *typecheck*`, `*lint*`, `*test*`, `vitest`, `jest`, `pytest`, `ruff`, `go test`, `cargo test`.
 - Reviewer/spec-validator không dùng bash để search/read source; search/read dùng Grep/Glob/Read.
 
 ## G. Tool Loop Guard Smoke
@@ -135,7 +135,7 @@ Expected:
 ## H. Migration Safety Smoke
 
 Expected:
-- Nếu `.agent/PROJECT_PROFILE.md` có `db_tool: none` hoặc `migration_required: false` → migration gate skip.
+- Nếu `.context/project-config.md` có `db_tool: none` hoặc `migration_required: false` → migration gate skip.
 - Nếu `db_tool != none` và `migration_required: true` → migration phải versioned, không sửa migration đã apply.
 - Trước commit inspect migration artifact; destructive/high-risk op gắn `HIGH_RISK_MIGRATION` và không promote production.
 - Cấm `db push`, `migrate reset`, seed/reset, clone/sync data staging/prod.
@@ -165,13 +165,13 @@ Expected:
 - Pattern sinh ra là **exact** (không nối `*`) nên `cmd && lệnh phá hoại` không lọt theo.
 - `migration_command` không bao giờ được auto-allow.
 - Thiếu marker `# verify-commands:start/end` → script cảnh báo và exit code khác 0.
-- `/setup-profile` không ghi secret vào `.agent/PROJECT_PROFILE.md`; `staging_db`/`prod_db` chỉ là tên env var.
+- `/brainstorm` không ghi secret vào `.context/project-config.md`; `staging_db`/`prod_db` chỉ là tên env var.
 - `staging_db == prod_db` → dừng, báo `blocked`, không ghi profile.
 - Sau khi sync quyền/sửa `.opencode/*` → phải nhắc restart opencode.
 
 ## No-App Verify Rule
 
-Nếu repo chưa có app code/API/web/test hoặc `.agent/PROJECT_PROFILE.md` chưa cấu hình command,
+Nếu repo chưa có app code/API/web/test hoặc `.context/project-config.md` chưa cấu hình command,
 verify result phải ghi `skip, no app configured`; không tự hardcode package manager/test command.
 
 ## Restart Rule

@@ -1,7 +1,7 @@
 ---
 description: Builder cho task khó — CHỈ dùng khi user yêu cầu rõ (bị gate permission.task = ask). Không tự chọn theo độ khó.
 mode: subagent
-# model set ở /setup-profile (PROJECT_PROFILE.md models:) → models.builder_strong.
+# model set ở /brainstorm (project-config.md models:) → models.builder_strong.
 # Để comment = kế thừa model chính. CHỈ gọi khi user yêu cầu rõ (xem opencode.jsonc).
 # model: <provider>/<model-manh-hon>
 temperature: 0.1
@@ -34,7 +34,7 @@ Nếu bạn được gọi mà không có chỉ định của user → dừng v�
 
 Trước khi làm, đọc theo thứ tự:
 1. `.agent/FEATURE_WORKFLOW.md`
-2. `.agent/PROJECT_PROFILE.md`
+2. `.context/project-config.md`
 3. Task file được giao
 4. Conventions của repo theo profile: chỉ dùng `skills/react-native/*` nếu stack/profile khớp React Native/Expo.
    Chỉ áp dụng Prisma pattern nếu `db_tool: prisma`; chỉ dùng pnpm command nếu `package_manager: pnpm`.

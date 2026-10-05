@@ -21,7 +21,7 @@
 <!-- Auto-generated -->
 
 ## Scalability Profile
-<!-- Chỉ điền khi user bật Scalability Option ở /setup-profile. Nếu off/không có → để trống. -->
+<!-- Chỉ điền khi user bật Scalability Option ở /brainstorm. Nếu off/không có → để trống. -->
 
 ## Authentication
 <!-- Auto-generated -->

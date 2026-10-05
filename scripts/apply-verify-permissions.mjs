@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Sync reviewer/spec-validator bash allow-rules with the verify commands in .agent/PROJECT_PROFILE.md.
+// Sync reviewer/spec-validator bash allow-rules with the verify commands in .context/project-config.md.
 // Only edits the block between the `# verify-commands:start` / `# verify-commands:end` markers
 // inside .opencode/agent/reviewer.md and .opencode/agent/spec-validator.md. Idempotent.
 //
@@ -16,7 +16,7 @@ import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT = process.cwd();
-const PROFILE = join(ROOT, ".agent", "PROJECT_PROFILE.md");
+const PROFILE = join(ROOT, ".context", "project-config.md");
 const DRY_RUN = !process.argv.includes("--write");
 const START = "# verify-commands:start";
 const END = "# verify-commands:end";

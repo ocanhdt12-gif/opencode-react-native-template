@@ -1,7 +1,7 @@
 ---
 description: Builder mặc định — implement code + test cho 1 task (feature hoặc bug). Không tự mở rộng scope.
 mode: subagent
-# model set ở /setup-profile (PROJECT_PROFILE.md models:) → models.builder.
+# model set ở /brainstorm (project-config.md models:) → models.builder.
 # Để comment = kế thừa model chính (an toàn trước khi cấu hình).
 # model: <provider>/<model-code-chinh>
 temperature: 0.1
@@ -30,7 +30,7 @@ Bạn là **Builder** — kỹ sư implement đúng 1 task, không hơn.
 
 Trước khi làm bất cứ gì, đọc theo thứ tự:
 1. `.agent/FEATURE_WORKFLOW.md` — workflow maintenance (bug/feature), phase model, gates.
-2. `.agent/PROJECT_PROFILE.md` — branch, package manager, verify commands, stack/DB config, UI rules.
+2. `.context/project-config.md` — branch, package manager, verify commands, stack/DB config, UI rules.
 3. Task file được giao (`tasks/**/phase-*-task-*.md`) — scope, acceptance criteria, files.
 4. Conventions của repo theo profile: chỉ dùng `skills/react-native/*` nếu stack/profile khớp React Native/Expo.
    Chỉ áp dụng Prisma pattern nếu `db_tool: prisma`; chỉ dùng pnpm command nếu `package_manager: pnpm`.

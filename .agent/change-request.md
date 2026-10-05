@@ -7,7 +7,7 @@
 Đọc change request (từ `spec/changes/*.md` qua `/change`, hoặc mô tả trực tiếp qua `/bug`, `/feature`), **classify**, phân tích impact, cập nhật spec + sinh scope bàn giao test, chia phase/task, rồi chạy builder/reviewer/spec-validator tới khi PASS.
 
 ## Model
-Dùng model `change_request` trong `.agent/PROJECT_PROFILE.md` (`models.change_request`) — bỏ comment `model:` ở `.opencode/agent/change-request.md`. Fallback: model chính.
+Dùng model `change_request` trong `.context/project-config.md` (`models.change_request`) — bỏ comment `model:` ở `.opencode/agent/change-request.md`. Fallback: model chính.
 
 ## Trigger
 - `/change` — đọc hết file pending trong `spec/changes/`

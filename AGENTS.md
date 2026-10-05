@@ -1,15 +1,15 @@
 # AGENTS.md — AI Workflow Router (entry point)
 
 > This is the **always-loaded entry point**. Read it before acting on any request.
-> Luồng công việc: **`/spec-init`** (đọc code → dựng spec, chạy 1 lần đầu) → **loop** (thực thi task) → **`/change`** (mọi thay đổi sau đó qua agent `change-request`).
-> Workflow chi tiết: `.agent/FEATURE_WORKFLOW.md`. Giá trị project → `.agent/PROJECT_PROFILE.md`.
+> Luồng công việc: **`/spec-init`** (đọc code → dựng spec) → **`/brainstorm`** (chốt config dự án, ghi `.context/project-config.md`) → **loop** (thực thi task) → **`/change`** (mọi thay đổi sau đó qua agent `change-request`).
+> Workflow chi tiết: `.agent/FEATURE_WORKFLOW.md`. Giá trị project → `.context/project-config.md` (do `/brainstorm` ghi, không điền tay).
 >
 > ⭐ **Sau khi spec đã có, MỌI thay đổi đi qua MỘT agent: `change-request`** (feature mới + fix bug). Cửa vào: **`/change`** (đọc hết `spec/changes/*.md`), hoặc `/bug` / `/feature`. `/bug-check` chỉ soi read-only.
 
 ## Precedence
 
 `AGENTS.md` **always wins** over every file in `.agent/`. Nếu `.agent/FEATURE_WORKFLOW.md` hoặc
-`.agent/PROJECT_PROFILE.md` mâu thuẫn với file này → theo **file này**.
+`.context/project-config.md` mâu thuẫn với file này → theo **file này**.
 
 ## Router — classify intent BEFORE coding
 
@@ -19,6 +19,8 @@
 | "soi/kiểm tra màn", "cảm giác nhiều lỗi nhưng không rõ" | **Bug discovery / sweep** → `/bug-check` — READ-ONLY, KHÔNG fix |
 | "thêm/sửa/bỏ/xóa tính năng", "change/update feature" | **Change Request (ADDITIVE/MODIFY/REMOVE)** → agent `change-request` · `/change` (hoặc `/feature`) |
 | thay đổi đã ghi sẵn trong `spec/changes/` | **`/change`** — đọc hết file pending → agent `change-request` |
+| "project cũ chưa có spec", "dựng spec từ code", thừa kế codebase | **Spec Init (reverse-engineer)** → `/spec-init` — đọc code → dựng spec + scope (chạy 1 lần đầu) |
+| "config dự án", "setup thông tin", "brainstorm", sửa branch/package/verify commands/DB/models/deploy | **Brainstorm** → `/brainstorm` — đọc spec/code → hỏi user từng câu → ghi `.context/project-config.md` |
 | "implement feature" (spec/task đã có sẵn) | **Builder theo task** → `.opencode/agent/builder` |
 | "review", "check", "soát" (một diff/task cụ thể) | **Reviewer** → `.opencode/agent/reviewer` — KHÔNG tự sửa code |
 | "thêm skill", "add skill", "tạo skill", "register skill" | **Customize opencode** — tạo/cập nhật runtime skill đúng format (§Local skills) |
@@ -34,6 +36,8 @@ Không rõ intent → hỏi 1 câu ngắn để phân loại, đừng đoán.
 | `/bug-check` | Khu vực/màn mơ hồ, "cảm giác nhiều lỗi" | **READ-ONLY** — soi, liệt kê defect vào `tasks/bug-<slug>/scan.md`, **dừng chờ user chọn**. Không sửa, không commit. |
 | `/bug` | **Một bug đã biết** hoặc list bug đã xác nhận | Cửa vào → agent `change-request` (class BUG): root cause → task → builder → reviewer → **★ Spec Publisher (sinh test-scope/current.json)** → progress → commit-first |
 | `/feature` | Thêm/sửa/bỏ tính năng | Cửa vào → agent `change-request` (class ADDITIVE/MODIFY/REMOVE): spec delta → **★ Spec Publisher (bump version + spec/updates/ + test-scope/current.json)** → phase/task → builder/reviewer/spec-validator |
+| `/spec-init` | Project CŨ đã có code nhưng **chưa có spec** (legacy/thừa kế) | Reverse-engineer: scan code → dựng `SPECIFICATIONS.md` + `spec/` + `spec/test-scope/current.json` (risk `high`). Read-only, chạy 1 lần |
+| `/brainstorm` | **Chốt/sửa config dự án** sau `/spec-init` (vd branch, package manager, verify commands, DB, models, deploy). Chạy lại để update | Đọc spec/code + config hiện có → hỏi user theo nhóm → ghi `.context/project-config.md` + sync quyền verify command. `/brainstorm <nhóm>` chỉ sửa 1 nhóm. KHÔNG commit/push |
 | `/resume` | Mở session mới **làm tiếp** việc đang dở | Đọc Run Journal → reconcile đĩa → thực hiện `next`. **KHÔNG** classify/phase-plan lại (§ Session Handoff) |
 
 ---
@@ -110,11 +114,11 @@ Code ≠ intent → ghi gap vào gap register (nếu có, vd `docs/changes/TECHN
   cấm `--force` / `-f`. Gate cứng ở `opencode.jsonc` (`permission.bash`).
 - **KHÔNG commit/push khi Reviewer FAIL** hoặc khi progress chưa cập nhật.
 - **KHÔNG tự sửa source khi đang review** — reviewer/spec-validator chỉ được ghi report scoped.
-- **Check commands lấy từ `.agent/PROJECT_PROFILE.md`** — không hardcode `npm`.
+- **Check commands lấy từ `.context/project-config.md`** — không hardcode `npm`.
 - Nếu repo chưa có app code/API/web/test hoặc command chưa cấu hình → verify ghi `skip, no app configured`,
   không hardcode package manager/test command và không fail workflow vì thiếu app.
 - **Migration safety** chỉ áp dụng khi `db_tool != none` / `migration_required: true`
-  (`.agent/PROJECT_PROFILE.md`); `db_tool: none` → bỏ qua gate migration.
+  (`.context/project-config.md`); `db_tool: none` → bỏ qua gate migration.
 - Khi migration gate áp dụng: migration phải versioned + committed; không sửa migration đã apply.
   Trước commit inspect migration artifact; destructive/high-risk ops (`DROP`, đổi type, `SET NOT NULL`,
   `UNIQUE/FK` trên data cũ, enum phá hoại, bulk transform/backfill) → gắn `HIGH_RISK_MIGRATION`,

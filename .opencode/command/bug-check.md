@@ -23,7 +23,7 @@ Bạn là người **soi lỗi**, KHÔNG phải người sửa lỗi. Tuyệt đ
 
 ## Cách soi (chỉ đọc)
 
-- Đọc `.agent/PROJECT_PROFILE.md` trước để lấy `source_roots`; nếu `source_roots: []` hoặc placeholder
+- Đọc `.context/project-config.md` trước để lấy `source_roots`; nếu `source_roots: []` hoặc placeholder
   → ghi `skip, no app configured` / `[cần xác nhận]`, không tự hardcode path app.
 - Phân loại phạm vi trước khi soi:
   - **SINGLE-SURFACE**: 1 màn/luồng cụ thể.
@@ -38,7 +38,7 @@ Bạn là người **soi lỗi**, KHÔNG phải người sửa lỗi. Tuyệt đ
 - Chia batch 15–25 file/batch; append `scan.md` sau **mỗi batch**, không chờ cuối.
 - Không kết luận khi coverage chưa đủ. Chỉ dừng khi 100% surface đã enumerate hoặc liệt kê rõ `## Chưa soi`
   với lý do và `% đã soi`.
-- Đọc code + trace luồng; đối chiếu `docs/**`, `SPECIFICATIONS.md`, `.agent/PROJECT_PROFILE.md`.
+- Đọc code + trace luồng; đối chiếu `docs/**`, `SPECIFICATIONS.md`, `.context/project-config.md`.
 - Với mỗi nghi vấn: xác định **tái hiện** (điều kiện, bước), **expected vs actual**,
   **root cause kèm `file:line`** (nếu chưa chắc ghi `nghi ngờ` + lý do).
 - CRUD/capability: **KHÔNG đánh giá cấp module**. Mỗi API collection/mutation
@@ -46,7 +46,7 @@ Bạn là người **soi lỗi**, KHÔNG phải người sửa lỗi. Tuyệt đ
 - `Create UI = Có` chỉ khi đúng resource đó có nút/form; không suy từ resource khác cùng module.
 - API có `POST` nhưng FE chỉ list, không có nút/form/empty CTA → ghi DEFECT hoặc `[cần xác nhận]`.
 - Empty state không chỉ cách tạo data nguồn → ghi DATA_SETUP/UX_DEFECT.
-- Ưu tiên chạy check read-only để có bằng chứng (đọc `.agent/PROJECT_PROFILE.md` →
+- Ưu tiên chạy check read-only để có bằng chứng (đọc `.context/project-config.md` →
   `lint_command`, `typecheck_command`, `test_command`, `build_command` (mobile dùng alias generic,
   `test_command`; `check_commands` chỉ là alias tổng hợp nếu project đã điền).
   Không chạy lệnh ghi/xóa/mutate dữ liệu. Nếu project chưa có app code hoặc command chưa cấu hình

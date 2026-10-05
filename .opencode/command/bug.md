@@ -102,7 +102,7 @@ Quy tắc bắt buộc:
    hoặc repro status `FAIL/BLOCKED/unknown` thì không ghi done.
 11. Mỗi failed attempt phải append `.context/error-memory.md` hoặc ghi rõ vì sao không có entry.
 12. Nếu fix làm đổi kiến trúc/ownership/scope boundary/API contract/mock-real boundary → append `.context/decisions.md`.
-13. Verify commands lấy từ `.agent/PROJECT_PROFILE.md`; nếu command chưa cấu hình hoặc chưa có app code → ghi `skip, no app configured`, không tự hardcode package manager/test command.
+13. Verify commands lấy từ `.context/project-config.md`; nếu command chưa cấu hình hoặc chưa có app code → ghi `skip, no app configured`, không tự hardcode package manager/test command.
 14. Trước khi báo xong/đóng bug phải chạy **Doc Impact & Reconcile** trong `AGENTS.md` + `.agent/FEATURE_WORKFLOW.md`:
     reconcile as-built docs nếu code đổi hoặc ghi rõ `no doc impact`. **Không** sửa intent docs để khớp code;
     code ≠ intent thì ghi gap register nếu có.
