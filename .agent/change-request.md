@@ -97,11 +97,11 @@ Builder → Reviewer (loop tới PASS) → Doc Impact/Reconcile → Progress →
 
 ## Test-scope handoff (BẮT BUỘC — giữ test loop chạy như lần đầu)
 Mọi change (BUG/MODIFY/ADDITIVE/REMOVE) sau khi PASS **phải** để lại `spec/test-scope/current.json`:
-- `trigger: bug-fix | feature-update`, `workItem`, `specRefs`, `changed.files/modules`
+- `trigger: bug-fix | feature-update | initial-build`, `workItem`, `specRefs`, `changed.files/modules`
 - `impact.direct` / `impact.dependents` / `impact.regression`, `acceptance`, `risk`
 - `specVersion` (= version hiện tại của `SPECIFICATIONS.md`) + `scopeVersion` (tăng 1 mỗi lần sinh)
 
-Chi tiết §2.7b / §3.9b trong `.agent/FEATURE_WORKFLOW.md`. **Trạng thái "đã test đến đâu" do template test tự lưu** — DEV chỉ cấp spec + scope. → Template test chạy `/test-scope` / `/regression`; lần đầu vẫn là `/autotest --full`.
+Chi tiết §2.7b / §3.9b trong `.agent/FEATURE_WORKFLOW.md`. **Trạng thái "đã test đến đâu" do template test tự lưu** — DEV chỉ cấp spec + scope. → Template test chạy `/test-scope` / `/regression`; **lần test ĐẦU TIÊN của project (sau initial build) BẮT BUỘC `/autotest --full`** (characterization/contract toàn bộ R-xx), không thay bằng `/test-scope` khi chưa từng chạy full.
 
 ---
 

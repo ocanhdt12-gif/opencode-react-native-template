@@ -1,11 +1,12 @@
 # Spec Publisher — quy trình TỰ ĐỘNG phát hành spec cho template test
 
 > **Mục đích:** sau khi Change Request (bug/feature) xử lý xong → **tự động** bump version spec + ghi delta + sinh `spec/test-scope/current.json` để template TEST nắm được ngay feature/bug mới cần test gì.
-> **Bắt buộc:** chạy ở cuối MỌI bug-fix / feature-update (trước commit close-out). Không cần user nhắc.
+> **Bắt buộc:** chạy ở cuối MỌI bug-fix / feature-update **và initial build** (trước commit close-out). Không cần user nhắc.
 
 ## Khi nào chạy
 - **Sau** Change Request Agent xử lý ADDITIVE/MODIFY/REMOVE (feature) — cuối §3.6/§3.9b
 - **Sau** bug PASS review (bug workflow §2.7b)
+- **Lần đầu initial build xong** (sau layer cuối, mọi task PASS): spec-init đã tạo bản nháp `trigger: initial-build` → spec-publisher CẬP NHẬT theo phạm vi thật đã build (`scopeVersion` +1, `risk` theo kết quả verify).
 - Trigger tự động; đây là bước cuối trước commit close-out.
 
 ## 4 việc phải làm (theo thứ tự)

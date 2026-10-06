@@ -122,6 +122,17 @@ Nếu số task đã done % 3 == 0:
 ```
 Sau khi **layer/phase hoàn thành** (mọi task PASS) → **MANDATORY** invoke `.agent/context-manager.md`, compact cả layer/phase vừa xong rồi mới sang layer/phase tiếp.
 
+## Spec Publish — hết layer cuối (initial build) (`.agent/spec-publish.md`)
+Sau khi **layer CUỐI hoàn thành — initial build xong** (mọi task của mọi layer PASS):
+```
+- INVOKE `.agent/spec-publish.md` (spec-publisher):
+  - Cập nhật `spec/test-scope/current.json` theo phạm vi THẬT đã build:
+    `trigger: initial-build`, `scopeVersion` +1 (spec-init đã tạo bản nháp lúc khởi đầu),
+    `risk` hạ theo kết quả verify thật, `specRefs` = req đã implement.
+  - Thêm dòng `spec/CHANGELOG.md` nếu spec đổi trong lúc build.
+- Bàn giao cho template TEST trước commit close-out (commit chung với code).
+```
+
 > 📋 **State (`.agent/blackboard.md`)**: `.context/progress.json` là source of truth — đọc trước khi làm (resume), atomic update sau mỗi bước đổi trạng thái.
 
 ## Verification Commands (React Native)

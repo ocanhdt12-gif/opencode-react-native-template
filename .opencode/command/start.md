@@ -48,6 +48,8 @@ Chạy **Project Start** — chuỗi khởi tạo **chạy liên tục** cho rep
      → FAIL → gọi `error-analyzer` → fix → retry (max 3)
    → DevOps (.agent/devops.md) lo git init/CI-CD/deploy ở layer 0 + sau mỗi layer
    → hết layer/phase → `spec-validator` cross-check; hết phase → context-manager compact
+   → hết LAYER CUỐI (initial build) → `spec-publisher` (.agent/spec-publish.md): sinh/cập nhật
+     `spec/test-scope/current.json` (`trigger: initial-build`, scopeVersion +1) + `spec/CHANGELOG.md`
    → ⏸ checkpoint sau mỗi layer → layer 1 → … (Layer N+1 chỉ unlock khi Layer N PASS + user approve)
 ```
 
@@ -59,7 +61,7 @@ Chạy **Project Start** — chuỗi khởi tạo **chạy liên tục** cho rep
 | 2. Brainstorm | — | `brainstorm.md` | `skills/brainstorming/SKILL.md` |
 | 3. Design | `design` | `design.md` | `impeccable`, `taste-skill-v2`, `ui-ux-pro-max` (web) |
 | 4. Graph | `graph` | `graph.md` | `archify` |
-| 5. Loop | `builder`, `reviewer` (+ `error-analyzer`) | `loop.md` | `superpowers`, `ponytail`, `security`, `monitoring` |
+| 5. Loop | `builder`, `reviewer` (+ `error-analyzer`; cuối layer cuối: `spec-publisher`) | `loop.md`, `spec-publish.md` | `superpowers`, `ponytail`, `security`, `monitoring` |
 | Deploy | — | `devops.md`, `rollback.md` | `ai-friendly-web` (web) |
 
 ## Ghi chú

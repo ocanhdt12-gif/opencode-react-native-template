@@ -119,6 +119,6 @@ Bảng độ phủ do **template TEST tự lưu** (trong repo test, vd `.context
 |---|---|---|
 | `SPECIFICATIONS.md` (version) | DEV (`/spec-init` / agent change-request) | mỗi lần đổi spec |
 | `spec/updates/*` + `CHANGELOG` | DEV | mỗi lần đổi spec |
-| `spec/test-scope/current.json` | **DEV** | sau mỗi bug-fix / feature-update |
+| `spec/test-scope/current.json` | **DEV** (`spec-publisher`) | sau mỗi bug-fix / feature-update **+ hết initial build** |
 | `.context/coverage.json` (repo TEST) | **TEST** | sau mỗi lần chạy test (board độ phủ của test) |
 | `.context/test-status.json` (repo TEST) | **TEST** | sau mỗi lần chạy test |
