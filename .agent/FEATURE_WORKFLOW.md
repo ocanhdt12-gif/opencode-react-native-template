@@ -248,7 +248,7 @@ Classify → Spec delta → Spec Validator → Phase/Task → Human duyệt plan
   - `trigger: feature-update`, `workItem`, `specRefs` (spec delta), `changed.files/modules`
   - `impact.direct` / `impact.dependents` / `impact.regression`, `acceptance`, `risk`
   - **`specVersion`** (= version hiện tại của `SPECIFICATIONS.md` sau bump ở §3.2b) + **`scopeVersion`** (tăng 1 mỗi lần sinh)
-- Mục đích: template test chạy luồng 2 (`/test-scope`) + luồng 3 (`/regression`) đúng phạm vi. **Độ phủ do template test tự lưu** — DEV chỉ cung cấp spec + scope.
+- Mục đích: template test chạy `/autotest` (tạo test case theo spec/scope mới → user chốt → chạy ngầm + browser) và `/retest` (chạy lại đã test). **Độ phủ do template test tự lưu** — DEV chỉ cung cấp spec + scope.
 
 ---
 

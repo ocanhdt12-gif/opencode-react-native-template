@@ -27,6 +27,6 @@
 ## Rule
 - Là **cửa vào DUY NHẤT cho thay đổi hậu-build** (ngoài `/bug-check` — chỉ soi read-only, không sửa).
 - **Không** tự bịa requirement; file thiếu acceptance → hỏi.
-- **Test loop không đổi**: vẫn sinh `spec/test-scope/current.json` để bên test chạy `/test-scope` / `/regression` đúng như sau lần build đầu.
+- **Test loop không đổi**: vẫn sinh `spec/test-scope/current.json` để bên test chạy `/autotest` (tạo test case mới) / `/retest` (chạy lại).
 - Human checkpoint: duyệt phase plan trước khi code (trừ khi user ghi `auto proceed` / `khỏi hỏi lại` / `tự xử lý hết`).
 - `/bug` và `/feature` là cửa vào tương đương — cùng gọi agent `change-request`.

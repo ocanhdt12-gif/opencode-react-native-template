@@ -57,7 +57,7 @@ updated_at: 2026-10-05
 
 ## Bàn giao cho test (tự động, không cần kể lại)
 - Commit spec + scope cùng close-out commit.
-- Template TEST `--sync` (link git) → thấy `scopeVersion` mới + `specVersion` mới → `/test-scope` test đúng phạm vi.
+- Template TEST sync spec tự động khi chạy `/autotest` → thấy `scopeVersion` mới + `specVersion` mới → tạo test case cho phần mới, test đúng phạm vi.
 - **Không cần** thông báo thủ công — test đọc `spec/test-scope/current.json`.
 
 ## Rules

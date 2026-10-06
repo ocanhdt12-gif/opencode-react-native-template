@@ -101,7 +101,7 @@ Mọi change (BUG/MODIFY/ADDITIVE/REMOVE) sau khi PASS **phải** để lại `s
 - `impact.direct` / `impact.dependents` / `impact.regression`, `acceptance`, `risk`
 - `specVersion` (= version hiện tại của `SPECIFICATIONS.md`) + `scopeVersion` (tăng 1 mỗi lần sinh)
 
-Chi tiết §2.7b / §3.9b trong `.agent/FEATURE_WORKFLOW.md`. **Trạng thái "đã test đến đâu" do template test tự lưu** — DEV chỉ cấp spec + scope. → Template test chạy `/test-scope` / `/regression`; **lần test ĐẦU TIÊN của project (sau initial build) BẮT BUỘC `/autotest --full`** (characterization/contract toàn bộ R-xx), không thay bằng `/test-scope` khi chưa từng chạy full.
+Chi tiết §2.7b / §3.9b trong `.agent/FEATURE_WORKFLOW.md`. **Trạng thái "đã test đến đâu" do template test tự lưu** — DEV chỉ cấp spec + scope. → Template test chạy `/autotest` (tạo test case theo spec mới: test case → user chốt → chạy ngầm headless → browser từng case; **lần test ĐẦU TIÊN của project (sau initial build) BẮT BUỘC chạy đủ luồng `/autotest`**) và `/retest` (chạy lại test đã có).
 
 ---
 

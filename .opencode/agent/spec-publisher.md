@@ -23,5 +23,5 @@ Thực thi `.agent/spec-publish.md` — 4 việc: bump `spec_version`, ghi `spec
 ## Rules
 - Không sửa spec nếu bug thuần không đổi requirement (vẫn sinh scope).
 - Luôn tăng `scopeVersion`.
-- Xong → báo 1 dòng cho user: "spec v1.5.0 + scope v4 đã phát hành — bên test `/test-scope` là chạy được."
+- Xong → báo 1 dòng cho user: "spec v1.5.0 + scope v4 đã phát hành — bên test `/autotest` là chạy được."
 - File này là nguồn chi tiết; xem `.agent/spec-publish.md` khi cần.

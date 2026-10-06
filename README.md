@@ -413,7 +413,7 @@ spec/changes/<file>.md → /change → agent change-request
 | `/bug-check` | — (read-only) | sweep the area, list defects into `tasks/bug-<slug>/scan.md`, **STOP for you to choose** — does NOT call builder |
 | `/spec-publish` | **`spec-publisher`** | publish spec + test-scope (usually automatic inside change-request; use manually when needed) |
 
-> 💡 **The test loop runs like the first time:** every change leaves behind `spec/test-scope/current.json` → the test template runs `/autotest --full` (first time) then `/test-scope`, `/regression`.
+> 💡 **The test loop:** every change leaves behind `spec/test-scope/current.json` → the test template runs `/autotest` (creates test cases from the new spec; user approves → headless run → browser run) and `/retest` (re-runs already-tested cases).
 
 ---
 
