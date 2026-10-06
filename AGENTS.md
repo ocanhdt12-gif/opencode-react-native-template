@@ -75,7 +75,7 @@ Không rõ intent → hỏi 1 câu ngắn để phân loại, đừng đoán.
 | **6** | Git init / EAS build / store deploy | — | `.agent/devops.md` (+ `.devops/templates/*`) | — | git repo, EAS profiles, build preview → store submit | ⏸ **approve production submit** |
 | **7** | Rollback khi fail | — | `.agent/rollback.md` | — | tag `layer-N-done`, revert về checkpoint | notify human |
 
-**Bàn giao runtime:** mỗi lần gọi subagent → ghi Run Journal **write-ahead** (`.context/runs/<type>-<slug>-<phaseTask>.md`), in `▶ START` trước / `✅ DONE` sau (§ Session Handoff).
+**Bàn giao runtime:** mỗi lần gọi subagent → ghi Run Journal **write-ahead** (`.context/runs/<type>-<slug>-<phaseTask>.md`), in `▶ START` trước / `✅ DONE` sau (§ Session Handoff). **Agent attribution:** banner + mọi kết quả trả ra phải ghi rõ agent đang thực thi — `▶ START [agent: builder]`, `✅ DONE [agent: reviewer]`.
 
 ### Sau khi build xong — MỌI thay đổi qua 1 agent
 
@@ -204,8 +204,9 @@ Primary ghi journal; **subagent không ghi**.
    **rồi mới** in `✅ DONE <bước> <phaseTask>`. Ghi journal **TRƯỚC** khi in `✅ DONE`.
 3. `✅ DONE` là **điểm dừng an toàn**. `▶ START ... running` mà cancel → session sau **redo bước đó**.
 
-**Banner:** mỗi checkpoint in `▶ START` / `✅ DONE` kèm `phaseTask` + `next`; khi `status=running`
-ghi rõ "cancel sẽ redo bước này".
+**Banner:** mỗi checkpoint in `▶ START` / `✅ DONE` kèm `[agent: <tên>]` + `phaseTask` + `next`; khi `status=running`
+ghi rõ "cancel sẽ redo bước này". Completion report của subagent **bắt buộc mở đầu bằng `Agent: <tên>`**
+(`builder`, `builder-strong`, `reviewer`, `design`, `graph`, `spec-init`, `spec-publisher`, `spec-validator`, `change-request`).
 
 **Session Start Protocol (đầu mỗi session):**
 1. Đọc journal của `activeWorkItem` trong `.context/progress.json` (không có journal → coi pointer là hint).

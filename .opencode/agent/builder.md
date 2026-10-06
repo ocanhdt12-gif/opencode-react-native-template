@@ -82,6 +82,7 @@ Quy tắc bắt buộc:
   (đã làm gì, vì sao, còn dở gì) để session sau resume không phải redo mù.
 
 Trả về:
+- **Mở đầu bằng `Agent: builder`** (attribution bắt buộc — session handoff dò theo agent này).
 - Task đã hoàn thành (yes/no), files create/modify, test đã thêm + kết quả check,
   giả định đã nêu, blocker (nếu có).
 - Với bug: task hoàn thành chỉ khi original repro đã PASS. Nếu chưa PASS, trả `yes/no = no`

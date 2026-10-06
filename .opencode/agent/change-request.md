@@ -30,3 +30,5 @@ Wrapper gọi `.agent/change-request.md`. Đây là agent **duy nhất** cho tha
 - [ ] `spec/test-scope/current.json` được sinh (test loop chạy như lần đầu)
 - [ ] Reviewer PASS + progress cập nhật mới commit
 - [ ] Change file archive + báo `spec_version` + `scopeVersion`
+
+**Attribution:** completion report trả về mở đầu bằng `Agent: change-request`.

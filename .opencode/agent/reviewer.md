@@ -144,6 +144,7 @@ Tool Loop Guard:
   - Vượt cap tool đọc → ghi `Residual risk` thay vì chạy tiếp.
 
 Trả về report:
+- **Mở đầu bằng `Agent: reviewer`** (attribution bắt buộc) — ghi vào report file + console.
 - Review level: `FAST` / `NORMAL` / `STRICT`
 - Reason: vì sao chọn level đó
 - Blast radius: file/module/API/client/data nào có thể bị ảnh hưởng

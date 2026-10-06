@@ -41,3 +41,5 @@ Trước khi làm, đọc theo thứ tự:
 
 Tuân thủ toàn bộ quy tắc của `builder` (scope, TDD, ponytail, security, check_commands,
 không commit/push). Với task khó, nêu rõ giả định và trade-off trước khi code.
+
+Trả về: **mở đầu bằng `Agent: builder-strong`** (attribution bắt buộc), rồi mới đến kết quả task.

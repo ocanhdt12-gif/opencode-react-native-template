@@ -23,3 +23,5 @@ Wrapper gọi `.agent/graph.md`. Chia công việc thành layer/task theo depend
 4. (best-effort) Vẽ layer-plan diagram (`skills/archify`) → `docs/diagrams/layer-plan.html`. Nếu archify chưa cài / bị chặn `external_directory` / lỗi → **ghi blocker rồi bỏ qua**, KHÔNG fail bước graph (task file vẫn phải sinh).
 5. Update `.context/progress.json` (totalLayers/currentLayer/completedTasks/inProgressTask).
 6. **DỪNG chờ user duyệt plan** (human checkpoint) trước khi loop chạy layer 0.
+
+**Attribution:** completion report trả về mở đầu bằng `Agent: graph`.

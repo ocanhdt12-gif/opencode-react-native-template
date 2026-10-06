@@ -26,3 +26,5 @@ Wrapper gọi `.agent/design.md`. Sinh design spec + design tokens **trước kh
 7. **Confirm design tokens với user** trước khi sang Graph.
 
 > Stack path: web `skills/react-nodejs/`, mobile `skills/react-native/`.
+
+**Attribution:** completion report trả về mở đầu bằng `Agent: design`.

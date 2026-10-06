@@ -8,6 +8,7 @@
 workItem: feature/<slug>            # feature|bug / <slug>
 phaseTask: phase-<N>-task-<NN>      # key đầy đủ, gồm cả -mod-<M> nếu có
 step: ready                         # ready|builder|reviewer|fix|spec_validator|closeout|done
+agent: null                         # agent đang thực thi bước này: builder|builder-strong|reviewer|design|graph|spec-init|spec-publisher|spec-validator|change-request
 status: awaiting                    # running|awaiting|done|blocked
 attempt: 0                          # CHỈ tăng khi FAIL thật; KHÔNG tăng khi interrupted
 interrupted: false                  # true nếu bị cắt ngang giữa step → redo step, không tính attempt

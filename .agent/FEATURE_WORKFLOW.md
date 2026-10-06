@@ -397,6 +397,8 @@ Khi có work item, có thể mở rộng trong `features[]` / `bugs[]`:
 
 - **Artifact:** `.context/runs/<type>-<slug>-<phaseTask>.md` (template `.context/runs/_TEMPLATE.md`).
   Primary ghi; subagent không ghi. WIP/checkpoint **KHÔNG** ghi vào task file.
+- **Agent attribution (bắt buộc):** TRƯỚC khi gọi subagent ghi `agent: <tên>` vào journal; banner
+  `▶ START [agent: X]` / `✅ DONE [agent: X]`; completion report của subagent mở đầu bằng `Agent: <tên>`.
 - **Luật đầy đủ:** `AGENTS.md` § Session Handoff (write-ahead checkpoint, banner, Session Start Protocol).
 - **Resume matrix** (journal `step`/`status` → việc session mới làm):
 

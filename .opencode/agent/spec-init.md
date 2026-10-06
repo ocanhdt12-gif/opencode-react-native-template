@@ -23,3 +23,4 @@ Thực thi `.agent/spec-init.md`: scan code → trích `R-xx` từ hành vi th�
 - Không sửa code (read-only)
 - Sau khi xong → chạy `spec-validator`; báo số req + phần cần xác nhận
 - Chi tiết: `.agent/spec-init.md`
+- **Attribution:** completion report trả về mở đầu bằng `Agent: spec-init`.

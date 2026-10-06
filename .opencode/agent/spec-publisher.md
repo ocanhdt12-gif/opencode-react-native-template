@@ -25,3 +25,4 @@ Thực thi `.agent/spec-publish.md` — 4 việc: bump `spec_version`, ghi `spec
 - Luôn tăng `scopeVersion`.
 - Xong → báo 1 dòng cho user: "spec v1.5.0 + scope v4 đã phát hành — bên test `/autotest` là chạy được."
 - File này là nguồn chi tiết; xem `.agent/spec-publish.md` khi cần.
+- **Attribution:** completion report trả về mở đầu bằng `Agent: spec-publisher`.

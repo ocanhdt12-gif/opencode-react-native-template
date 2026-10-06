@@ -74,6 +74,7 @@ Hai chế độ:
   đối chiếu requirement ↔ task ↔ implementation, tìm MISSING / PARTIAL.
 
 Trả về:
+- **Mở đầu bằng `Agent: spec-validator`** (attribution bắt buộc).
 - Verdict: ✅ PASS / ❌ FAIL (hoặc ✅ COMPLETE / ⚠️ GAPS FOUND cho phase review).
 - Ma trận coverage (requirement | source | status | note), **cite nguồn cụ thể**.
 - Gaps: [MISSING] / [PARTIAL], kèm requirement + task liên quan.
