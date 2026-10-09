@@ -4,7 +4,7 @@ description: Thêm/sửa/bỏ tính năng theo Change Request workflow (classify
 
 > ⭐ **Sau initial build, mọi thay đổi feature đi qua agent `change-request` (class ADDITIVE/MODIFY/REMOVE).** `/feature` là cửa vào → nạp workflow này vào agent `change-request` (xem `.agent/change-request.md`). `/change` là cửa vào tương đương cho change có sẵn trong `spec/changes/`.
 
-Chạy Change Request workflow trong `AGENTS.md` và `.agent/FEATURE_WORKFLOW.md` (§3) cho:
+Chạy Change Request workflow trong `AGENTS.md` và `.agent/workflows/change.md` (§3) cho:
 
 `$ARGUMENTS`
 
@@ -43,7 +43,7 @@ Quy tắc bắt buộc:
    - Sau Structural Review: hỏi human hoặc tạo task refactor/design riêng trước khi sửa tiếp.
 11. **Bắt buộc update `.context/progress.json`** (schema maintenance: `features[]`, `activeWorkItem`).
 12. Sau Reviewer PASS + close-out + progress cập nhật, commit lên branch hiện tại theo commit-first rules
-   trong `.agent/FEATURE_WORKFLOW.md` §2.8. Branch model mặc định là **staging-direct**: current branch phải là
+   trong `.agent/workflows/state-commit.md` §2.8. Branch model mặc định là **staging-direct**: current branch phải là
    `target_branch`, commit ở đó và push `git push origin <target_branch>` chỉ khi user yêu cầu rõ hoặc
    `auto_push_after_pass: true`. Nếu user yêu cầu feature branch thì push chính current branch
    (`git push origin <current-branch>`) và chỉ mở PR khi user yêu cầu rõ. Cấm push `forbidden_branch`, cấm `--force`/`-f`.

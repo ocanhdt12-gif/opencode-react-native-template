@@ -19,8 +19,8 @@ Wrapper gọi `.agent/change-request.md`. Đây là agent **duy nhất** cho tha
 Đọc + thực thi đầy đủ quy trình trong `.agent/change-request.md`:
 1. Nguồn yêu cầu: file trong `spec/changes/` (nếu qua `/change`) hoặc mô tả trực tiếp.
 2. Classify: **ADDITIVE / MODIFY / REMOVE / BUG**.
-3. Bug → `AGENTS.md` §Bug + `.agent/FEATURE_WORKFLOW.md` §2 (root cause trước, builder → reviewer).
-4. Feature → `.agent/FEATURE_WORKFLOW.md` §3 (classify → spec delta → spec-validator → phase/task → build/review).
+3. Bug → `AGENTS.md` §Bug + `.agent/workflows/bug.md` §2 (root cause trước, builder → reviewer).
+4. Feature → `.agent/workflows/change.md` §3 (classify → spec delta → spec-validator → phase/task → build/review).
 5. **★ Spec Publisher tự động** (`.agent/spec-publish.md`): bump `spec_version` khi requirement đổi + ghi `spec/updates/` + `spec/CHANGELOG.md` + sinh `spec/test-scope/current.json` (tăng `scopeVersion`) — handoff cho template test.
 6. Cập nhật `.context/progress.json`; close-out commit theo commit-first.
 7. Đóng change file (`status: done` → `spec/changes/archive/`).

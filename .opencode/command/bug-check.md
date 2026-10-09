@@ -3,7 +3,7 @@ description: Read-only soi/kiểm tra một màn hoặc khu vực, liệt kê de
 ---
 
 Chạy **Bug discovery (sweep)** — chế độ **READ-ONLY** — trong `AGENTS.md`,
-`.agent/FEATURE_WORKFLOW.md` (§ Bug discovery) cho khu vực/màn sau:
+`.agent/workflows/bug.md` (§2b Bug discovery) cho khu vực/màn sau:
 
 `$ARGUMENTS`
 

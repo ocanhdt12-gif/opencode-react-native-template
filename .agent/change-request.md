@@ -62,7 +62,7 @@ Builder → Reviewer (loop tới PASS) → Doc Impact/Reconcile → Progress →
 
 ### 0. BUG — Sửa lỗi sau initial build
 **Khi nào:** hành vi sai so với spec/hiện tại (crash, regression, sai logic).
-**Steps (theo `AGENTS.md` §Bug + `.agent/FEATURE_WORKFLOW.md` §2):**
+**Steps (theo `AGENTS.md` §Bug + `.agent/workflows/bug.md` §2):**
 1. Triage: màn/module, bước tái hiện, expected/actual, role, môi trường. Thiếu → hỏi ngắn.
 2. Reproduce; **root cause trước khi sửa** (Iron Law). Không reproduce được → hỏi, không sửa mò.
 3. Task (`tasks/bug-<slug>/...`) trừ fix 1 dòng; `Classification / Risk` bắt buộc.
@@ -102,7 +102,7 @@ Mọi change (BUG/MODIFY/ADDITIVE/REMOVE) sau khi PASS **phải** để lại `s
 - `impact.direct` / `impact.dependents` / `impact.regression`, `acceptance`, `risk`
 - `specVersion` (= version hiện tại của `SPECIFICATIONS.md`) + `scopeVersion` (tăng 1 mỗi lần sinh)
 
-Chi tiết §2.7b / §3.9b trong `.agent/FEATURE_WORKFLOW.md`. **Trạng thái "đã test đến đâu" do template test tự lưu** — DEV chỉ cấp spec + scope. → Template test chạy `/autotest` (tạo test case theo spec mới: test case → user chốt → chạy ngầm headless → browser từng case; **lần test ĐẦU TIÊN của project (sau initial build) BẮT BUỘC chạy đủ luồng `/autotest`**) và `/retest` (chạy lại test đã có).
+Chi tiết §2.7b trong `.agent/workflows/bug.md` / §3.9b trong `.agent/workflows/change.md`. **Trạng thái "đã test đến đâu" do template test tự lưu** — DEV chỉ cấp spec + scope. → Template test chạy `/autotest` (tạo test case theo spec mới: test case → user chốt → chạy ngầm headless → browser từng case; **lần test ĐẦU TIÊN của project (sau initial build) BẮT BUỘC chạy đủ luồng `/autotest`**) và `/retest` (chạy lại test đã có).
 
 ---
 

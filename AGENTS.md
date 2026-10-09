@@ -68,7 +68,7 @@ Không rõ intent → hỏi 1 câu ngắn để phân loại, đừng đoán.
 | **5b** | Observe: tsc / lint / jest / expo build | — | `.agent/loop.md` | — | kết quả verify (cmd từ `project-config`) | FAIL → 5c |
 | **5c** | Root cause + fix | (`error-analyzer`) | `.agent/error-analyzer.md` | `superpowers/systematic-debugging` | `.context/error-memory.md` | retry max 3 → `BLOCKED` |
 | **5d** | Review độc lập | **`reviewer`** | `.agent/reviewer.md` | `aislop`, `anti-slop`, `open-code-review`, `impeccable`, `react-native/e2e-maestro` | `.context/review-reports/<feature\|bug>-<slug>-phase-<N>-task-<NN>-round-<R>-review.md` | PASS → 5e · FAIL → về 5a (max 2 vòng) |
-| **5e** | Close-out task | — | `.agent/loop.md`, `.agent/FEATURE_WORKFLOW.md` §5/§6 | — | Doc Impact/Reconcile → `progress.json` → **commit** (1 task = 1 commit) | — |
+| **5e** | Close-out task | — | `.agent/loop.md`, `.agent/FEATURE_WORKFLOW.md` §6 + `.agent/workflows/state-commit.md` §2.8/§5 | — | Doc Impact/Reconcile → `progress.json` → **commit** (1 task = 1 commit) | — |
 | **5f** | Compact context | — | `.agent/context-manager.md` | — | `.context/compressed-summary.md` | mỗi 3 task + hết layer |
 | **5g** | Hết layer → review phase | **`spec-validator`** | `.agent/spec-validator.md` | — | phase report | ⏸ **checkpoint sau mỗi layer** — Layer N+1 chỉ unlock khi Layer N PASS + user duyệt |
 | **5h** | Hết layer cuối (initial build) → bàn giao test-scope | **`spec-publisher`** | `.agent/spec-publish.md` | — | `spec/test-scope/current.json` (trigger: initial-build, scopeVersion +1) + `spec/CHANGELOG.md` | commit kèm close-out |
@@ -92,11 +92,11 @@ Không rõ intent → hỏi 1 câu ngắn để phân loại, đừng đoán.
 1. **Không sửa triệu chứng trước khi có root cause.** (Iron Law — `skills/superpowers/systematic-debugging.md`)
 2. **Thiếu info** (màn hình / bước tái hiện / expected-actual / role/vai trò) → **hỏi ngắn trước**, không tự giả định.
 3. Bug **không phải sửa 1 dòng** → tạo task: `tasks/bug-<slug>/phase-<N>-task-<NN>.md`.
-4. Fix-loop + `Repro Verification` theo `.agent/FEATURE_WORKFLOW.md` §2 và `/bug`: chỉ `done` khi repro PASS + Reviewer PASS.
+4. Fix-loop + `Repro Verification` theo `.agent/workflows/bug.md` §2 và `/bug`: chỉ `done` khi repro PASS + Reviewer PASS.
 5. Retry/Escalation: sau 3 attempt fail → status `architecture_review_needed`, dừng chờ review kiến trúc/refactor.
 6. **Builder** code + test; **Reviewer** kiểm tra độc lập (không sửa source; chỉ ghi report scoped).
 7. **Cập nhật `.context/progress.json`** (schema maintenance) sau mỗi bước đổi trạng thái bug.
-8. Sau Reviewer PASS + close-out + progress cập nhật, **commit-first** theo `.agent/FEATURE_WORKFLOW.md` §2.8.
+8. Sau Reviewer PASS + close-out + progress cập nhật, **commit-first** theo `.agent/workflows/state-commit.md` §2.8.
    Reviewer FAIL → không commit/push.
 9. **Danh sách bug** hoặc kết quả `/bug-check`, kể cả "fix tất cả defect" → tách từng bug/task,
    tóm tắt số lượng defect, đề xuất thứ tự, nêu bug nào gộp vì cùng root cause, rồi **DỪNG hỏi xác nhận**
@@ -110,7 +110,7 @@ Không rõ intent → hỏi 1 câu ngắn để phân loại, đừng đoán.
 3. Đổi behavior/scope → cập nhật **spec delta** hoặc ghi rõ lý do không cần.
 3b. **★ TỰ ĐỘNG Spec Publisher** (`.agent/spec-publish.md`): sau spec delta → bump `spec_version` + ghi `spec/updates/` + `spec/CHANGELOG.md` + sinh `spec/test-scope/current.json` (tăng `scopeVersion`) cho template test. Không chờ user nhắc.
 4. Tạo `tasks/feature-<slug>/phase-<N>-task-<NN>.md` khi nhiều bước hoặc có risk.
-5. Task phải có `Classification / Risk`, verification summary, và Retry/Escalation theo `/feature` + `.agent/FEATURE_WORKFLOW.md` §3.
+5. Task phải có `Classification / Risk`, verification summary, và Retry/Escalation theo `/feature` + `.agent/workflows/change.md` §3.
 6. Sau 3 attempt fail → status `architecture_review_needed`, dừng chờ review kiến trúc/refactor.
 7. **Builder** code + test; **Reviewer** độc lập; **Spec Validator** cross-check gap so với spec.
 8. **Cập nhật `.context/progress.json`** (schema maintenance).
@@ -125,7 +125,7 @@ Không rõ intent → hỏi 1 câu ngắn để phân loại, đừng đoán.
 - Commit là source of truth cho changed files, timestamp, SHA, rollback point.
 - Task file là source of truth cho root cause, repro/evidence, residual risk, doc impact/reconcile, verification summary.
 - `.context/progress.json` là source of truth cho current status, active/completed phase/task, reviewer result/report path.
-- Commit message convention và body trailer: xem `.agent/FEATURE_WORKFLOW.md` §2.8.
+- Commit message convention và body trailer: xem `.agent/workflows/state-commit.md` §2.8.
 - Commit-first tracking là source of truth; không còn `docs/history/YYYY-MM.md` (đã xoá).
 
 ### Doc Impact & Reconcile Rules

@@ -4,7 +4,7 @@ description: Điều tra và sửa bug đã biết; list bug phải qua checkpoi
 
 > ⭐ **Sau initial build, mọi fix bug đi qua agent `change-request` (class BUG).** `/bug` là cửa vào → nạp loop này vào agent `change-request` (xem `.agent/change-request.md`). `/change` là cửa vào tương đương cho change có sẵn trong `spec/changes/`.
 
-Chạy Bug workflow trong `AGENTS.md` và `.agent/FEATURE_WORKFLOW.md` (§2) cho bug:
+Chạy Bug workflow trong `AGENTS.md` và `.agent/workflows/bug.md` (§2) cho bug:
 
 `$ARGUMENTS`
 
@@ -92,7 +92,7 @@ Quy tắc bắt buộc:
    `step: done`, và `evidence.reportPath` + `verdict` khớp report thật trong `.context/review-reports/`.
    Thiếu trail → **chưa đóng**, không commit.
 8. Sau Reviewer PASS + close-out + progress cập nhật, commit lên branch hiện tại theo commit-first rules
-   trong `.agent/FEATURE_WORKFLOW.md` §2.8.
+   trong `.agent/workflows/state-commit.md` §2.8.
 9. Branch model mặc định là **staging-direct**: current branch phải là `target_branch`, commit ở đó và push
    `git push origin <target_branch>` chỉ khi user yêu cầu rõ hoặc `auto_push_after_pass: true`. Nếu user yêu cầu
    feature branch thì push chính current branch (`git push origin <current-branch>`) và chỉ mở PR khi user yêu cầu rõ.

@@ -17,8 +17,8 @@
 2. **Validate** từng file: có yêu cầu + acceptance. Thiếu → hỏi user, KHÔNG tự bịa requirement.
 3. **Gọi subagent `change-request`** cho từng change (gộp nếu cùng mục tiêu/scope — ghi rõ lý do). Agent:
    - **Classify**: ADDITIVE / MODIFY / REMOVE / BUG
-   - **Bug** → bug workflow (`AGENTS.md` §Bug + `.agent/FEATURE_WORKFLOW.md` §2): root cause → task → builder → reviewer
-   - **Feature** → change request workflow (`.agent/FEATURE_WORKFLOW.md` §3): spec delta → phase/task → builder/reviewer/spec-validator
+   - **Bug** → bug workflow (`AGENTS.md` §Bug + `.agent/workflows/bug.md` §2): root cause → task → builder → reviewer
+   - **Feature** → change request workflow (`.agent/workflows/change.md` §3): spec delta → phase/task → builder/reviewer/spec-validator
    - **★ Spec Publisher (tự động)**: bump `spec_version` (nếu requirement đổi) + `spec/updates/` + `spec/CHANGELOG.md` + sinh `spec/test-scope/current.json` (handoff cho template test)
    - Progress (`.context/progress.json`) + close-out commit theo commit-first
 4. **Đóng change file**: set `status: done` → chuyển sang `spec/changes/archive/`.
