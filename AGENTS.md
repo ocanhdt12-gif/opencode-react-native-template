@@ -203,6 +203,7 @@ Primary ghi journal; **subagent không ghi**.
 2. SAU khi subagent trả về: ghi `status=awaiting`, `evidence`, `next`, cập nhật manifest,
    **rồi mới** in `✅ DONE <bước> <phaseTask>`. Ghi journal **TRƯỚC** khi in `✅ DONE`.
 3. `✅ DONE` là **điểm dừng an toàn**. `▶ START ... running` mà cancel → session sau **redo bước đó**.
+4. **Gộp lần ghi thừa:** khi cần ghi journal/progress mà lần ghi trước **liền kề và không kèm mốc bắt buộc** (không phải "trước/sau khi gọi subagent", không phải close-out task/phase, không phải ngay trước commit) → **gộp vào lần ghi kế tiếp**, KHÔNG tạo thêm lượt model riêng. Vẫn bắt buộc giữ nguyên: ghi `status=running` TRƯỚC mỗi subagent và `status=awaiting` + evidence SAU mỗi subagent; `progress.json` phải cập nhật TRƯỚC mỗi commit.
 
 **Banner:** mỗi checkpoint in `▶ START` / `✅ DONE` kèm `[agent: <tên>]` + `phaseTask` + `next`; khi `status=running`
 ghi rõ "cancel sẽ redo bước này". Completion report của subagent **bắt buộc mở đầu bằng `Agent: <tên>`**

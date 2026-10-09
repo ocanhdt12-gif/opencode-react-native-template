@@ -4,7 +4,7 @@ mode: subagent
 # model: set từ .context/project-config.md → models.change_request (bỏ comment để dùng).
 # model: <provider>/<model-plan>
 temperature: 0.1
-steps: 30
+steps: 40
 ---
 
 # Change Request Agent (subagent)

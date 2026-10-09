@@ -23,7 +23,8 @@ Dùng model `change_request` trong `.context/project-config.md` (`models.change_
 |---|---|
 | `/change` | mọi `spec/changes/*.md` có `status: pending` (bỏ `_TEMPLATE.md`, bỏ `archive/`) |
 | `/bug`, `/feature` | mô tả trong `$ARGUMENTS` |
-| Luôn đọc | `SPECIFICATIONS.md`, `.context/progress.json`, `spec/CHANGELOG.md` |
+| Luôn đọc | `SPECIFICATIONS.md`, `.context/progress.json` |
+| Đọc khi cần | `spec/CHANGELOG.md` chỉ khi bump version (Spec Publisher tự đọc/ghi — xem `.agent/spec-publish.md`) |
 
 ---
 
