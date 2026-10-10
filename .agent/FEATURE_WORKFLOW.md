@@ -25,9 +25,10 @@
 | "thêm/sửa/bỏ/xóa tính năng", đổi behavior | **§3 Change Request workflow** → `/feature` |
 | "implement feature" (đã có spec/task) | gọi subagent `builder` theo task file |
 | "review", "check", "soát" | gọi subagent `reviewer` — không tự sửa |
+| yêu cầu/bug hậu-build user chat (mode `maintenance`, không gõ lệnh) | **Auto-intake**: ghi `spec/changes/BACKLOG.md` + tạo change doc pending → báo user gõ `/change` |
 | hỏi / điều tra | research-only — không edit tới khi user yêu cầu fix |
 
-Không rõ intent → hỏi 1 câu ngắn. **Không tự phân loại thành "chắc là bug nhỏ, sửa luôn".**
+Không rõ intent → hỏi 1 câu ngắn. **Không tự phân loại thành "chắc là bug nhỏ, sửa luôn".** Trong maintenance mode, yêu cầu/bug rõ ràng → auto-intake vào BACKLOG (xem `spec/changes/BACKLOG.md`), KHÔNG code ngay.
 
 > 📂 **Chi tiết workflow tách ra file con — đọc KHI xử lý đúng loại việc (không nạp sẵn mọi lượt):**
 > - **Bug** (`/bug`, `/bug-check`, `/change` class BUG) → đọc `.agent/workflows/bug.md` (§2 Triage→Reproduce→Root cause→Task→Builder/Reviewer→Progress→Test scope; §2b sweep read-only).

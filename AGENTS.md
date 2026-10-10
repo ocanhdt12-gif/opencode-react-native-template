@@ -19,7 +19,8 @@
 | "fix bug", "lỗi", "broken", regression, crash (đã biết rõ bug nào) | **Change Request (BUG)** → agent `change-request` · `/change` (hoặc `/bug`) |
 | "soi/kiểm tra màn", "cảm giác nhiều lỗi nhưng không rõ" | **Bug discovery / sweep** → `/bug-check` — READ-ONLY, KHÔNG fix |
 | "thêm/sửa/bỏ/xóa tính năng", "change/update feature" | **Change Request (ADDITIVE/MODIFY/REMOVE)** → agent `change-request` · `/change` (hoặc `/feature`) |
-| thay đổi đã ghi sẵn trong `spec/changes/` | **`/change`** — đọc hết file pending → agent `change-request` |
+| thay đổi đã ghi sẵn trong `spec/changes/` (hoặc trong `spec/changes/BACKLOG.md`) | **`/change`** — đọc hết file pending → agent `change-request` |
+| yêu cầu/bug hậu-build user chat bình thường (mode `maintenance`, KHÔNG gõ lệnh) | **Auto-intake → backlog**: tạo dòng `spec/changes/BACKLOG.md` + change doc `spec/changes/YYYY-MM-DD-<slug>.md` (pending) → báo user "✅ Đã ghi vào backlog — gõ `/change` để xử lý". KHÔNG code ngay |
 | "bắt đầu project", "start", "đưa repo vào pipeline", "khởi tạo dự án" | **Start** → `/start` — chuỗi chạy LIÊN TỤC: đọc spec → brainstorm → design → graph → loop (tự chuyển bước, chỉ dừng ở checkpoint) |
 | "project cũ chưa có spec", "dựng spec từ code", thừa kế codebase | **Spec Init (reverse-engineer)** → `/spec-init` — đọc code → dựng spec + scope (chạy 1 lần đầu) |
 | "config dự án", "setup thông tin", "brainstorm", "clear yêu cầu", sửa branch/package/verify commands/DB/models/deploy | **Brainstorm** → `/brainstorm` — đọc spec/code → clear yêu cầu + design doc + ghi `.context/project-config.md` |
@@ -33,6 +34,8 @@
 | hỏi / điều tra / "tại sao", "how does X work" | **Research-only** — KHÔNG edit nếu user chưa yêu cầu fix |
 
 Không rõ intent → hỏi 1 câu ngắn để phân loại, đừng đoán.
+
+> **Auto-intake backlog (bắt buộc trong maintenance mode):** mọi yêu cầu/bug rõ ràng user gửi qua chat — kể cả dạng nói tự nhiên không gõ lệnh — agent **tự động** ghi vào `spec/changes/BACKLOG.md` + tạo change doc pending rồi báo user gõ `/change` để xử lý tiếp. **Không** gọi builder/code ngay khi chỉ là yêu cầu mới chưa xử lý.
 
 ### Phân biệt command
 

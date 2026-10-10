@@ -131,12 +131,13 @@ LOW / MEDIUM / HIGH
 
 ## Rules
 
-1. **Always read current state** — đọc `spec/changes/` + progress.json + spec trước khi làm.
+1. **Always read current state** — đọc `spec/changes/` (gồm `BACKLOG.md`) + progress.json + spec trước khi làm.
 2. **Là agent duy nhất cho hậu-build** — mọi feature/bug đều qua đây.
 3. **Always publish spec (tự động)** — sau mỗi change chạy `.agent/spec-publish.md` (bump version nếu requirement đổi + luôn sinh `spec/test-scope/current.json`).
 4. **Never modify completed code directly** — tạo task mới thay vì edit.
 5. **Validate after every change** — spec-validator PASS (feature), root cause có evidence (bug).
 6. **One change at a time** — không batch nhiều change không liên quan.
+7. **Backlog tracking (bắt buộc)** — mỗi change phải có dòng trong `spec/changes/BACKLOG.md`. Khi bắt đầu xử lý → set `in_progress`; xong (status `done` + archive) → set `done` + ngày xong; kẹt cần user → `blocked`. Không xoá dòng đã `done`.
 7. **Impact before action** — analyze trước, execute sau.
 8. **Preserve rollback ability** — mọi change reversible qua git commit-first.
 9. **Ask when ambiguous** — ADDITIVE vs MODIFY vs BUG không rõ → hỏi.
