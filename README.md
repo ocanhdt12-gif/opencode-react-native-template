@@ -81,6 +81,21 @@ Read AGENTS.md and resume the project
 
 The agent reads `.context/progress.json` + the Run Journal `.context/runs/<type>-<slug>-<phaseTask>.md` and continues from the last checkpoint.
 
+### Syncing template updates into an existing project
+
+A project is a copy of this template. When the template changes (new rules, agents, commands, skills), sync the **template-owned files** into your project with one command — **without touching your code, spec, docs, or config**:
+
+```bash
+node scripts/template-sync.mjs          # from inside the project
+# ─ or ─
+node /path/to/template/scripts/template-sync.mjs --project /path/to/project
+```
+
+- Overwrites only: `AGENTS.md` · `.agent/` · `.opencode/` · `scripts/` · `skills/`
+- **Never touches**: your code, `SPECIFICATIONS.md`, `BRIEF.md`, `docs/`, `spec/`, `tasks/`, `.context/`, `.devops/`, `.env*`, `README.md`, `opencode.jsonc` (only reported if drifted)
+- Safe: it **stops** if a managed path has uncommitted changes in your project; every change lands in git (`git diff` / `git checkout -- <path>` to undo)
+- Preview first: `node scripts/template-sync.mjs --dry-run` · Remove files dropped upstream: `--prune` · Custom source: `--template <git-url>` · Optional per-project config: `.template-sync.json`
+
 ## Overview
 
 This template provides a **multi-agent workflow** for **mobile repos that already have code** (bug / feature / update). Start with `/start` (type once, runs continuously): read spec → brainstorm (clarify requirements + config) → design (tokens + screen specs) → graph (split layers/tasks) → loop executes tasks → `/change` for all subsequent changes (the `change-request` agent). `AGENTS.md` routes every request; specialized subagents handle build, independent review, spec validation, and close-out.
