@@ -182,10 +182,15 @@ project-template/
 ├── scripts/
 │   ├── generate-inventory.mjs         ← Deterministic inventory generator
 │   ├── detect-profile.mjs             ← Detect stack → suggest project-config (used by /brainstorm)
-│   └── apply-verify-permissions.mjs   ← Sync verify-command allow rules into reviewer/spec-validator
+│   ├── apply-verify-permissions.mjs   ← Sync verify-command allow rules into reviewer/spec-validator
+│   └── template-sync.mjs              ← One-command sync of template-owned files into a project (see Getting Started → Syncing)
 │
 ├── .agent/
-│   ├── FEATURE_WORKFLOW.md       ← ✅ Workflow entry (bug/feature/update)
+│   ├── FEATURE_WORKFLOW.md       ← ✅ Workflow entry (bug/feature/update) — minimal; details in workflows/
+│   ├── workflows/                ← Detailed per-workflow files (loaded on demand, not every turn)
+│   │   ├── bug.md                ← §2 Bug workflow + §2b bug discovery sweep
+│   │   ├── change.md             ← §3 Change Request workflow (feature / update)
+│   │   └── state-commit.md       ← §2.8 commit-first + §5 state/paths + §7 model mapping
 │   ├── brainstorm.md             ← ✅ Read spec/code → clarify requirements + set config → .context/project-config.md
 │   ├── design.md                 ← Design Agent: design tokens + screen specs (before layer split)
 │   ├── graph.md                  ← Split spec/design → layers + tasks (dependency order)
@@ -412,7 +417,7 @@ spec/changes/<file>.md → /change → agent change-request
 | **5b** | Observe: tsc / lint / jest / expo build | — | `.agent/loop.md` | — | verify results (commands from `project-config`) | FAIL → 5c |
 | **5c** | Root cause + fix | (`error-analyzer`) | `.agent/error-analyzer.md` | `superpowers/systematic-debugging` | `.context/error-memory.md` | retry max 3 → `BLOCKED` |
 | **5d** | Independent review | **`reviewer`** | `.agent/reviewer.md` | `aislop`, `anti-slop`, `open-code-review`, `impeccable`, `react-native/e2e-maestro` | `.context/review-reports/<feature\|bug>-<slug>-phase-<N>-task-<NN>-round-<R>-review.md` | PASS → 5e · FAIL → back to 5a (max 2 rounds) |
-| **5e** | Close-out task | — | `.agent/loop.md`, `.agent/FEATURE_WORKFLOW.md` §5/§6 | — | Doc Impact/Reconcile → `progress.json` → **commit** (1 task = 1 commit) | — |
+| **5e** | Close-out task | — | `.agent/loop.md`, `.agent/FEATURE_WORKFLOW.md` §6 + `.agent/workflows/state-commit.md` §2.8/§5 | — | Doc Impact/Reconcile → `progress.json` → **commit** (1 task = 1 commit) | — |
 | **5f** | Compact context | — | `.agent/context-manager.md` | — | `.context/compressed-summary.md` | every 3 tasks + end of layer |
 | **5g** | End of layer → phase review | **`spec-validator`** | `.agent/spec-validator.md` | — | phase report | ⏸ **checkpoint after each layer** — Layer N+1 unlocks only when Layer N PASSes + you approve |
 | **6** | Git init / EAS build / store deploy | — | `.agent/devops.md` (+ `.devops/templates/*`) | — | git repo, EAS profiles, build preview → store submit | ⏸ **approve production submit** |
