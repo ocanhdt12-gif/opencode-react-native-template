@@ -56,6 +56,10 @@ feature (<ADDITIVE|MODIFY|REMOVE>) | bug
 ## Dependencies
 - task-<XX> (lý do)
 
+## Spec refs
+- `<ID trong heading spec, vd F10 | REQ-AUTH-02 | §3.2>`
+- `<path#heading text, vd .context/design-spec.md#Login screen>`
+
 ## Acceptance Criteria
 - [ ] Tiêu chí đo được, testable
 - [ ] ...
@@ -86,7 +90,7 @@ feature (<ADDITIVE|MODIFY|REMOVE>) | bug
 - Spec Validator verdict (phase close): PASS | FAIL | n/a
 
 ## Doc / Decision Impact
-- Doc impact result: <updated docs or `no doc impact`>
+- Doc impact result: <updated docs or `no doc impact`; worktree song song → doc delta (endpoint/shape/schema/flow + `file:line`), dispatcher reconcile khi merge layer>
 - Decision log: `.context/decisions.md#...` | none
 
 ## Commit / Tracking
@@ -102,7 +106,7 @@ feature (<ADDITIVE|MODIFY|REMOVE>) | bug
 - [ ] Reviewer độc lập PASS (`.opencode/agent/reviewer.md`)
 - [ ] `.context/progress.json` updated
 - [ ] Error Memory updated for every failed attempt, or `n/a` recorded
-- [ ] Doc Impact reconciled, or `no doc impact` recorded
+- [ ] Doc Impact reconciled (worktree song song: doc delta recorded here, dispatcher reconciles shared docs at layer merge), or `no doc impact` recorded
 - [ ] Decision log updated if `Decision impact: YES`
 - [ ] Commit created after PASS close-out (1 task = 1 commit, unless reason recorded; SHA tracked by git)
 
@@ -112,6 +116,16 @@ feature (<ADDITIVE|MODIFY|REMOVE>) | bug
 ## Notes
 {Edge cases, gotchas, giả định đã nêu}
 ```
+
+> **`## Spec refs` (bắt buộc điền):** requirement/section spec mà task cần — mỗi bullet 1 ref, bọc backtick
+> (ghi chú thêm đặt sau backtick):
+> - ID/token có trong **heading** của `SPECIFICATIONS.md` / `.context/design-spec.md` (vd `F10`, `REQ-AUTH-02`, `§3.2`), hoặc
+> - `path#heading text` khi cần chỉ đúng 1 file (vd `.context/design-spec.md#Login screen`).
+>
+> Dispatcher chạy `node scripts/spec-extract.mjs --task <task file>` → trích đúng các section đó ra
+> `.context/task-context/<task-slug>.md`; builder/reviewer đọc file trích **thay vì** cả spec. Ref phải khớp heading
+> thật (không phân biệt hoa thường, theo token: `F1` ≠ `F10`) — không khớp sẽ vào mục "Không tìm thấy". Chọn heading
+> **hẹp nhất** đủ cho task (section con, không phải cả chương). Task không cần spec (vd chore/config thuần) → `- n/a`.
 
 ## Rules
 
