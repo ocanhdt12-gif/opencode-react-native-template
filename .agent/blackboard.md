@@ -69,12 +69,12 @@ Quản lý shared state cho toàn bộ hệ thống agents. File `.context/progr
 > ⚠️ Đừng tự viết JSON tay để ghi progress — dùng helper (atomic, dedupe, đúng schema):
 >
 > ```bash
-> node tools/task-dashboard/progress-write.mjs complete --task layer-1/task-02 \
+> node tools/progress-write.mjs complete --task layer-1/task-02 \
 >      --review "STRICT PASS" --round 1 --report .context/review-reports/...
-> node tools/task-dashboard/progress-write.mjs block --task layer-1/task-03 --reason "..."
-> node tools/task-dashboard/progress-write.mjs in-progress --task layer-1/task-04
-> node tools/task-dashboard/progress-write.mjs clear-in-progress
-> node tools/task-dashboard/progress-write.mjs set-layer --current 2 --total 5
+> node tools/progress-write.mjs block --task layer-1/task-03 --reason "..."
+> node tools/progress-write.mjs in-progress --task layer-1/task-04
+> node tools/progress-write.mjs clear-in-progress
+> node tools/progress-write.mjs set-layer --current 2 --total 5
 > ```
 >
 > Helper tự tìm repo root qua `git rev-parse --git-common-dir` → chạy trong worktree vẫn ghi đúng
@@ -134,16 +134,16 @@ Khi agent bắt đầu session mới:
 
 ## File phụ trợ: `.context/agents-live.json` (CHỈ-HIỂN-THỊ)
 
-Dashboard `tools/task-dashboard/` cần biết **agent nào đang làm task nào, ở pha nào** — thứ mà
+Dashboard (`tools/vibe-studio/`) cần biết **agent nào đang làm task nào, ở pha nào** — thứ mà
 `progress.json` + git worktree không trả lời được (reviewer là subagent, không để lại worktree).
 
 Vì vậy loop ghi thêm `.context/agents-live.json` qua helper:
 
 ```bash
-node tools/task-dashboard/agent-live.mjs enter --agent builder-1 --role builder \
+node tools/agent-live.mjs enter --agent builder-1 --role builder \
   --task layer-1/task-02 --title "..." --phase building --worktree .worktrees/...
-node tools/task-dashboard/agent-live.mjs leave --agent builder-1
-node tools/task-dashboard/agent-live.mjs clear
+node tools/agent-live.mjs leave --agent builder-1
+node tools/agent-live.mjs clear
 ```
 
 **Quan hệ với state thật:**

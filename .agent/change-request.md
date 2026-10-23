@@ -54,12 +54,12 @@ Loop SONG SONG theo phase (giống initial build — xem `.agent/loop.md` Parall
   dispatcher: node scripts/parallel-dispatch.mjs plan --scope <feature|bug>-<slug> --phase <N>
     → spawn N builder song song, mỗi task 1 **git worktree riêng**, chạy FULL loop (Builder → Reviewer tới PASS, commit trong worktree)
     → ngay trước khi spawn mỗi builder/reviewer, đánh dấu display-only (helper tự ghi về .context REPO GỐC):
-        node tools/task-dashboard/agent-live.mjs enter --agent builder-<n> --role builder \
+        node tools/agent-live.mjs enter --agent builder-<n> --role builder \
           --task <scope>/phase-<N>/task-<NN> --title "<title>" --phase building --worktree <worktree>
-        node tools/task-dashboard/agent-live.mjs leave --agent builder-<n>
-        node tools/task-dashboard/agent-live.mjs enter --agent reviewer-<n> --role reviewer \
+        node tools/agent-live.mjs leave --agent builder-<n>
+        node tools/agent-live.mjs enter --agent reviewer-<n> --role reviewer \
           --task <scope>/phase-<N>/task-<NN> --phase review
-        node tools/task-dashboard/agent-live.mjs leave --agent reviewer-<n>
+        node tools/agent-live.mjs leave --agent reviewer-<n>
   dispatcher tự merge: merge --scope ... --phase <N> → verify tổng thể → ghi progress.json 1 lần (progress-write.mjs) → cleanup
     ↓
 Doc Impact/Reconcile → Progress → commit-first

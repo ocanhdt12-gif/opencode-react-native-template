@@ -123,5 +123,5 @@ build (initial) | feature | bug
    }
    ```
    → `completedTasks` là mảng **object** `{task, review?, round?, report?, completedAt?}` (string cũ vẫn đọc được).
-   Ghi bằng helper thay vì tự viết JSON tay: `node tools/task-dashboard/progress-write.mjs set-layer --current 0 --total N`.
+   Ghi bằng helper thay vì tự viết JSON tay: `node tools/progress-write.mjs set-layer --current 0 --total N`.
 8. Sau khi user approve plan → bàn giao `.agent/loop.md` thực thi từng task.

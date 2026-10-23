@@ -50,13 +50,13 @@ Execute từng task theo ReAct cycle: Read → Plan → Act → Observe → Repe
       "cd <worktree>; chạy FULL loop cho <task file>; chỉ touch file trong scope;
        commit trong worktree; KHÔNG ghi progress.json; báo PASS/BLOCKED về."
       ngay TRƯỚC khi spawn, đánh dấu agent đang sống (display-only):
-      node tools/task-dashboard/agent-live.mjs enter --agent builder-<n> --role builder \
+      node tools/agent-live.mjs enter --agent builder-<n> --role builder \
         --task <layer-N/task-NN> --title "<task title>" --phase building \
         --worktree <worktree>
       (n = số thứ tự builder trong wave; lỗi ở lệnh này KHÔNG được chặn build)
    c. đợi TẤT CẢ builder trong wave xong.
-      • builder PASS → node tools/task-dashboard/agent-live.mjs leave --agent builder-<n>
-        rồi node tools/task-dashboard/agent-live.mjs enter --agent reviewer-<n> \
+      • builder PASS → node tools/agent-live.mjs leave --agent builder-<n>
+        rồi node tools/agent-live.mjs enter --agent reviewer-<n> \
           --role reviewer --task <layer-N/task-NN> --title "<task title>" --phase review
         (gọi ngay trước khi spawn subagent reviewer; reviewer PASS → leave reviewer-<n>)
       • builder BLOCKED → leave builder-<n> (task quay về TODO)
@@ -69,22 +69,22 @@ Execute từng task theo ReAct cycle: Read → Plan → Act → Observe → Repe
 > `scripts/parallel-dispatch.mjs merge` + `cleanup`, không phải một subagent riêng.
 ```
 1. node scripts/parallel-dispatch.mjs merge --layer N
-   → trước khi bắt đầu: node tools/task-dashboard/agent-live.mjs enter --agent merger --role merger --phase merging
+   → trước khi bắt đầu: node tools/agent-live.mjs enter --agent merger --role merger --phase merging
      (nhãn HIỂN THỊ cho dashboard biết đang ở bước merge — dispatcher tự gọi, không spawn agent)
    → gom mọi branch wt/layer-N__* về integration branch layer-N-integration.
    → CONFLICT → DỪNG: cho task đó chạy LẠI TUẦN TỰ trên integration branch, ghi error-memory.md.
 2. Verify TỔNG THỂ trên integration branch (typecheck/lint/test theo project-config) — từng task pass riêng KHÔNG đảm bảo ghép lại pass. FAIL → error-analyzer → fix → verify lại.
 3. Update `.context/progress.json` 1 LẦN — DÙNG HELPER, đừng tự viết JSON tay:
-     node tools/task-dashboard/progress-write.mjs complete --task <layer-N/task-NN> \
+     node tools/progress-write.mjs complete --task <layer-N/task-NN> \
           --review "STRICT PASS" --round <R> [--report <review-report path>]
-     node tools/task-dashboard/progress-write.mjs block --task <id> --reason "..."
-     node tools/task-dashboard/progress-write.mjs set-layer --current <N+1> --total <M>
+     node tools/progress-write.mjs block --task <id> --reason "..."
+     node tools/progress-write.mjs set-layer --current <N+1> --total <M>
    Helper ghi atomic + dedupe theo task + tự xoá task khỏi inProgressTask/blockedTasks.
    (Schema `completedTasks` = mảng object `{task, review?, round?, report?, completedAt?}`.)
 4. Merge integration branch về nhánh chính (theo DevOps/git policy).
 5. node scripts/parallel-dispatch.mjs cleanup --layer N
    → nếu khai `worktree_teardown_cmd`, script chạy hook đó TRƯỚC khi xoá (drop DB tạm / dọn .env.local riêng)
-   → node tools/task-dashboard/agent-live.mjs clear   (reset agents-live.json về rỗng)
+   → node tools/agent-live.mjs clear   (reset agents-live.json về rỗng)
 6. → context-manager compact → HUMAN CHECKPOINT → layer N+1.
 ```
 
@@ -183,10 +183,10 @@ Write the test first. Watch it fail. Write minimal code to pass.
 
 4. **Update progress** sau mỗi task — dùng helper (atomic, dedupe, đúng schema), KHÔNG tự viết JSON tay:
    ```bash
-   node tools/task-dashboard/progress-write.mjs complete --task <id> \
+   node tools/progress-write.mjs complete --task <id> \
         --review "STRICT PASS" --round <R> [--report <path>]
-   node tools/task-dashboard/progress-write.mjs block --task <id> --reason "..."
-   node tools/task-dashboard/progress-write.mjs in-progress --task <id>
+   node tools/progress-write.mjs block --task <id> --reason "..."
+   node tools/progress-write.mjs in-progress --task <id>
    ```
    (Schema `completedTasks` = mảng object `{task, review?, round?, report?, completedAt?}`;
    string cũ vẫn đọc được. Chỉ dispatcher ghi lúc merge — builder con chỉ báo PASS/BLOCKED.)
