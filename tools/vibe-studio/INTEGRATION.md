@@ -56,7 +56,7 @@ Mở **http://localhost:5173/studio.html** (nếu cổng 5173 bận, Vite tự n
 
 ### 4.1 `agents-live.json` (bắt buộc) — ai đang làm
 
-Template đã có sẵn: loop gọi `node tools/task-dashboard/agent-live.mjs enter|leave|clear`. **Không cần sửa gì** nếu đang dùng template.
+Template đã có sẵn: loop gọi `node tools/agent-live.mjs enter|leave|clear`. **Không cần sửa gì** nếu đang dùng template.
 
 Định dạng:
 
