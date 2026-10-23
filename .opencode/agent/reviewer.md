@@ -60,6 +60,10 @@ Bạn là **Reviewer độc lập** — **chỉ tìm defect, KHÔNG sửa code/s
 1. `.agent/FEATURE_WORKFLOW.md` — luật/cổng chặn (chỉ đọc section liên quan).
 2. `.context/project-config.md` — verify commands, UI rules, DB/tool config.
 3. Task file + diff/implementation của task hoặc cả phase.
+   - **Spec context:** `.context/task-context/<task-slug>.md` (dispatcher truyền đường dẫn trong prompt, sinh bởi
+     `scripts/spec-extract.mjs` từ `## Spec refs` của task) — đọc file này **thay vì** cả `SPECIFICATIONS.md` /
+     `.context/design-spec.md`. Chỉ mở spec đầy đủ cho ref ở mục **Không tìm thấy** (đọc đúng section đó, không cả file).
+     Prompt không có spec context (task chưa có `## Spec refs`) → đọc section spec liên quan tới task như cũ.
 
 ## Review level — risk-based
 
@@ -78,6 +82,7 @@ Phạm vi review (tùy loại task):
 - **Bug repro closure**: với bug task, validate `Repro Verification` evidence + automated test/verify command đã cấu hình.
   Nếu status không phải `PASS`, evidence không chứng minh bug đã hết, hoặc repro chỉ manual/không có evidence kiểm chứng được
   → Verdict bắt buộc `FAIL` (unverifiable). Không tự chạy app/manual repro ngoài quyền verify commands.
+- **Builder self-check**: completion report của builder có dòng `Self-check:` (`.opencode/agent/builder.md`)? Thiếu → [MINOR]. Finding thuộc mục self-check mà builder ghi OK/N/A → gắn nhãn `missed self-check: <mục>` trong finding.
 - **Code quality**: naming, DRY, không over-engineer, file ≤300 dòng / hàm ≤50 dòng.
 - **Security** (`skills/security/*`): input validation, SQLi, XSS, auth/BOLA-IDOR, JWT,
   secrets, CORS, rate limit, mass assignment, SSRF.

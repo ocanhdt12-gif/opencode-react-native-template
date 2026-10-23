@@ -79,8 +79,12 @@ build (initial) | feature | bug
 {What this task implements}
 
 ## Dependencies
-- task-{XX} (reason)
-- task-{YY} (reason)
+- layer-{M}/task-{XX} (reason)   ← id đầy đủ, chỉ task THẬT SỰ cần (code/contract/schema nó dùng)
+- `- none` nếu không phụ thuộc task nào
+
+## Spec refs
+- `{ID trong heading spec, vd F10 | REQ-AUTH-02 | §3.2}`
+- `{path#heading text, vd .context/design-spec.md#Login screen}`
 
 ## Acceptance Criteria
 - [ ] Criterion 1
@@ -102,12 +106,26 @@ build (initial) | feature | bug
 {Additional context, edge cases, gotchas}
 ```
 
+> **`## Spec refs` (bắt buộc điền):** requirement/section spec mà task cần — mỗi bullet 1 ref, bọc backtick
+> (ghi chú thêm đặt sau backtick):
+> - ID/token có trong **heading** của `SPECIFICATIONS.md` / `.context/design-spec.md` (vd `F10`, `REQ-AUTH-02`, `§3.2`), hoặc
+> - `path#heading text` khi cần chỉ đúng 1 file (vd `.context/design-spec.md#Login screen`).
+>
+> Dispatcher chạy `node scripts/spec-extract.mjs --task <task file>` → trích đúng các section đó ra
+> `.context/task-context/<task-slug>.md`; builder/reviewer đọc file trích **thay vì** cả spec. Ref phải khớp heading
+> thật (không phân biệt hoa thường, theo token: `F1` ≠ `F10`) — không khớp sẽ vào mục "Không tìm thấy". Chọn heading
+> **hẹp nhất** đủ cho task (section con, không phải cả chương). Task không cần spec (vd hạ tầng thuần) → `- n/a`.
+
 ---
 
 ## Rules
 
 1. **Layer N+1 chỉ unlock khi TOÀN BỘ tasks trong Layer N đã PASS review VÀ human đã approve.**
+   Ngoại lệ: `schedule_mode: dependency` (`.context/project-config.md`) — task unlock khi đúng các task trong
+   `## Dependencies` của nó đã merge (`.agent/loop.md` § Dependency scheduling).
 2. **HUMAN CHECKPOINT bắt buộc** sau mỗi layer — KHÔNG tự động chạy layer tiếp theo.
+   Với `schedule_mode: dependency`: checkpoint theo **milestone** ghi trong plan (mặc định hết mỗi layer;
+   milestone đánh dấu ⏸ thì dừng chờ duyệt, milestone thường chỉ báo cáo). User duyệt danh sách milestone khi duyệt plan.
 3. Tasks trong cùng layer KHÔNG có dependency lẫn nhau.
 4. Mỗi task phải có acceptance criteria rõ ràng, testable.
 5. Prefer small tasks (1-3 files) over large tasks.
