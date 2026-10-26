@@ -7,7 +7,9 @@
   // ⚠️ Auto-mode (--auto / auto-approve) sẽ tự duyệt `ask` → mất gate.
   // ═══════════════════════════════════════════════════════════════════════════
   "skills": {
-    "paths": ["./skills"]
+    // Agent Skills standard (Anthropic → Linux Foundation, 10/2026): 70+ platform đọc chung
+    // `.agents/skills/*/SKILL.md`. Giữ `./skills` là bản gốc của template; 2 path sau là chuẩn liên thông.
+    "paths": ["./skills", ".agents/skills", ".claude/skills"]
   },
 
   "permission": {
