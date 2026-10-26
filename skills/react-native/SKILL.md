@@ -14,3 +14,4 @@ Wrapper for React Native/Expo stack references in this folder. Read the relevant
 - `patterns.md` — implementation patterns for React Native/Expo work.
 - `common-errors.md` — common failures and troubleshooting notes.
 - `e2e-maestro.md` — Maestro E2E testing (UI flows bằng YAML).
+- `agent-cli.md` — `@expo/agent-cli` (SDK 58) cho agent harness: output machine-readable, reload/errors/tree thay vì parse log Metro.
