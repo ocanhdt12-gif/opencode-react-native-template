@@ -5,5 +5,8 @@ build/
 .DS_Store
 
 # runtime state (loop ghi, không commit)
+.worktrees/
 .context/agents-live.json
 .context/agents-live.json.lock
+# spec trích theo task (scripts/spec-extract.mjs sinh lại mỗi lần dispatch)
+.context/task-context/
