@@ -9,6 +9,15 @@
 /spec-init --dry-run          → chỉ liệt kê R-xx dự kiến, không ghi file (user xem trước)
 ```
 
+## Báo danh dashboard (prompt-level)
+`/spec-init` chạy trong session chính, hook `Agent` không bắt được, nên **tự gọi** đầu/cuối:
+```bash
+node tools/agent-live.mjs enter --agent spec-init --role spec-init   # → Oracle, phase publishing
+# ... chạy flow ...
+node tools/agent-live.mjs leave --agent spec-init
+```
+Lỗi/thiếu file này KHÔNG chặn flow (dashboard là phụ).
+
 ## Flow
 1. Scan codebase (modules, routes, models, screens, jobs) — read-only
 2. Trích requirement `R-xx` từ **hành vi thực tế** (mỗi cái có nguồn `file:line`)

@@ -26,7 +26,8 @@ Trang **độc lập, chỉ đọc** ở `tools/vibe-studio/`. Không ghi, khôn
 
 - **Scene văn phòng pixel**: mỗi agent active = 1 nhân vật (mapping role → nhân vật trong `src/live-state.ts`).
   Builder (Nova/Orion/Lyra/Vega/Atlas/Comet) ngồi khu Coding; reviewer (Sage/Iris/Juno/Echo) khu Review;
-  merger = Eve; dispatcher/plan/spec = Theo/Oracle; design = Pixel; error/bug = Sherlock; idle ngồi khu nghỉ.
+  merger + chat + general-purpose/claude-code-guide = Eve; dispatcher/change-request/graph/plan = Theo;
+  spec-init/spec-validator/spec-publisher = Oracle; design = Pixel; error/bug = Sherlock; idle ngồi khu nghỉ.
 - **Task board** + header: Layer, Phase, TODO/REVIEW/DONE, số task, số agent.
 
 ## Nguồn data (read-only)
@@ -55,6 +56,10 @@ node tools/agent-live.mjs enter --agent builder-1 --role builder \
 # dispatcher/loop tự khai báo
 node tools/agent-live.mjs enter --agent dispatcher --role dispatcher --phase orchestrating
 
+# role khác cũng được (ROLES đầy đủ): change-request|spec-validator|spec-publisher|design|graph|
+# general-purpose|claude-code-guide|builder-strong. Không truyền --phase thì lấy phase mặc định theo role.
+node tools/agent-live.mjs enter --agent oracle-1 --role spec-validator   # → phase review
+
 # builder PASS → release builder + reviewer nhận task
 node tools/agent-live.mjs leave --agent builder-1
 node tools/agent-live.mjs enter --agent reviewer-1 --role reviewer \
@@ -69,6 +74,12 @@ node tools/agent-live.mjs clear
 node tools/progress-write.mjs complete --task layer-1/task-02 --review "STRICT PASS" --round 1
 node tools/progress-write.mjs block --task layer-1/task-03 --reason "..."
 node tools/progress-write.mjs set-layer --current 2 --total 5
+```
+
+> **Claude Code tự báo danh (không cần gọi tay):** `.claude/hooks/live-studio.mjs` + `.claude/settings.json`
+> tự `enter`/`leave` cho chat (Eve) và subagent qua hook `UserPromptSubmit`/`Stop`/`PreToolUse(Agent)`/
+> `PostToolUse(Agent)`/`SubagentStop`. builder/builder-strong/reviewer KHÔNG qua hook (loop tự lo), tránh
+> trùng nhân vật. Subagent chạy nền (`run_in_background`) chỉ leave khi `SubagentStop`. opencode chưa có hook.
 ```
 
 `agents-live.json` là **file DISPLAY**, không phải source of truth — `progress.json` vẫn là chính.

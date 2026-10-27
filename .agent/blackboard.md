@@ -146,6 +146,11 @@ node tools/agent-live.mjs leave --agent builder-1
 node tools/agent-live.mjs clear
 ```
 
+`--role` nhận cả bộ ROLES: `builder|builder-strong|reviewer|merger|dispatcher|change-request|`
+`spec-validator|spec-publisher|design|graph|general-purpose|claude-code-guide`. Mapping role → nhân vật
+ở `tools/vibe-studio/src/live-state.ts`. Với Claude Code, hook `.claude/hooks/live-studio.mjs` tự `enter`/
+`leave` cho chat (Eve) + subagent; builder/builder-strong/reviewer vẫn do loop tự lo để không trùng nhân vật.
+
 **Quan hệ với state thật:**
 
 | File | Vai trò |

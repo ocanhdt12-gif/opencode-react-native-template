@@ -6,6 +6,15 @@ Chạy **Graph (task/layer decomposition)** cho repo hiện tại. Thực thi `.
 
 `$ARGUMENTS`
 
+## Báo danh dashboard (prompt-level)
+`/graph` chạy trong session chính → **tự gọi** `enter`/`leave` (hook `Agent` không bắt được):
+```bash
+node tools/agent-live.mjs enter --agent graph --role graph   # → Theo, phase orchestrating
+# ... xong ...
+node tools/agent-live.mjs leave --agent graph
+```
+Lỗi/thiếu file này KHÔNG chặn flow.
+
 ## Việc phải làm
 1. Đọc `SPECIFICATIONS.md` + design doc (`docs/specs/*-design.md`) + `docs/**` + `.context/project-config.md`.
 2. Chia **layer** theo dependency: Layer 0 (hạ tầng) → backend → frontend → integration → advanced → polish.

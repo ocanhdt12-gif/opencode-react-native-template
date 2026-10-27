@@ -20,8 +20,31 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 
-const ROLES = new Set(['builder', 'reviewer', 'merger', 'dispatcher']);
-const PHASES = new Set(['building', 'review', 'merging', 'orchestrating', 'idle']);
+const ROLES = new Set([
+  'builder', 'builder-strong', 'reviewer', 'merger', 'dispatcher', 'chat',
+  'change-request', 'spec-init', 'spec-validator', 'spec-publisher', 'design', 'graph',
+  'error-analyzer', 'bug-check', 'brainstorm', 'devops', 'rollback', 'context-manager',
+  'general-purpose', 'claude-code-guide',
+]);
+const PHASES = new Set([
+  'building', 'review', 'merging', 'orchestrating', 'idle',
+  'validating', 'publishing', 'designing', 'planning', 'debugging',
+]);
+const ROLE_LIST = [...ROLES].join('|');
+// phase mặc định theo role khi --phase không được truyền
+function defaultPhase(role) {
+  switch (role) {
+    case 'merger': return 'merging';
+    case 'dispatcher': case 'change-request': case 'graph': case 'context-manager': return 'orchestrating';
+    case 'reviewer': return 'review';
+    case 'spec-validator': return 'validating';
+    case 'spec-init': case 'spec-publisher': return 'publishing';
+    case 'design': return 'designing';
+    case 'brainstorm': return 'planning';
+    case 'error-analyzer': case 'bug-check': return 'debugging';
+    default: return 'building';
+  }
+}
 
 // ── args ────────────────────────────────────────────────────────────────────
 function parseArgs(argv) {
@@ -171,7 +194,7 @@ function main() {
   if (help || cmd === 'help') {
     console.log(`agent-live — ghi .context/agents-live.json (file hiển thị cho dashboard (tools/vibe-studio/))
 
-  node agent-live.mjs enter --agent <id> --role <builder|reviewer|merger|dispatcher> \\
+  node agent-live.mjs enter --agent <id> --role <${ROLE_LIST}> \\
       [--task <layer-N/task-NN>] [--title "<...>"] --phase <building|review|merging|orchestrating> \\
       [--worktree <path>] [--repo <path>]
   node agent-live.mjs leave --agent <id> [--repo <path>]
@@ -194,11 +217,11 @@ function main() {
     }
     const role = typeof args.role === 'string' ? args.role : 'builder';
     if (!ROLES.has(role)) {
-      warn(`--role không hợp lệ: ${role} (chỉ builder|reviewer|merger|dispatcher)`);
+      warn(`--role không hợp lệ: ${role} (chỉ ${ROLE_LIST})`);
       return 1;
     }
     let phase = typeof args.phase === 'string' ? args.phase : null;
-    if (!phase) phase = role === 'merger' ? 'merging' : role === 'dispatcher' ? 'orchestrating' : role === 'reviewer' ? 'review' : 'building';
+    if (!phase) phase = defaultPhase(role);
     if (!PHASES.has(phase)) {
       warn(`--phase không hợp lệ: ${phase} (chỉ building|review|merging|orchestrating|idle)`);
       return 1;

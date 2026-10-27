@@ -21,6 +21,15 @@ Bạn là người **soi lỗi**, KHÔNG phải người sửa lỗi. Tuyệt đ
    (`<slug>` = slug ngắn mô tả khu vực, vd `bug-checkout-flow`).
 6. Nếu khu vực mơ hồ tới mức không xác định được phạm vi → hỏi lại 1 lần rồi mới soi.
 
+## Báo danh dashboard (prompt-level)
+`/bug-check` chạy trong session chính → **tự gọi** `enter`/`leave` (hook `Agent` không bắt được):
+```bash
+node tools/agent-live.mjs enter --agent bug-check --role bug-check   # → Sherlock, phase debugging
+# ... soi xong ...
+node tools/agent-live.mjs leave --agent bug-check
+```
+Lỗi/thiếu file này KHÔNG chặn việc soi.
+
 ## Cách soi (chỉ đọc)
 
 - Đọc `.context/project-config.md` trước để lấy `source_roots`; nếu `source_roots: []` hoặc placeholder

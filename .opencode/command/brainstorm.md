@@ -10,6 +10,15 @@ Chạy **Brainstorm** cho repo hiện tại: đọc spec/code đã có → **cle
 
 `$ARGUMENTS` (tùy chọn: `<nhóm>` để chỉ sửa 1 nhóm — vd `git`, `models`; `--dry-run` chỉ in nháp, không ghi)
 
+## Báo danh dashboard (prompt-level)
+`/brainstorm` chạy trong session chính → **tự gọi** `enter`/`leave` (hook `Agent` không bắt được):
+```bash
+node tools/agent-live.mjs enter --agent brainstorm --role brainstorm   # → Theo, phase planning
+# ... xong ...
+node tools/agent-live.mjs leave --agent brainstorm
+```
+Lỗi/thiếu file này KHÔNG chặn flow.
+
 ## Flow
 Thực thi đầy đủ `.agent/brainstorm.md`:
 1. **Phase 0 — Scan** (không hỏi): đọc `SPECIFICATIONS.md`, `docs/**`, `spec/**`; chạy `node scripts/detect-profile.mjs`.

@@ -11,15 +11,19 @@ export const BUILDERS=['nova','orion','lyra','vega','atlas','comet'];
 export const REVIEWERS=['sage','iris','juno','echo'];
 export const ALL_CHARACTERS=[...BUILDERS,...REVIEWERS,'eve','theo','oracle','pixel','sherlock'];
 
-// role → fixed character (pools handled separately). Roles beyond agent-live.mjs's four
-// (builder|reviewer|merger|dispatcher) are mapped too, for when the pipeline starts writing them.
+// role → fixed character (pools handled separately). agent-live.mjs now accepts the full ROLES set
+// (builder|builder-strong|reviewer|merger|dispatcher|change-request|spec-validator|spec-publisher|design|graph|general-purpose|claude-code-guide);
+// each non-pool role maps to a character here. Claude Code built-in subagents (general-purpose,
+// claude-code-guide) show as Eve.
 const ROLE_CHARACTER:Record<string,string>={
-  merger:'eve',
+  // Eve: merge thật + chat + subagent built-in của Claude Code. chat và merger cùng là Eve nhưng
+  // phase khác nhau (chat→building, merger→merging) nên dashboard phân biệt được Eve đang chat hay merge.
+  merger:'eve',chat:'eve','general-purpose':'eve','claude-code-guide':'eve',
   dispatcher:'theo',loop:'theo',brainstorm:'theo',graph:'theo','change-request':'theo',devops:'theo',rollback:'theo',
+  'context-manager':'theo',
   'spec-init':'oracle','spec-validator':'oracle','spec-publisher':'oracle',
   design:'pixel',
   'error-analyzer':'sherlock','bug-check':'sherlock',
-  'context-manager':'theo',
 };
 // Old engine names (19-character roster) still map straight to a character.
 const NAME_CHARACTER:Record<string,string>={

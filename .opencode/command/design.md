@@ -6,6 +6,15 @@ Chạy **Design** cho repo hiện tại. Thực thi `.agent/design.md`:
 
 `$ARGUMENTS`
 
+## Báo danh dashboard (prompt-level)
+`/design` chạy trong session chính → **tự gọi** `enter`/`leave` (hook `Agent` không bắt được):
+```bash
+node tools/agent-live.mjs enter --agent design --role design   # → Pixel, phase designing
+# ... xong ...
+node tools/agent-live.mjs leave --agent design
+```
+Lỗi/thiếu file này KHÔNG chặn flow.
+
 ## Việc phải làm
 1. Đọc `SPECIFICATIONS.md` + `.context/brainstorm-log.md` (+ ảnh/Figma nếu có).
 2. Đọc `skills/<stack>/design-tokens.md` để đối chiếu (web: `skills/react-nodejs/`, mobile: `skills/react-native/`).
