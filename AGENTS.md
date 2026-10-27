@@ -74,7 +74,7 @@ Không rõ intent → hỏi 1 câu ngắn để phân loại, đừng đoán.
 | **5e** | Close-out task | — | `.agent/loop.md`, `.agent/FEATURE_WORKFLOW.md` §6 + `.agent/workflows/state-commit.md` §2.8/§5 | — | Doc Impact/Reconcile → `progress.json` → **commit** (1 task = 1 commit) | — |
 | **5e-merge** | Gom các task song song → merge về integration branch + verify tổng thể + ghi `progress.json` 1 lần + cleanup worktree | **Dispatcher tự làm** (không spawn agent con) | `.agent/loop.md` (Merge steps) + `scripts/parallel-dispatch.mjs merge/cleanup` + `tools/progress-write.mjs` | — | integration branch layer-N + `progress.json` cập nhật | conflict → task đó chạy lại tuần tự |
 | **5f** | Compact context | — | `.agent/context-manager.md` | — | `.context/compressed-summary.md` | mỗi 3 task + hết layer |
-| **5g** | Hết layer → review phase | **`spec-validator`** | `.agent/spec-validator.md` | — | phase report | ⏸ **checkpoint sau mỗi layer** — Layer N+1 chỉ unlock khi Layer N PASS + user duyệt |
+| **5g** | Hết layer → review phase | **`spec-validator`** | `.agent/spec-validator.md` | — | phase report | ⏸ **checkpoint sau mỗi layer** — Layer N+1 chỉ unlock khi Layer N PASS + user duyệt (`schedule_mode: dependency`: task unlock theo dependency, checkpoint theo milestone ⏸ — `.agent/loop.md`) |
 | **5h** | Hết layer cuối (initial build) → bàn giao test-scope | **`spec-publisher`** | `.agent/spec-publish.md` | — | `spec/test-scope/current.json` (trigger: initial-build, scopeVersion +1) + `spec/CHANGELOG.md` | commit kèm close-out |
 | **6** | Git init / EAS build / store deploy | — | `.agent/devops.md` (+ `.devops/templates/*`) | — | git repo, EAS profiles, build preview → store submit | ⏸ **approve production submit** |
 | **7** | Rollback khi fail | — | `.agent/rollback.md` | — | tag `layer-N-done`, revert về checkpoint | notify human |
@@ -166,6 +166,8 @@ Code ≠ intent → ghi gap vào gap register (nếu có, vd `docs/changes/TECHN
 - **Check commands lấy từ `.context/project-config.md`** — không hardcode `npm`.
 - Nếu repo chưa có app code/API/web/test hoặc command chưa cấu hình → verify ghi `skip, no app configured`,
   không hardcode package manager/test command và không fail workflow vì thiếu app.
+- `require_infra: true` (`.context/project-config.md`) → test cần DB/storage **không được skip**: builder chạy
+  `integration_test_command` trên port cố định của worktree, bước merge chạy lại trên checkout chính (port base); skip = FAIL.
 - **Migration safety** chỉ áp dụng khi `db_tool != none` / `migration_required: true`
   (`.context/project-config.md`); `db_tool: none` → bỏ qua gate migration.
 - Khi migration gate áp dụng: migration phải versioned + committed; không sửa migration đã apply.
