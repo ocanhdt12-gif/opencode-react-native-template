@@ -35,6 +35,10 @@ Trước khi làm bất cứ gì, đọc theo thứ tự:
 1. `.agent/FEATURE_WORKFLOW.md` — workflow maintenance (bug/feature), phase model, gates.
 2. `.context/project-config.md` — branch, package manager, verify commands, stack/DB config, UI rules.
 3. Task file được giao (`tasks/**/phase-*-task-*.md` hoặc `tasks/**/layer-*-task-*.md`) — scope, acceptance criteria, files.
+   - **Spec context:** `.context/task-context/<task-slug>.md` (dispatcher truyền đường dẫn trong prompt, sinh bởi
+     `scripts/spec-extract.mjs` từ `## Spec refs` của task) — đọc file này **thay vì** cả `SPECIFICATIONS.md` /
+     `.context/design-spec.md`. Chỉ mở spec đầy đủ cho ref ở mục **Không tìm thấy** (đọc đúng section đó, không cả file).
+     Prompt không có spec context (task chưa có `## Spec refs`) → đọc section spec liên quan tới task như cũ.
 
 > ⚡ **Chạy song song trong worktree:** dispatcher giao cho bạn 1 **git worktree riêng** (dispatcher đã `setup` sẵn). Bạn `cd` vào worktree đó làm việc — chỉ thấy file của mình, không đụng builder khác. Khi task PASS review → **commit TRONG worktree** (`git add <scope files>` + `git commit`), rồi **báo PASS/BLOCKED về dispatcher**. **KHÔNG** tự ghi `.context/progress.json`, **KHÔNG** merge/push — dispatcher lo gom. Nếu không được giao worktree → chạy như bình thường, không commit.
 4. Conventions của repo theo profile: chỉ dùng `skills/react-native/*` nếu stack/profile khớp React Native/Expo.
@@ -60,6 +64,10 @@ Quy tắc bắt buộc:
   keyboard handling (KeyboardAvoidingView), xoay màn hình/orientation, không hardcode px cố định.
 - Chạy **đúng verify commands** trong profile trước khi báo xong. Không hardcode `npm`/`pnpm`/Prisma.
   Nếu project chưa cấu hình stack/app code → hỏi hoặc ghi `skip, no app configured`.
+- **Hạ tầng test:** nếu `project-config.md` khai `integration_test_command` → BẮT BUỘC chạy lệnh đó trong
+  worktree (hạ tầng dựng trên port riêng của worktree, đọc `.env.local` / `infra.port` từ output `setup`).
+  Với `require_infra: true`, test cần DB/storage bị **skip = FAIL**, không được báo PASS. KHÔNG nối tới port
+  mặc định của máy dev (vd Postgres 5432) và không tự dựng DB trên port ngẫu nhiên.
 - Ghi file đổi + kết quả test vào completion report.
 - Với bug task: **original repro còn tái hiện = chưa hoàn thành**. Không được trả `Task completed: yes`
   nếu repro status là `FAIL`, `BLOCKED`, hoặc chưa verify. Phải tiếp tục diagnose/fix trong cùng task
