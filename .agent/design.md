@@ -156,6 +156,8 @@ Khi nhận được ảnh, extract các thông tin sau:
 
 ### Nếu không có ảnh → Generate Design System
 
+> **TRƯỚC khi tự generate**, ĐỌC `.agent/references/design-inspiration-sources.md` và mở các nguồn section/pattern THẬT (unsection.com, navbar.gallery, cta.gallery, footer.design, bentogrids.com; motion mobile xem 60fps.design) để tham chiếu bố cục thật — tránh layout generic "AI slop". Lấy pattern rồi map vào tokens của project, KHÔNG bê màu/brand của site mẫu.
+
 Dựa trên:
 - `design_style` từ brainstorm (Minimal / Modern / Corporate / Playful)
 - `color_scheme` (Light / Dark / Both)
